@@ -1,0 +1,12 @@
+{
+  "appId": "com.thecatalystdeck.app",
+  "appName": "The Catalyst Deck",
+  "webDir": "out",
+  "server": {
+    "androidScheme": "https",
+    "allowNavigation": ["*"]
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+} 
