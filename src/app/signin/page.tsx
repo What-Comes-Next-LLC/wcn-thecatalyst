@@ -26,20 +26,13 @@ export default function SignInPage() {
       setLoading(false);
       return;
     }
-    // Check user role
-    const { data: userData, error: userError } = await supabase
-      .from('spark_users')
-      .select('role')
-      .eq('id', data.user.id)
-      .single();
-    if (userError || !userData) {
-      setError(uploadContent.signin.errorGeneral);
-      setLoading(false);
-      return;
-    }
+    
+    // Check user role from user metadata
+    const userRole = data.user.user_metadata?.role;
+    
     setSuccess(true);
     setTimeout(() => {
-      if (userData.role === 'admin') {
+      if (userRole === 'coach') {
         router.replace('/admin');
       } else {
         router.replace('/log');

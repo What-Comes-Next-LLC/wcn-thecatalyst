@@ -36,7 +36,8 @@ export default function OnboardPage() {
         options: {
           data: {
             role: 'client' // Set initial role in metadata
-          }
+          },
+          emailRedirectTo: `${window.location.origin}/auth/callback`
         }
       });
       

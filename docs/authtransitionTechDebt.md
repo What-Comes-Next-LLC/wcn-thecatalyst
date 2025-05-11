@@ -270,3 +270,42 @@ To test the complete authentication flow:
    - Click the link (should go to /auth/reset-password)
    - Set a new password
    - Verify you can sign in with the new password
+
+## Database Schema Reference
+
+### spark_users Table Structure
+
+The `spark_users` table stores user profile information and is essential to the authentication system:
+
+| Field      | Type      | Description                                        | Example Values                          |
+|------------|-----------|----------------------------------------------------|-----------------------------------------|
+| id         | UUID      | Primary key, matches Supabase Auth user ID         | "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"  |
+| name       | String    | User's full name                                   | "John Smith"                            |
+| email      | String    | User's email address                               | "user@example.com"                      |
+| age        | Number    | User's age                                         | 32                                      |
+| height     | String    | User's height                                      | "5'11"                                  |
+| weight     | String    | User's weight                                      | "185 lbs"                               |
+| goal       | String    | User's fitness/health goal                         | "Weight loss", "Muscle gain"            |
+| notes      | String    | Additional information (nullable)                  | "Prefer morning workouts"               |
+| status     | String    | User approval status                               | "pending", "active"                     |
+| role       | String    | User role in the system                            | "client", "coach"                       |
+| created_at | Timestamp | Record creation timestamp                          | "2023-05-12T14:32:09.123Z"              |
+
+**Authentication Process**:
+1. When a user signs up, a record is created in Supabase Auth
+2. User metadata includes `role` field set to "client" by default
+3. A corresponding record is created in `spark_users` with `status` set to "pending"
+4. Admin/coach must approve the user by setting `status` to "active"
+5. Only users with "active" status can access protected routes
+
+**Note**: This table replaces the previous Airtable-based user management system. All user management operations should use this table instead of any legacy Airtable references.
+
+## Known Issues and Fixes
+
+### Role-based Redirect in Signin Flow
+
+**Issue (Fixed)**: There was an inconsistent role name check in the signin flow where the code was checking for `'admin'` while the rest of the application used `'coach'` as the admin role name. This caused coach users to be redirected to `/log` instead of `/admin` after signing in.
+
+**Fix**: Updated the signin redirect logic in `src/app/signin/page.tsx` to check for the `'coach'` role instead of `'admin'`, ensuring consistent role naming throughout the application.
+
+**Date Fixed**: June 11, 2024
