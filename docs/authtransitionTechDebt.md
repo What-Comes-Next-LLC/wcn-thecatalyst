@@ -309,3 +309,74 @@ The `spark_users` table stores user profile information and is essential to the 
 **Fix**: Updated the signin redirect logic in `src/app/signin/page.tsx` to check for the `'coach'` role instead of `'admin'`, ensuring consistent role naming throughout the application.
 
 **Date Fixed**: June 11, 2024
+
+## Authentication Migration Completion (June 12, 2024)
+
+### Current State
+
+We have successfully completed the migration from Airtable to Supabase authentication with the following achievements:
+
+1. ✅ **Airtable Dependencies Removed**:
+   - Deleted `/api/admin/groups/route.ts` with direct Airtable usage
+   - Updated `/api/log/route.ts` and `/api/onboard/route.ts` to use Supabase
+   - Created Supabase utility functions in `supabaseUtils.ts`
+   - Removed `airtable.ts` and Airtable package dependencies
+
+2. ✅ **Next.js Compliance**:
+   - Fixed all production build errors related to authentication
+   - Updated `useSearchParams()` usage in authentication pages with proper Suspense boundaries
+   - Ensured all authentication routes follow Next.js best practices
+
+3. ✅ **Authentication Flows**:
+   - Email verification works correctly with proper redirect URLs
+   - Password reset functionality is fully operational
+   - Sign-up and sign-in flows complete successfully
+
+4. ✅ **Role-Based Authentication**:
+   - Established `user_metadata.role` as the source of truth for user roles
+   - Updated existing users to include role="coach" in user metadata
+   - Fixed role check inconsistency (changed 'admin' to 'coach' in signin flow)
+   - Consistent role checking throughout the application
+
+### Database Structure
+
+The authentication system now relies on:
+
+1. **Supabase Auth** - Core user identity and credentials
+2. **spark_users table** - User profile information and status
+3. **user_metadata** - Contains role information (accessible via JWT)
+
+### Outstanding Issues
+
+1. **Role Management UI**:
+   - No interface exists for promoting users to coach role
+   - Admin dashboard needs enhancement to support role management
+
+2. **Admin Tool Separation**:
+   - Admin functionality should eventually be moved to a separate project
+   - Current implementation is integrated with the main application
+
+3. **Test Coverage**:
+   - Need comprehensive test coverage for authentication flows
+   - Should include end-to-end tests for signup, verification, and password reset
+
+4. **Documentation**:
+   - Could improve developer documentation for authentication patterns
+   - More detailed instructions needed for managing roles via SQL
+
+### Next Steps
+
+1. **Short-term (1-2 weeks)**:
+   - Create coach role management interface in admin dashboard
+   - Implement role promotion function with proper security checks
+   - Add comprehensive test coverage for auth flows
+
+2. **Medium-term (1-2 months)**:
+   - Start planning separation of admin tool into its own project
+   - Enhance logging for authentication events
+   - Create comprehensive documentation for developers
+
+3. **Long-term (3+ months)**:
+   - Complete admin tool separation
+   - Consider implementing more granular permissions within roles
+   - Evaluate adding additional authentication methods (OAuth, SSO)
