@@ -5,6 +5,20 @@ export const deckContent = {
         subtitle: "Congratulations on taking the first step towards your transformation. What comes next is a journey we'll navigate together.",
         image: "/images/logo-official.png"
       },
+      testimonials: [
+        { 
+          text: "The Catalyst helped me build sustainable habits that actually stuck.", 
+          author: "Sarah K." 
+        },
+        { 
+          text: "As a trainer, I've seen 3x better client retention with these tools.", 
+          author: "Marcus J." 
+        },
+        { 
+          text: "The behavior-first approach finally made fitness click for me.", 
+          author: "David R." 
+        }
+      ],
       navigation: {
         onboard: {
           heading: "The Spark",
