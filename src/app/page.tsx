@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { deckContent } from '@/content/deckContent';
 import { motion } from 'framer-motion';
+import FounderNote from '@/components/ui/FounderNote';
 
 export default function RootPage() {
   const { hero, navigation, footer } = deckContent.root;
@@ -104,6 +105,9 @@ export default function RootPage() {
           </Link>
         </div>
       </div>
+
+      {/* Founder's Sticky Note */}
+      <FounderNote />
     </main>
   );
 }
