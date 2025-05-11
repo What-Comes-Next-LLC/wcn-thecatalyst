@@ -60,3 +60,213 @@ Several files still contain references to Airtable that need to be cleaned up:
 - The code appears to be from a previous implementation attempt
 - Current functionality works correctly with Supabase
 - Cleanup can be scheduled for future maintenance
+
+## Implementation Plan (June 10, 2024)
+
+### Phase 1: Clean Up Legacy References
+
+#### API Routes Refactoring
+- `src/app/api/admin/users/route.ts`
+  - Replace Airtable fetch with Supabase query to `user_profiles` table
+  - Update return data structure to match frontend expectations
+
+- `src/app/api/admin/approve/route.ts`
+  - Replace with Supabase user approval flow
+  - Implement role-based access control using Supabase's JWT claims
+
+- `src/app/api/admin/entries/route.ts`
+  - Audit and refactor to use Supabase queries
+  - Update data structures for Supabase compatibility
+
+#### Utility Files Replacement
+- `src/lib/auth.ts`
+  - Create new Supabase-based token validation functions
+  - Implement middleware for route protection based on roles
+  - Add session management utilities
+
+- `src/lib/airtable.ts`
+  - Create `src/lib/supabaseUtils.ts` to replace Airtable functionality
+  - Deprecate after all references are removed
+
+#### Types and Components Updates
+- `src/types/admin.ts`
+  - Update type definitions to match Supabase schema
+  - Add appropriate interfaces for role-based access control
+
+- `src/components/admin/IndividualForm.tsx`
+  - Update to use Supabase endpoints
+  - Implement proper error handling for Supabase responses
+
+### Phase 2: Role-Based Authentication Enhancement
+
+#### Database Schema Updates
+- Create `user_roles` table with Row Level Security policies
+- Implement role assignment in user registration flow
+- Add appropriate triggers for role changes
+
+#### Authentication Flow Improvements
+- Implement consistent authentication checks across the application
+- Create React Context for auth state management
+- Add protected route HOCs based on role requirements
+
+#### Admin Tools
+- Update admin dashboard for Supabase-based user management
+- Add role assignment interface for coaches
+- Create audit logging for authentication events
+
+### Phase 3: Testing and Documentation
+
+#### Testing
+- Create comprehensive test suite for authentication flows
+- Test role-based access control for all routes
+- Validate security of authentication implementation
+
+#### Documentation
+- Update all authentication-related documentation
+- Create developer guide for authentication patterns
+- Document security best practices for future development
+
+### Final Steps
+- Remove all Airtable dependencies from package.json
+- Revoke Airtable API keys
+- Perform final security audit
+
+## Timeline
+- Phase 1: 2 weeks
+- Phase 2: 1 week  
+- Phase 3: 1 week
+- Final review and security audit: 3 days
+
+## Risks and Mitigations
+- Risk: Data inconsistency during migration
+  - Mitigation: Create validation scripts to ensure data integrity
+
+- Risk: Broken authentication flows
+  - Mitigation: Implement extensive testing before deployment
+
+- Risk: Unforeseen edge cases in role-based access
+  - Mitigation: Document all possible authentication paths and test each one
+
+## Success Criteria
+- All references to Airtable removed
+- All authentication flows working with Supabase
+- Role-based access properly controlling all protected routes
+- Clean, documented authentication API for future development
+
+## Implementation Progress Update (June 10, 2024)
+
+We have completed the following implementation steps:
+
+1. ✅ Database schema updates:
+   - Added RLS policies to spark_users table
+   - Created role-based access control using JWT claims
+
+2. ✅ Updated Authentication Flow:
+   - Modified onboarding to store roles in user metadata
+   - Updated onboarding to use spark_users table instead of user_profiles
+   - Updated admin dashboard to fetch users from spark_users
+
+3. ✅ API Route Updates:
+   - Updated all admin API routes to check for coach role in metadata
+   - Updated user fetching to use spark_users table
+   - Updated user approval to use spark_users table
+
+4. ✅ Role-based Access Control:
+   - Added utility functions for role checks using metadata
+   - Implemented coach access check for admin routes
+   - Created functions to validate user roles
+
+### Testing Instructions
+
+1. **Testing Onboarding Flow:**
+   - Register a new user at /onboard
+   - Check Supabase for the new user with role='client' in metadata
+   - Verify a record was created in spark_users with status='pending'
+
+2. **Testing Admin Access:**
+   - Log in as a coach user (use SQL to set role='coach' in metadata if needed)
+   - Visit /admin dashboard
+   - Verify you can see pending users
+
+3. **Testing Approval Flow:**
+   - Approve a pending user in the admin dashboard
+   - Verify the user's status is updated to 'active' in spark_users table
+
+4. **Testing Role Protection:**
+   - Try accessing /admin as a non-coach user
+   - Verify you are redirected away
+
+### Known Issues
+
+- Need to implement mechanism to update role in metadata for existing users
+- Need to clean up legacy Airtable references from other parts of the codebase
+- Should add comprehensive test coverage for authentication flows
+
+### Next Steps
+
+- Complete Phase 3 (Testing & Documentation)
+- Remove all remaining Airtable dependencies
+- Create additional utility functions for role management
+
+## Authentication Callback Pages Implementation (June 10, 2024)
+
+We have implemented the following authentication callback pages to complete the Supabase authentication flow:
+
+1. **Email Verification Callback** (`/auth/callback`):
+   - Handles email verification links sent by Supabase
+   - Verifies the token using supabase.auth.verifyOtp()
+   - Shows success/error states with appropriate messaging
+   - Redirects to sign-in page after successful verification
+
+2. **Password Reset Request** (`/auth/reset-password-request`):
+   - Provides a form for users to request password reset emails
+   - Uses Supabase's resetPasswordForEmail() function
+   - Includes security-focused messaging that doesn't reveal if an email exists
+   - Styled to match the site's aesthetic with watermark and frosted glass effects
+
+3. **Password Reset Handler** (`/auth/reset-password`):
+   - Processes password reset tokens from email links
+   - Allows users to set a new password with confirmation
+   - Enforces password strength requirements (uppercase, lowercase, number)
+   - Provides clear success/error states with appropriate UI feedback
+
+### Supabase Configuration
+
+For these pages to work correctly, the Supabase project has been configured with:
+
+- Site URL set to `whatcomesnextllc.ai`
+- The following redirect URLs added:
+  - `capacitor://localhost`
+  - `http://localhost`
+  - `com.whatcomesnext.spark://`
+  - `com.whatcomesnext.spark://*`
+  - `file://android_asset/public/*`
+  - `https://whatcomesnextllc.ai/*`
+
+### Dependencies
+
+These pages require the following dependencies:
+- framer-motion (for animations)
+- react-hook-form (for form handling)
+- zod (for form validation)
+- @hookform/resolvers/zod (for integrating zod with react-hook-form)
+
+These dependencies may need to be installed if not already present in the project.
+
+### Testing Instructions
+
+To test the complete authentication flow:
+
+1. **Email Verification**:
+   - Register a new user
+   - Check email for verification link
+   - Click the link to verify (should go to /auth/callback)
+   - Verify you're redirected to sign in
+
+2. **Password Reset**:
+   - Go to /auth/reset-password-request
+   - Enter an email address
+   - Check email for reset link
+   - Click the link (should go to /auth/reset-password)
+   - Set a new password
+   - Verify you can sign in with the new password

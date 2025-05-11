@@ -73,18 +73,9 @@ export async function hasCoachAccess(): Promise<boolean> {
 /**
  * Get the current user's role from their session
  * Can be used in client components without async/await
- * export function getCurrentUserRole(): string | null {
- *   const session = supabase.auth.session();
- *   return session?.user?.user_metadata?.role || null;
- * }
-*/
-
-/**
- * Get the current user's role from their session
- * This is now an async function due to Supabase API changes
  */
-export async function getCurrentUserRole(): Promise<string | null> {
-  const { data: { session } } = await supabase.auth.getSession();
+export function getCurrentUserRole(): string | null {
+  const session = supabase.auth.session();
   return session?.user?.user_metadata?.role || null;
 }
 

@@ -15,6 +15,7 @@ import { AdminView } from '@/types/admin';
 import { supabase } from '../../lib/supabaseClient';
 import { uploadContent } from '@/content/uploadContent';
 import { SignOutButton } from '@/components/SignOutButton';
+import { hasCoachAccess } from '@/lib/auth';
 
 interface Entry {
   user_id: string;
@@ -41,13 +42,10 @@ export default function AdminDashboard() {
         router.replace('/signin');
         return;
       }
-      // Check if user is admin
-      const { data, error } = await supabase
-        .from('spark_users')
-        .select('role')
-        .eq('id', user.id)
-        .single();
-      if (error || !data || data.role !== 'admin') {
+      
+      // Check if user is admin using metadata
+      const isCoach = await hasCoachAccess();
+      if (!isCoach) {
         setIsAuthorized(false);
       } else {
         setIsAuthorized(true);
@@ -66,30 +64,20 @@ export default function AdminDashboard() {
     setLoading(true);
     setError(null);
     try {
-      // Fetch all users from Supabase Auth who have completed onboarding
-      const { data: authUsers, error: authError } = await supabase.auth.admin.listUsers();
-      if (authError) throw authError;
-
-      // Fetch all user_profiles records
-      const { data: userProfiles, error: profileError } = await supabase
-        .from('user_profiles')
-        .select('user_id');
-      if (profileError) throw profileError;
-
-      // Filter users who have completed onboarding but have not verified
-      const unverifiedUsers = authUsers.users.filter(user => user.email_confirmed_at === null);
-
-      // Filter users who have verified but do not have a user_profiles record
-      const verifiedUsers = authUsers.users.filter(user => user.email_confirmed_at !== null);
-      const verifiedUserIds = verifiedUsers.map(user => user.id);
-      const existingProfileIds = userProfiles.map(profile => profile.user_id);
-      const verifiedWithoutProfile = verifiedUsers.filter(user => !existingProfileIds.includes(user.id));
-
-      // Combine the lists for display
-      const entries = [...unverifiedUsers, ...verifiedWithoutProfile].map(user => ({
+      // Fetch pending users from spark_users
+      const { data: pendingUsers, error: pendingError } = await supabase
+        .from('spark_users')
+        .select('*')
+        .eq('status', 'pending');
+      
+      if (pendingError) throw pendingError;
+      
+      // Format for display
+      const entries = pendingUsers.map(user => ({
         user_id: user.id,
-        name: user.email || 'Unknown', // Ensure name is always a string
-        status: user.email_confirmed_at === null ? 'waiting for verification' : 'verified',
+        name: user.name || user.email || 'Unknown',
+        email: user.email,
+        status: 'pending approval'
       }));
 
       setEntries(entries);
@@ -111,15 +99,14 @@ export default function AdminDashboard() {
     setLoading(true);
     setError(null);
     try {
-      // Create a user_profiles record for the selected user
+      // Update user status in spark_users
       const { error } = await supabase
-        .from('user_profiles')
-        .insert({
-          user_id: selectedEntry.user_id,
-          name: selectedEntry.name,
-          status: 'active',
-        });
+        .from('spark_users')
+        .update({ status: 'active' })
+        .eq('id', selectedEntry.user_id);
+      
       if (error) throw error;
+      
       setIsSuccess(true);
       setTimeout(() => {
         fetchData();

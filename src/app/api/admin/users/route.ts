@@ -1,24 +1,43 @@
 import { NextResponse } from 'next/server';
+import { supabase } from '@/lib/supabaseClient';
+import { getActiveUsers } from '@/lib/supabaseUtils';
+import { hasCoachAccess } from '@/lib/auth';
 
 export async function GET() {
   try {
-    const airtableUrl = `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/Users`;
-    const res = await fetch(airtableUrl, {
-      headers: {
-        'Authorization': `Bearer ${process.env.AIRTABLE_TOKEN}`,
-      },
-    });
-
-    if (!res.ok) throw new Error('Failed to fetch from Airtable');
+    // Verify the current user has coach access
+    const { data: { user } } = await supabase.auth.getUser();
     
-    const data = await res.json();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     
-    // Filter for active users only
-    const activeUsers = data.records.filter(
-      (record: any) => record.fields.Status === 'active'
-    );
+    const isCoach = await hasCoachAccess();
+    
+    if (!isCoach) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+    
+    // Fetch active users using the Supabase utility
+    const { data: activeUsers, error } = await supabase
+      .from('spark_users')
+      .select('*')
+      .eq('status', 'active');
+    
+    if (error) throw error;
+    
+    // Format to maintain compatibility with existing frontend
+    const formattedUsers = activeUsers.map((user: any) => ({
+      id: user.id,
+      fields: {
+        Name: user.name,
+        Email: user.email,
+        Status: user.status,
+        'Created At': user.created_at,
+      }
+    }));
 
-    return NextResponse.json({ users: activeUsers });
+    return NextResponse.json({ users: formattedUsers });
   } catch (error) {
     console.error('Failed to fetch users:', error);
     return NextResponse.json(

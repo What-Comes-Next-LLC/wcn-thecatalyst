@@ -1,6 +1,7 @@
 // src/app/api/onboard/route.ts
 import { NextResponse } from 'next/server';
 import { onboardSchema, prepareForStorage } from '@/lib/schemas/onboard';
+import { supabase } from '@/lib/supabaseClient';
 
 export async function POST(request: Request) {
   try {
@@ -22,32 +23,23 @@ export async function POST(request: Request) {
     // Prepare validated data for storage
     const validatedData = prepareForStorage(result.data);
 
-    // Current Airtable implementation
-    const airtableUrl = `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/${process.env.AIRTABLE_TABLE_NAME}`;
+    // Store data in Supabase spark_users table
+    const { error } = await supabase
+      .from('spark_users')
+      .insert([{
+        name: validatedData.name,
+        email: validatedData.email,
+        age: validatedData.age,
+        height: validatedData.height,
+        weight: validatedData.weight,
+        goal: validatedData.goal,
+        notes: validatedData.notes,
+        created_at: validatedData.submittedAt,
+        status: 'pending'
+      }]);
 
-    const res = await fetch(airtableUrl, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.AIRTABLE_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        fields: {
-          Name: validatedData.name,
-          Email: validatedData.email,
-          Age: validatedData.age,
-          Height: validatedData.height,
-          Weight: validatedData.weight,
-          Goal: validatedData.goal,
-          Notes: validatedData.notes,
-          'Created At': validatedData.submittedAt,
-          Status: 'pending'
-        },
-      }),
-    });
-
-    if (!res.ok) {
-      console.error('❌ Storage error:', await res.text());
+    if (error) {
+      console.error('❌ Storage error:', error);
       return NextResponse.json(
         { success: false, error: 'Failed to store data' },
         { status: 500 }

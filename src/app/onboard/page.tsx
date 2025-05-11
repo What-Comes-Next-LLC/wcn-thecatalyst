@@ -30,19 +30,31 @@ export default function OnboardPage() {
   const onSubmit = async (data: OnboardFormData) => {
     try {
       setError(undefined);
-      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({ email: data.email, password: data.password });
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({ 
+        email: data.email, 
+        password: data.password,
+        options: {
+          data: {
+            role: 'client' // Set initial role in metadata
+          }
+        }
+      });
+      
       if (!signUpError && signUpData.user) {
-        // Insert into user_profiles
-        await supabase.from('user_profiles').insert({
-          user_id: signUpData.user.id,
+        // Insert into spark_users instead of user_profiles
+        await supabase.from('spark_users').insert({
+          id: signUpData.user.id,
           name: data.name,
+          email: data.email,
           age: data.age,
           height: data.height,
           weight: data.weight,
           goal: data.goal,
           notes: data.notes || null,
           status: 'pending',
+          role: 'client'
         });
+        
         setSubmitted(true);
         reset();
         window.scrollTo({ top: 0, behavior: 'smooth' });

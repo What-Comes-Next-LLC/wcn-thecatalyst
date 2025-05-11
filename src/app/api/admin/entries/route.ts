@@ -1,31 +1,42 @@
 import { NextResponse } from 'next/server';
-
-interface AirtableRecord {
-  fields: {
-    Status: 'pending' | 'active';
-    [key: string]: unknown;
-  };
-}
+import { supabase } from '@/lib/supabaseClient';
+import { hasCoachAccess } from '@/lib/auth';
 
 export async function GET() {
   try {
-    const airtableUrl = `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/${process.env.AIRTABLE_TABLE_NAME}`;
-    const res = await fetch(airtableUrl, {
-      headers: {
-        'Authorization': `Bearer ${process.env.AIRTABLE_TOKEN}`,
-      },
-    });
-
-    if (!res.ok) throw new Error('Failed to fetch from Airtable');
+    // Verify the current user has coach access
+    const { data: { user } } = await supabase.auth.getUser();
     
-    const data = await res.json();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     
-    // Filter for pending or active entries
-    const filteredRecords = data.records.filter(
-      (record: AirtableRecord) => record.fields.Status === 'pending' || record.fields.Status === 'active'
-    );
+    const isCoach = await hasCoachAccess();
+    
+    if (!isCoach) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+    
+    // Fetch pending entries from spark_users
+    const { data: pendingUsers, error } = await supabase
+      .from('spark_users')
+      .select('*')
+      .eq('status', 'pending');
+    
+    if (error) throw error;
+    
+    // Format to maintain compatibility with existing frontend
+    const formattedRecords = pendingUsers.map((user: any) => ({
+      id: user.id,
+      fields: {
+        Name: user.name,
+        Email: user.email,
+        Status: user.status,
+        'Created At': user.created_at,
+      }
+    }));
 
-    return NextResponse.json({ records: filteredRecords });
+    return NextResponse.json({ records: formattedRecords });
   } catch (error) {
     console.error('Failed to fetch entries:', error);
     return NextResponse.json(

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { validateToken } from '@/lib/auth';
-import { createUpload } from '@/lib/airtable';
+import { supabase } from '@/lib/supabaseClient';
 
 // Storage abstraction layer
 async function storeFile(file: File, userId: string) {
@@ -15,6 +15,38 @@ async function storeFile(file: File, userId: string) {
       size: file.size
     }
   };
+}
+
+// Create upload record in Supabase
+async function createUpload(data: {
+  userId: string;
+  type: string;
+  notes: string;
+  fileName: string;
+  fileType: string;
+  fileSize: number;
+  fileUrl: string | null;
+  filePath: string;
+}) {
+  const { error, data: upload } = await supabase
+    .from('uploads')
+    .insert([{
+      user_id: data.userId,
+      type: data.type,
+      notes: data.notes,
+      file_name: data.fileName,
+      file_type: data.fileType,
+      file_size: data.fileSize,
+      file_url: data.fileUrl,
+      file_path: data.filePath,
+      created_at: new Date().toISOString(),
+      status: 'processing'
+    }])
+    .select()
+    .single();
+
+  if (error) throw error;
+  return upload;
 }
 
 export async function POST(request: Request) {
