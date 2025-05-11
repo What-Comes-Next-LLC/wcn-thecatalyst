@@ -8,9 +8,9 @@ interface EmailTabsProps {
 
 export default function EmailTabs({ activeView, onViewChange }: EmailTabsProps) {
   const tabs = [
-    { id: AdminView.APPROVALS, label: 'Approvals' },
-    { id: AdminView.BROADCAST, label: 'Send Update' },
-    { id: AdminView.INDIVIDUAL, label: 'Individual Message' }
+    { id: AdminView.LEADS, label: 'New Leads' },
+    { id: AdminView.CLIENTS, label: 'Active Clients' },
+    { id: AdminView.COMMUNICATION, label: 'Communication' }
   ];
 
   return (

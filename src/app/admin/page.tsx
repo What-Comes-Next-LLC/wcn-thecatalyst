@@ -1,40 +1,54 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import SectionWrapper from '@/components/SectionWrapper';
-import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import ConfirmModal from '@/components/ConfirmModal';
-import { dispatchEmail } from '@/lib/email';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import SectionWrapper from '@/components/SectionWrapper';
 import EmailTabs from '@/components/admin/EmailTabs';
-import BroadcastForm from '@/components/admin/BroadcastForm';
-import IndividualForm from '@/components/admin/IndividualForm';
 import { AdminView } from '@/types/admin';
-import { supabase } from '../../lib/supabaseClient';
-import { uploadContent } from '@/content/uploadContent';
-import { SignOutButton } from '@/components/SignOutButton';
+import { supabase } from '@/lib/supabaseClient';
 import { hasCoachAccess } from '@/lib/auth';
+import { SignOutButton } from '@/components/SignOutButton';
+import Link from 'next/link';
+import { uploadContent } from '@/content/uploadContent';
+import ClientForm from '@/components/admin/ClientForm';
 
-interface Entry {
-  user_id: string;
+interface Lead {
+  id: string;
   name: string;
-  status: string;
+  email: string;
+  goal: string;
+  notes?: string;
+  created_at: string;
+}
+
+interface Client {
+  id: string;
+  name: string;
+  email: string;
+  age?: number;
+  height?: number;
+  weight?: number;
+  goal: string;
+  notes?: string;
+  created_at: string;
 }
 
 export default function AdminDashboard() {
-  const [entries, setEntries] = useState<Entry[]>([]);
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [selectedEntry, setSelectedEntry] = useState<Entry | null>(null);
-  const [successUrl, setSuccessUrl] = useState<string>('');
-  const [activeView, setActiveView] = useState<AdminView>(AdminView.APPROVALS);
+  
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [showClientForm, setShowClientForm] = useState(false);
+  
+  const [activeView, setActiveView] = useState<AdminView>(AdminView.LEADS);
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
   const router = useRouter();
 
+  // Check user authorization on load
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -43,7 +57,7 @@ export default function AdminDashboard() {
         return;
       }
       
-      // Check if user is admin using metadata
+      // Check if user is coach using metadata
       const isCoach = await hasCoachAccess();
       if (!isCoach) {
         setIsAuthorized(false);
@@ -54,156 +68,246 @@ export default function AdminDashboard() {
     checkAuth();
   }, [router]);
 
+  // Fetch data when view changes
   useEffect(() => {
-    if (activeView === AdminView.APPROVALS) {
-      fetchData();
+    if (isAuthorized) {
+      if (activeView === AdminView.LEADS) {
+        fetchLeads();
+      } else if (activeView === AdminView.CLIENTS) {
+        fetchClients();
+      }
     }
-  }, [activeView]);
+  }, [activeView, isAuthorized]);
 
-  const fetchData = async () => {
+  // Fetch leads (now considers all pending users as leads)
+  const fetchLeads = async () => {
     setLoading(true);
     setError(null);
     try {
-      // Fetch pending users from spark_users
-      const { data: pendingUsers, error: pendingError } = await supabase
+      // Get all pending users from the database, they are all considered leads
+      const { data: pendingUsers, error: dbError } = await supabase
         .from('spark_users')
         .select('*')
         .eq('status', 'pending');
       
-      if (pendingError) throw pendingError;
+      if (dbError) throw dbError;
       
-      // Format for display
-      const entries = pendingUsers.map(user => ({
-        user_id: user.id,
-        name: user.name || user.email || 'Unknown',
-        email: user.email,
-        status: 'pending approval'
-      }));
-
-      setEntries(entries);
+      // All pending users are considered leads regardless of role field
+      setLeads(pendingUsers || []);
       setLoading(false);
     } catch (err) {
-      setError(uploadContent.admin.approvalError);
+      setError('Failed to fetch leads. Please try again.');
       setLoading(false);
     }
   };
 
-  const handleApproveClick = (entry: Entry) => {
-    setSelectedEntry(entry);
-    setIsSuccess(false);
-    setIsModalOpen(true);
-  };
-
-  const handleConfirmApproval = async () => {
-    if (!selectedEntry) return;
+  // Fetch active clients
+  const fetchClients = async () => {
     setLoading(true);
     setError(null);
     try {
-      // Update user status in spark_users
-      const { error } = await supabase
+      // Get all active users - they are all considered clients
+      const { data: activeClients, error: dbError } = await supabase
         .from('spark_users')
-        .update({ status: 'active' })
-        .eq('id', selectedEntry.user_id);
+        .select('*')
+        .eq('status', 'active');
       
-      if (error) throw error;
+      if (dbError) throw dbError;
       
-      setIsSuccess(true);
-      setTimeout(() => {
-        fetchData();
-      }, 500);
+      setClients(activeClients || []);
+      setLoading(false);
     } catch (err) {
-      setError(uploadContent.admin.approvalError);
+      setError('Failed to fetch clients. Please try again.');
       setLoading(false);
     }
   };
 
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-    setSelectedEntry(null);
-    setSuccessUrl('');
-    setIsSuccess(false);
+  // Handle converting a lead to a client
+  const handleConvertToClient = (lead: Lead) => {
+    setSelectedLead(lead);
+    setShowClientForm(true);
   };
 
-  const renderContent = () => {
-    switch (activeView) {
-      case AdminView.APPROVALS:
-        if (loading && !isSuccess) {
-          return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
-        }
+  // Handle successful client creation
+  const handleClientCreated = () => {
+    setShowClientForm(false);
+    setSelectedLead(null);
+    fetchLeads(); // Refresh the leads list
+  };
 
-        if (error) {
-          return <div className="flex justify-center items-center min-h-screen text-red-500">{error}</div>;
-        }
+  // Handle cancelling client creation
+  const handleCancelClientForm = () => {
+    setShowClientForm(false);
+    setSelectedLead(null);
+  };
 
-        return (
-          <div className="space-y-4">
-            {entries.map((entry) => (
-              <motion.div
-                key={entry.user_id}
-                initial={{ opacity: 0 }}
-                animate={{ 
-                  opacity: 1,
-                  scale: 1,
-                }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.3 }}
-                className="p-6 bg-black/30 backdrop-blur-lg rounded-lg border border-wcn-mid/20 hover:border-wcn-mid/40 transition-colors shadow-lg"
-              >
-                <div className="flex justify-between items-start">
-                  <div className="flex-grow">
-                    <h2 className="text-xl font-semibold text-wcn-text">{entry.name}</h2>
-                    <p className="text-wcn-text/80">Status: {entry.status}</p>
-                  </div>
-                  <div className="ml-4">
-                    <motion.button
-                      onClick={() => handleApproveClick(entry)}
-                      className="w-full px-4 py-2 rounded-lg bg-wcn-accent1 text-wcn-text font-medium shadow-lg hover:bg-wcn-accent1/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-                      whileTap={{ scale: 0.95 }}
-                      disabled={entry.status === 'active'}
-                    >
-                      Approve
-                    </motion.button>
-                  </div>
+  // Render leads list
+  const renderLeads = () => {
+    if (loading) {
+      return <div className="flex justify-center items-center py-12">Loading...</div>;
+    }
+
+    if (error) {
+      return <div className="text-red-500 py-8">{error}</div>;
+    }
+
+    if (leads.length === 0) {
+      return <div className="text-center text-wcn-text/60 py-12">No new leads available.</div>;
+    }
+
+    return (
+      <div className="space-y-4">
+        {leads.map((lead) => (
+          <motion.div
+            key={lead.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="p-6 bg-black/30 backdrop-blur-lg rounded-lg border border-wcn-mid/20 hover:border-wcn-mid/40 transition-colors shadow-lg"
+          >
+            <div className="flex justify-between items-start">
+              <div className="flex-grow">
+                <h2 className="text-xl font-semibold text-wcn-text">{lead.name}</h2>
+                <p className="text-wcn-text/80">{lead.email}</p>
+                <div className="mt-4">
+                  <h3 className="text-sm font-medium text-wcn-gray">Goal:</h3>
+                  <p className="text-wcn-text/90">{lead.goal}</p>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        );
-      case AdminView.BROADCAST:
-        return <BroadcastForm />;
-      case AdminView.INDIVIDUAL:
-        return <IndividualForm />;
+                {lead.notes && (
+                  <div className="mt-2">
+                    <h3 className="text-sm font-medium text-wcn-gray">Notes:</h3>
+                    <p className="text-wcn-text/90">{lead.notes}</p>
+                  </div>
+                )}
+                <p className="text-xs text-wcn-gray mt-4">
+                  Created: {new Date(lead.created_at).toLocaleDateString()}
+                </p>
+              </div>
+              <div className="ml-4">
+                <motion.button
+                  onClick={() => handleConvertToClient(lead)}
+                  className="px-4 py-2 rounded-lg bg-wcn-accent1 text-wcn-text font-medium shadow-lg hover:bg-wcn-accent1/90 transition-all duration-200"
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Create Client
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    );
+  };
+
+  // Render clients list
+  const renderClients = () => {
+    if (loading) {
+      return <div className="flex justify-center items-center py-12">Loading...</div>;
+    }
+
+    if (error) {
+      return <div className="text-red-500 py-8">{error}</div>;
+    }
+
+    if (clients.length === 0) {
+      return <div className="text-center text-wcn-text/60 py-12">No active clients found.</div>;
+    }
+
+    return (
+      <div className="space-y-6">
+        {clients.map((client) => (
+          <motion.div
+            key={client.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="p-6 bg-black/30 backdrop-blur-lg rounded-lg border border-wcn-mid/20 hover:border-wcn-mid/40 transition-colors shadow-lg"
+          >
+            <div className="flex justify-between">
+              <h2 className="text-xl font-semibold text-wcn-text">{client.name}</h2>
+              <span className="text-sm px-3 py-1 bg-green-500/20 text-green-400 rounded-full">
+                Active
+              </span>
+            </div>
+            
+            <p className="text-wcn-text/80 mb-4">{client.email}</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+              <div>
+                <h3 className="text-sm font-medium text-wcn-gray">Age:</h3>
+                <p className="text-wcn-text">{client.age || 'Not specified'}</p>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium text-wcn-gray">Height:</h3>
+                <p className="text-wcn-text">{client.height ? `${client.height} inches` : 'Not specified'}</p>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium text-wcn-gray">Weight:</h3>
+                <p className="text-wcn-text">{client.weight ? `${client.weight} lbs` : 'Not specified'}</p>
+              </div>
+            </div>
+            
+            <div className="mt-4">
+              <h3 className="text-sm font-medium text-wcn-gray">Goal:</h3>
+              <p className="text-wcn-text/90">{client.goal}</p>
+            </div>
+            
+            {client.notes && (
+              <div className="mt-2">
+                <h3 className="text-sm font-medium text-wcn-gray">Notes:</h3>
+                <p className="text-wcn-text/90">{client.notes}</p>
+              </div>
+            )}
+            
+            <p className="text-xs text-wcn-gray mt-4">
+              Created: {new Date(client.created_at).toLocaleDateString()}
+            </p>
+          </motion.div>
+        ))}
+      </div>
+    );
+  };
+
+  // Render communication view (placeholder for now)
+  const renderCommunication = () => (
+    <div className="text-center text-wcn-text py-12">
+      Communication features coming soon...
+    </div>
+  );
+
+  // Main render content function
+  const renderContent = () => {
+    if (!isAuthorized) {
+      return (
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+          <p className="text-red-400 text-xl mb-4">You are not authorized to access this area.</p>
+          <p className="text-wcn-text/80">This dashboard is only available to coach accounts.</p>
+          <Link href="/" className="mt-6 px-4 py-2 bg-wcn-accent2 text-white rounded-lg">
+            Return Home
+          </Link>
+        </div>
+      );
+    }
+
+    if (showClientForm && selectedLead) {
+      return (
+        <ClientForm 
+          leadData={selectedLead}
+          onSuccess={handleClientCreated}
+          onCancel={handleCancelClientForm}
+        />
+      );
+    }
+
+    switch (activeView) {
+      case AdminView.LEADS:
+        return renderLeads();
+      case AdminView.CLIENTS:
+        return renderClients();
+      case AdminView.COMMUNICATION:
+        return renderCommunication();
       default:
         return null;
     }
   };
-
-  useEffect(() => {
-    if (isAuthorized === false) {
-      const handleUnauthorized = async () => {
-        await supabase.auth.signOut();
-        setTimeout(() => {
-          router.replace('/');
-        }, 2000);
-      };
-      handleUnauthorized();
-    }
-  }, [isAuthorized, router]);
-
-  if (isAuthorized === false) {
-    return (
-      <SectionWrapper bgColor="bg-gradient-to-b from-wcn-primary via-wcn-dark to-black" textColor="text-white">
-        <div className="flex flex-col items-center justify-center min-h-screen">
-          <h1 className="text-4xl font-bold mb-4">Unauthorized</h1>
-          <p className="text-lg">You do not have permission to access this page.</p>
-          <p className="text-wcn-text/80 mt-4">Redirecting to home page...</p>
-        </div>
-      </SectionWrapper>
-    );
-  }
-  if (isAuthorized === null) {
-    return null; // Or a loading spinner
-  }
 
   return (
     <SectionWrapper 
@@ -237,7 +341,7 @@ export default function AdminDashboard() {
             </h1>
           </Link>
           <p className="text-xl text-wcn-text/80 mt-4">
-            Manage user submissions and communications
+            Manage leads, clients, and communications
           </p>
         </div>
 
@@ -247,15 +351,6 @@ export default function AdminDashboard() {
         {/* Content Area */}
         {renderContent()}
       </div>
-
-      <ConfirmModal
-        isOpen={isModalOpen}
-        onConfirm={handleConfirmApproval}
-        onClose={handleModalClose}
-        userName={selectedEntry?.name || ''}
-        successUrl={successUrl}
-        isSuccess={isSuccess}
-      />
     </SectionWrapper>
   );
 } 

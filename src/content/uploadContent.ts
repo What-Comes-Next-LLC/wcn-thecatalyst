@@ -37,12 +37,19 @@ export const uploadContent = {
     networkError: 'Network error. Please check your connection and try again.'
   },
   admin: {
-    dashboardTitle: 'User Approvals',
-    pendingUsers: 'Pending Users',
-    approveButton: 'Approve',
-    noPending: 'No users are currently pending approval.',
-    approvalSuccess: 'User approved successfully.',
-    approvalError: 'There was an error approving this user. Please try again.'
+    dashboardTitle: 'Client Management',
+    leadsTab: 'New Leads',
+    clientsTab: 'Active Clients',
+    communicationTab: 'Communication',
+    noLeads: 'No new leads waiting for review.',
+    noClients: 'No active clients found.',
+    convertButton: 'Create Client Profile',
+    clientCreated: 'Lead converted to client successfully!',
+    updateError: 'There was an error updating this user. Please try again.',
+    unauthorizedMessage: 'You do not have permission to access this page.',
+    redirectingMessage: 'Redirecting to home page...',
+    leadDefinition: 'Any user with pending status - waiting for coach review',
+    clientDefinition: 'Any user with active status - approved by coach'
   },
   signin: {
     title: 'Sign In',

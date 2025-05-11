@@ -12,25 +12,28 @@ export const onboardSchema = z.object({
     .email('Please enter a valid email address')
     .transform(val => val.trim().toLowerCase()),
 
-  age: z.number()
-    .int('Age must be a whole number')
-    .min(13, 'Must be at least 13 years old')
-    .max(120, 'Please enter a valid age'),
-
-  height: z.number()
-    .int('Height must be a whole number')
-    .min(48, 'Height must be at least 48 inches (4 feet)')
-    .max(96, 'Height must be less than 96 inches (8 feet)'),
-
-  weight: z.number()
-    .int('Weight must be a whole number')
-    .min(50, 'Weight must be at least 50 lbs')
-    .max(1000, 'Please enter a valid weight'),
-
   goal: z.string()
     .min(10, 'Please provide more detail about your goal')
     .max(500, 'Goal description is too long')
     .transform(val => val.trim()),
+
+  age: z.number()
+    .int('Age must be a whole number')
+    .min(13, 'Must be at least 13 years old')
+    .max(120, 'Please enter a valid age')
+    .optional(),
+
+  height: z.number()
+    .int('Height must be a whole number')
+    .min(48, 'Height must be at least 48 inches (4 feet)')
+    .max(96, 'Height must be less than 96 inches (8 feet)')
+    .optional(),
+
+  weight: z.number()
+    .int('Weight must be a whole number')
+    .min(50, 'Weight must be at least 50 lbs')
+    .max(1000, 'Please enter a valid weight')
+    .optional(),
 
   notes: z.string()
     .max(1000, 'Notes are too long')
@@ -56,9 +59,9 @@ export type OnboardFormData = z.infer<typeof onboardSchema>;
 export type ValidatedOnboardData = {
   name: string;
   email: string;
-  age: number;
-  height: number; // Stored as total inches
-  weight: number;
+  age?: number;
+  height?: number;
+  weight?: number;
   goal: string;
   notes?: string;
   submittedAt: string; // ISO date string

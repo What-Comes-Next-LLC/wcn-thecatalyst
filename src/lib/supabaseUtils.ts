@@ -10,7 +10,7 @@ export interface UserProfile {
   name: string;
   email: string;
   status: 'pending' | 'active';
-  role: 'client' | 'coach';
+  role: 'lead' | 'client' | 'coach';
   created_at: string;
 }
 

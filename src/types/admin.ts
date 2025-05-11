@@ -1,7 +1,7 @@
 export enum AdminView {
-  APPROVALS = 'approvals',
-  BROADCAST = 'broadcast',
-  INDIVIDUAL = 'individual'
+  LEADS = 'leads',
+  CLIENTS = 'clients',
+  COMMUNICATION = 'communication'
 }
 
 export interface EmailContent {

@@ -130,38 +130,41 @@ export default function UnifiedSparkPage() {
         password: data.password,
         options: {
           data: {
-            role: 'client' // Set initial role in metadata
+            role: 'client'
           },
           emailRedirectTo: `${window.location.origin}/auth/callback`
         }
       });
       
-      if (!signUpError && signUpData.user) {
-        // Insert into spark_users
-        await supabase.from('spark_users').insert({
-          id: signUpData.user.id,
-          name: data.name,
-          email: data.email,
-          age: data.age,
-          height: data.height,
-          weight: data.weight,
-          goal: data.goal,
-          notes: data.notes || null,
-          status: 'pending',
-          role: 'client'
-        });
-        
-        setSubmitted(true);
-        reset();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        // Clear the authentication cookie
-        await supabase.auth.signOut();
-        setTimeout(() => {
-          router.push('/');
-        }, 2000);
-      } else {
+      if (!signUpData?.user) {
         setOnboardError(signUpError?.message || 'Submission failed. Please try again.');
+        return;
       }
+      
+      // Insert into spark_users with status 'pending' - this makes them a lead in our workflow
+      const { error: insertError } = await supabase.from('spark_users').insert({
+        id: signUpData.user.id,
+        name: data.name,
+        email: data.email,
+        goal: data.goal,
+        notes: data.notes || null,
+        status: 'pending',
+        role: 'lead'
+      });
+      
+      if (insertError) {
+        setOnboardError(insertError.message || 'Failed to create user profile. Please try again.');
+        return;
+      }
+      
+      setSubmitted(true);
+      reset();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Clear the authentication cookie
+      await supabase.auth.signOut();
+      setTimeout(() => {
+        router.push('/');
+      }, 2000);
     } catch (err) {
       setOnboardError(`Network error: ${err instanceof Error ? err.message : 'Please check your connection and try again.'}`);
     }
@@ -293,42 +296,6 @@ export default function UnifiedSparkPage() {
                     className={`${inputStyles} ${errors.confirmPassword ? 'border-red-500' : ''}`}
                   />
                   {errors.confirmPassword && <p className={errorStyles}>{errors.confirmPassword.message}</p>}
-                </div>
-                
-                <div>
-                  <label htmlFor="age" className={labelStyles}>Age</label>
-                  <input
-                    id="age"
-                    type="number"
-                    {...register('age', { valueAsNumber: true })}
-                    placeholder="Your age"
-                    className={`${inputStyles} ${errors.age ? 'border-red-500' : ''}`}
-                  />
-                  {errors.age && <p className={errorStyles}>{errors.age.message}</p>}
-                </div>
-                
-                <div>
-                  <label htmlFor="height" className={labelStyles}>Height</label>
-                  <input
-                    id="height"
-                    type="number"
-                    {...register('height', { valueAsNumber: true })}
-                    placeholder="Height in inches (e.g. 72 for 6 feet)"
-                    className={`${inputStyles} ${errors.height ? 'border-red-500' : ''}`}
-                  />
-                  {errors.height && <p className={errorStyles}>{errors.height.message}</p>}
-                </div>
-                
-                <div>
-                  <label htmlFor="weight" className={labelStyles}>Weight</label>
-                  <input
-                    id="weight"
-                    type="number"
-                    {...register('weight', { valueAsNumber: true })}
-                    placeholder="Weight in pounds"
-                    className={`${inputStyles} ${errors.weight ? 'border-red-500' : ''}`}
-                  />
-                  {errors.weight && <p className={errorStyles}>{errors.weight.message}</p>}
                 </div>
                 
                 <div>
