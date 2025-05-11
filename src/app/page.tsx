@@ -60,7 +60,7 @@ export default function RootPage() {
         <div className="grid md:grid-cols-3 gap-6 md:gap-8 mt-4">
           {/* The Spark Card - Left */}
           <Link 
-            href={navigation.onboard.link}
+            href="/the-spark"
             className="group h-full relative overflow-hidden rounded-2xl bg-wcn-card backdrop-blur-wcn-card p-8 shadow-lg transition-all hover:shadow-2xl border-2 border-wcn-card hover:border-wcn-card-hover flex flex-col"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-wcn-text opacity-5 rounded-full transform translate-x-16 -translate-y-16"></div>
