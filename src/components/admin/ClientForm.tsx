@@ -3,17 +3,17 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
-import { supabase } from '@/lib/supabaseClient';
 
 // Define validation schema for client data
 const clientSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address'),
-  age: z.number().int().min(13).max(120),
-  height: z.number().int().min(48).max(96),
-  weight: z.number().int().min(50).max(1000),
-  goal: z.string().min(10),
-  notes: z.string().optional()
+  goal: z.string().min(10, 'Goal must be at least 10 characters'),
+  notes: z.string().optional(),
+  // Make these fields optional with reasonable defaults
+  age: z.number().int().min(13).max(120).optional(),
+  height: z.number().int().min(48).max(96).optional(),
+  weight: z.number().int().min(50).max(1000).optional()
 });
 
 type ClientFormData = z.infer<typeof clientSchema>;
@@ -21,9 +21,9 @@ type ClientFormData = z.infer<typeof clientSchema>;
 interface ClientFormProps {
   leadData: {
     id: string;
-    name: string;
+    name?: string;
     email: string;
-    goal: string;
+    goal?: string;
     notes?: string;
   };
   onSuccess: () => void;
@@ -41,9 +41,9 @@ export default function ClientForm({ leadData, onSuccess, onCancel }: ClientForm
   } = useForm<ClientFormData>({
     resolver: zodResolver(clientSchema),
     defaultValues: {
-      name: leadData.name,
+      name: leadData.name || '',
       email: leadData.email,
-      goal: leadData.goal,
+      goal: leadData.goal || '',
       notes: leadData.notes || ''
     }
   });
@@ -53,23 +53,33 @@ export default function ClientForm({ leadData, onSuccess, onCancel }: ClientForm
     setError(null);
     
     try {
-      // 1. Update the user in the spark_users table
-      const { error: dbError } = await supabase
-        .from('spark_users')
-        .update({
-          name: data.name,
-          email: data.email,
-          age: data.age,
-          height: data.height,
-          weight: data.weight,
-          goal: data.goal,
-          notes: data.notes || null,
-          status: 'active',
-          role: 'client'
-        })
-        .eq('id', leadData.id);
+      // Call the updated approve API endpoint to:
+      // 1. Create spark_users entry for the lead
+      // 2. Update user_metadata.role from 'lead' to 'client'
+      const response = await fetch('/api/admin/approve', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          leadData: {
+            id: leadData.id,
+            name: data.name,
+            email: data.email,
+            goal: data.goal,
+            notes: data.notes,
+            age: data.age,
+            height: data.height,
+            weight: data.weight
+          }
+        }),
+      });
       
-      if (dbError) throw new Error(dbError.message);
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to approve lead');
+      }
       
       // Success
       onSuccess();
@@ -122,7 +132,7 @@ export default function ClientForm({ leadData, onSuccess, onCancel }: ClientForm
           </div>
           
           <div>
-            <label htmlFor="age" className={labelStyles}>Age</label>
+            <label htmlFor="age" className={labelStyles}>Age (optional)</label>
             <input
               id="age"
               type="number"
@@ -133,7 +143,7 @@ export default function ClientForm({ leadData, onSuccess, onCancel }: ClientForm
           </div>
           
           <div>
-            <label htmlFor="height" className={labelStyles}>Height (inches)</label>
+            <label htmlFor="height" className={labelStyles}>Height in inches (optional)</label>
             <input
               id="height"
               type="number"
@@ -145,7 +155,7 @@ export default function ClientForm({ leadData, onSuccess, onCancel }: ClientForm
           </div>
           
           <div>
-            <label htmlFor="weight" className={labelStyles}>Weight (lbs)</label>
+            <label htmlFor="weight" className={labelStyles}>Weight in lbs (optional)</label>
             <input
               id="weight"
               type="number"

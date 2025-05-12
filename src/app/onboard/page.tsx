@@ -35,26 +35,14 @@ export default function OnboardPage() {
         password: data.password,
         options: {
           data: {
-            role: 'client' // Set initial role in metadata
+            role: 'lead' // Changed from 'client' to 'lead'
           },
           emailRedirectTo: `${window.location.origin}/auth/callback`
         }
       });
       
       if (!signUpError && signUpData.user) {
-        // Insert into spark_users instead of user_profiles
-        await supabase.from('spark_users').insert({
-          id: signUpData.user.id,
-          name: data.name,
-          email: data.email,
-          age: data.age,
-          height: data.height,
-          weight: data.weight,
-          goal: data.goal,
-          notes: data.notes || null,
-          status: 'pending',
-          role: 'client'
-        });
+        // No longer creating spark_users entry - this will be done by the coach in the admin interface
         
         setSubmitted(true);
         reset();

@@ -43,7 +43,10 @@ export async function validateToken(token: string) {
  */
 export async function hasRole(userId: string, role: string): Promise<boolean> {
   try {
-    const { data } = await supabase.auth.admin.getUserById(userId);
+    // Import inside the function to avoid circular dependencies
+    const { supabaseAdmin } = await import('./supabaseAdmin');
+    
+    const { data } = await supabaseAdmin.auth.admin.getUserById(userId);
     
     if (!data?.user) return false;
     
@@ -63,6 +66,7 @@ export async function hasCoachAccess(): Promise<boolean> {
     
     if (!user) return false;
     
+    // Only check metadata role, not the spark_users table
     return user.user_metadata?.role === 'coach';
   } catch (error) {
     console.error('Coach access check error:', error);

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { hasCoachAccess } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
@@ -35,10 +36,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Failed to update role in database' }, { status: 500 });
     }
     
-    // Update role in user metadata using admin APIs
-    // Note: This part may require specific permissions in Supabase
+    // Update role in user metadata using admin client
     try {
-      const { data, error: authError } = await supabase.auth.admin.updateUserById(
+      const { error: authError } = await supabaseAdmin.auth.admin.updateUserById(
         userId,
         { user_metadata: { role: newRole } }
       );
@@ -54,17 +54,10 @@ export async function POST(req: NextRequest) {
         details: metadataError instanceof Error ? metadataError.message : 'Unknown error' 
       }, { status: 500 });
     }
-
-    return NextResponse.json({ 
-      success: true,
-      userId,
-      role: newRole
-    });
+    
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Role update error:', error);
-    return NextResponse.json({ 
-      error: 'Role update failed',
-      details: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    console.error('Update role error:', error);
+    return NextResponse.json({ error: 'Failed to update role' }, { status: 500 });
   }
 } 

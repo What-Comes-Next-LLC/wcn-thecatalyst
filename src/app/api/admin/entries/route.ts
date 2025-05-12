@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
 import { hasCoachAccess } from '@/lib/auth';
+import { User } from '@supabase/supabase-js';
 
 export async function GET() {
   try {
@@ -12,31 +13,29 @@ export async function GET() {
     }
     
     const isCoach = await hasCoachAccess();
-    
     if (!isCoach) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
     
-    // Fetch pending entries from spark_users
-    const { data: pendingUsers, error } = await supabase
-      .from('spark_users')
-      .select('*')
-      .eq('status', 'pending');
+    // Fetch all users with role 'lead' from auth system
+    const { data: leadUsers, error } = await supabase.auth.admin.listUsers();
     
     if (error) throw error;
     
-    // Format to maintain compatibility with existing frontend
-    const formattedRecords = pendingUsers.map((user: any) => ({
+    // Filter users with role 'lead' in user_metadata
+    const leads = leadUsers.users.filter((user: User) => 
+      user.user_metadata?.role === 'lead'
+    ).map((user: User) => ({
       id: user.id,
       fields: {
-        Name: user.name,
+        Name: user.user_metadata?.name || 'Unknown',
         Email: user.email,
-        Status: user.status,
+        Status: 'pending',
         'Created At': user.created_at,
       }
     }));
 
-    return NextResponse.json({ records: formattedRecords });
+    return NextResponse.json({ records: leads });
   } catch (error) {
     console.error('Failed to fetch entries:', error);
     return NextResponse.json(

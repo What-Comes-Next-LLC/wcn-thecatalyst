@@ -177,8 +177,11 @@ export async function createUpload(data: {
  */
 export async function getUserData(userId: string) {
   try {
-    // Get user auth data
-    const { data: authData, error: authError } = await supabase.auth.admin.getUserById(userId);
+    // Import inside the function to avoid circular dependencies
+    const { supabaseAdmin } = await import('./supabaseAdmin');
+    
+    // Get user auth data using admin client
+    const { data: authData, error: authError } = await supabaseAdmin.auth.admin.getUserById(userId);
     
     if (authError || !authData.user) {
       throw new Error('User not found');

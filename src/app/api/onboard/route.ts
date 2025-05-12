@@ -1,7 +1,6 @@
 // src/app/api/onboard/route.ts
 import { NextResponse } from 'next/server';
-import { onboardSchema, prepareForStorage } from '@/lib/schemas/onboard';
-import { supabase } from '@/lib/supabaseClient';
+import { onboardSchema } from '@/lib/schemas/onboard';
 
 export async function POST(request: Request) {
   try {
@@ -20,32 +19,9 @@ export async function POST(request: Request) {
       );
     }
 
-    // Prepare validated data for storage
-    const validatedData = prepareForStorage(result.data);
-
-    // Store data in Supabase spark_users table
-    const { error } = await supabase
-      .from('spark_users')
-      .insert([{
-        name: validatedData.name,
-        email: validatedData.email,
-        age: validatedData.age,
-        height: validatedData.height,
-        weight: validatedData.weight,
-        goal: validatedData.goal,
-        notes: validatedData.notes,
-        created_at: validatedData.submittedAt,
-        status: 'pending'
-      }]);
-
-    if (error) {
-      console.error('❌ Storage error:', error);
-      return NextResponse.json(
-        { success: false, error: 'Failed to store data' },
-        { status: 500 }
-      );
-    }
-
+    // In the new flow, we don't create spark_users entries during onboarding
+    // This will be handled by the coach when approving the lead in the admin interface
+    
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('❌ API error:', error);

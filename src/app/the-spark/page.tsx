@@ -130,7 +130,7 @@ export default function UnifiedSparkPage() {
         password: data.password,
         options: {
           data: {
-            role: 'client'
+            role: 'lead'
           },
           emailRedirectTo: `${window.location.origin}/auth/callback`
         }
@@ -141,21 +141,7 @@ export default function UnifiedSparkPage() {
         return;
       }
       
-      // Insert into spark_users with status 'pending' - this makes them a lead in our workflow
-      const { error: insertError } = await supabase.from('spark_users').insert({
-        id: signUpData.user.id,
-        name: data.name,
-        email: data.email,
-        goal: data.goal,
-        notes: data.notes || null,
-        status: 'pending',
-        role: 'lead'
-      });
-      
-      if (insertError) {
-        setOnboardError(insertError.message || 'Failed to create user profile. Please try again.');
-        return;
-      }
+      // No longer creating spark_users entry - this will be done by the coach in the admin interface
       
       setSubmitted(true);
       reset();

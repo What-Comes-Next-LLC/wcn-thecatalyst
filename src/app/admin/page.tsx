@@ -79,21 +79,30 @@ export default function AdminDashboard() {
     }
   }, [activeView, isAuthorized]);
 
-  // Fetch leads (now considers all pending users as leads)
+  // Fetch leads (users with role 'lead' in metadata)
   const fetchLeads = async () => {
     setLoading(true);
     setError(null);
     try {
-      // Get all pending users from the database, they are all considered leads
-      const { data: pendingUsers, error: dbError } = await supabase
-        .from('spark_users')
-        .select('*')
-        .eq('status', 'pending');
+      // Use the updated API endpoint to get all users with role 'lead'
+      const response = await fetch('/api/admin/entries');
+      if (!response.ok) {
+        throw new Error('Failed to fetch leads');
+      }
       
-      if (dbError) throw dbError;
+      const data = await response.json();
       
-      // All pending users are considered leads regardless of role field
-      setLeads(pendingUsers || []);
+      // Format leads from API response
+      const formattedLeads = data.records.map((record: any) => ({
+        id: record.id,
+        name: record.fields.Name,
+        email: record.fields.Email,
+        goal: record.fields.Goal || 'Not specified',
+        notes: record.fields.Notes || '',
+        created_at: record.fields['Created At']
+      }));
+      
+      setLeads(formattedLeads);
       setLoading(false);
     } catch (err) {
       setError('Failed to fetch leads. Please try again.');
@@ -106,15 +115,25 @@ export default function AdminDashboard() {
     setLoading(true);
     setError(null);
     try {
-      // Get all active users - they are all considered clients
-      const { data: activeClients, error: dbError } = await supabase
-        .from('spark_users')
-        .select('*')
-        .eq('status', 'active');
+      // Use the admin users endpoint to get clients
+      const response = await fetch('/api/admin/users');
+      if (!response.ok) {
+        throw new Error('Failed to fetch clients');
+      }
       
-      if (dbError) throw dbError;
+      const data = await response.json();
       
-      setClients(activeClients || []);
+      // Format clients from API response
+      const formattedClients = data.users.map((userRecord: any) => ({
+        id: userRecord.id,
+        name: userRecord.fields.Name,
+        email: userRecord.fields.Email,
+        goal: userRecord.fields.Goal || 'Not specified',
+        notes: userRecord.fields.Notes || '',
+        created_at: userRecord.fields['Created At']
+      }));
+      
+      setClients(formattedClients);
       setLoading(false);
     } catch (err) {
       setError('Failed to fetch clients. Please try again.');
