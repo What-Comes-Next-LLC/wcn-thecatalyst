@@ -3,10 +3,11 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { deckContent } from '@/content/deckContent';
+import React from 'react';
 
 export default function AboutPage() {
   const router = useRouter();
-  const { company, founder } = deckContent.about;
+  const { company, founder, contactCta } = deckContent.about;
 
   // Function to render social media icon
   const renderSocialIcon = (iconName: string) => {
@@ -50,35 +51,6 @@ export default function AboutPage() {
         return null;
     }
   };
-
-  // Social media data
-  const socialMedia = [
-    {
-      name: "Instagram",
-      url: "https://www.instagram.com/whatcomesnextllc/",
-      icon: "instagram"
-    },
-    {
-      name: "Threads",
-      url: "https://www.threads.net/@jasonrashaad",
-      icon: "threads"
-    },
-    {
-      name: "LinkedIn",
-      url: "https://www.linkedin.com/company/whatcomesnextllc",
-      icon: "linkedin"
-    },
-    {
-      name: "Facebook",
-      url: "https://www.facebook.com/whatcomesnextllc",
-      icon: "facebook"
-    },
-    {
-      name: "GitHub",
-      url: "https://github.com/what-comes-next-llc",
-      icon: "github"
-    }
-  ];
 
   return (
     <div className="min-h-screen bg-wcn-gradient from-wcn-accent1 to-wcn-primary relative overflow-hidden">
@@ -184,7 +156,7 @@ export default function AboutPage() {
                 }`}>
                   <h3 className="text-2xl font-bold text-wcn-text mb-4">{section.heading}</h3>
                   <div className="prose prose-invert max-w-none">
-                    <p className="text-wcn-text/90 whitespace-pre-line">
+                    <p className="text-wcn-text/90 text-lg whitespace-pre-line">
                       {section.content}
                     </p>
                   </div>
@@ -196,7 +168,7 @@ export default function AboutPage() {
                 <h3 className="text-2xl font-bold text-wcn-text mb-4">{founder.milestones.heading}</h3>
                 <ul className="space-y-4">
                   {founder.milestones.achievements.map((achievement, index) => (
-                    <li key={index} className="flex items-center text-wcn-text/90">
+                    <li key={index} className="flex items-center text-wcn-text/90 text-lg">
                       <span className="text-wcn-accent2 mr-3">•</span>
                       {achievement}
                     </li>
@@ -213,15 +185,24 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto text-center">
           <div className="bg-wcn-accent2/20 backdrop-blur-wcn-card rounded-2xl p-8 border-2 border-wcn-accent2/30 hover:border-wcn-accent2/50 transition-all">
             <h2 className="text-3xl font-bold text-wcn-text mb-6">
-              Connect With Us
+              {contactCta.heading}
             </h2>
             <p className="text-wcn-text/90 text-lg mb-8">
-              Have questions or want to learn more about What Comes Next? Reach out through our social channels or send us an email at <a href="mailto:coach@whatcomesnextllc.ai" className="text-wcn-accent1 hover:text-wcn-accent2 transition-colors">coach@whatcomesnextllc.ai</a>
+              {contactCta.content.split('coach@whatcomesnextllc.ai').map((part, i, arr) => (
+                i === arr.length - 1 
+                  ? part 
+                  : <React.Fragment key={i}>
+                      {part}
+                      <a href="mailto:coach@whatcomesnextllc.ai" className="text-wcn-accent1 hover:text-wcn-accent2 transition-colors">
+                        coach@whatcomesnextllc.ai
+                      </a>
+                    </React.Fragment>
+              ))}
             </p>
             
             {/* Social Media Icons */}
             <div className="flex justify-center space-x-6">
-              {socialMedia.map((social, i) => (
+              {contactCta.socialMedia.map((social, i) => (
                 <a
                   key={i}
                   href={social.url}

@@ -88,6 +88,37 @@ export const deckContent = {
             "Invited speaker and lecturer on Generative AI, behavioral change, and resilience"
           ]
         }
+      },
+      contactCta: {
+        heading: "Connect With Us",
+        content: "Have questions or want to learn more about What Comes Next? Reach out through our social channels or send us an email at coach@whatcomesnextllc.ai",
+        socialMedia: [
+          {
+            name: "Instagram",
+            url: "https://www.instagram.com/whatcomesnextllc/",
+            icon: "instagram"
+          },
+          {
+            name: "Threads",
+            url: "https://www.threads.net/@jasonrashaad",
+            icon: "threads"
+          },
+          {
+            name: "LinkedIn",
+            url: "https://www.linkedin.com/company/whatcomesnextllc",
+            icon: "linkedin"
+          },
+          {
+            name: "Facebook",
+            url: "https://www.facebook.com/whatcomesnextllc",
+            icon: "facebook"
+          },
+          {
+            name: "GitHub",
+            url: "https://github.com/what-comes-next-llc",
+            icon: "github"
+          }
+        ]
       }
     },
     hero: {
