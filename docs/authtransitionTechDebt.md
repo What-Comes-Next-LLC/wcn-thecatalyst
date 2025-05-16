@@ -8,6 +8,7 @@ This document tracks technical debt related to the transition from Airtable to S
 - ✅ `user_profiles` table is created and in use
 - ✅ Admin approval flow is updated to use Supabase
 - ✅ Onboarding flow is updated to use Supabase
+- ✅ Supabase storage integration for file uploads is implemented
 
 ## Technical Debt Items
 
@@ -380,3 +381,69 @@ The authentication system now relies on:
    - Complete admin tool separation
    - Consider implementing more granular permissions within roles
    - Evaluate adding additional authentication methods (OAuth, SSO)
+
+## Supabase Storage Integration (June 15, 2024)
+
+We have successfully implemented Supabase Storage integration for file uploads with the following achievements:
+
+1. ✅ **Storage Infrastructure**:
+   - Created a secure `logs` storage bucket in Supabase
+   - Implemented Row Level Security (RLS) policies to ensure users can only access their own files
+   - Set up a file structure that organizes uploads by user ID
+
+2. ✅ **Upload Functionality**:
+   - Updated `/api/log/route.ts` to upload files to Supabase storage
+   - Implemented proper error handling and validation
+   - Added support for file metadata and tracking
+
+3. ✅ **User Interface**:
+   - Enhanced the upload form with progress indicators and better error handling
+   - Added a "Recent Uploads" section to the `/log` page
+   - Implemented file type icons and improved UX for viewing uploaded files
+
+4. ✅ **Database Integration**:
+   - Created an `uploads` table to track user uploads
+   - Set up RLS policies to secure the uploads table
+   - Added database indexes for performance optimization
+
+### Storage Structure
+
+The implemented storage solution follows this structure:
+```
+logs/
+└── user_uploads/
+    └── {user_id}/
+        ├── {timestamp}_{filename}
+        └── ...
+```
+
+### Security Considerations
+
+The storage implementation includes the following security measures:
+- RLS policies that restrict access to user-specific folders
+- File size limits (10MB maximum)
+- File type restrictions (only images and PDFs)
+- Secure URL generation for accessing files
+- Database record tracking for all uploads
+
+### Documentation
+
+Complete storage setup documentation is available at `docs/supabase-storage-setup.md`, including:
+- Setup instructions for Supabase storage
+- SQL scripts for creating storage buckets and RLS policies
+- Troubleshooting tips
+- Security considerations
+
+### Outstanding Storage Tasks
+
+1. **Cleanup Process**:
+   - Implement a process to clean up storage when uploads are deleted
+   - Consider setting up a Supabase Edge Function for this purpose
+
+2. **Image Processing**:
+   - Add thumbnail generation for image uploads
+   - Consider implementing image compression for large photos
+
+3. **Admin Interface**:
+   - Create an admin interface for viewing all user uploads
+   - Add moderation capabilities for inappropriate content

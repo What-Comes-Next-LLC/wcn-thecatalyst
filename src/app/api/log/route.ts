@@ -4,17 +4,45 @@ import { supabase } from '@/lib/supabaseClient';
 
 // Storage abstraction layer
 async function storeFile(file: File, userId: string) {
-  // TODO: Replace with Supabase storage
-  // For now, just return metadata
-  return {
-    url: null, // Will be populated with Supabase URL
-    path: `uploads/${userId}/${file.name}`,
-    metadata: {
-      name: file.name,
-      type: file.type,
-      size: file.size
-    }
-  };
+  try {
+    // Convert File to buffer for Supabase storage
+    const buffer = Buffer.from(await file.arrayBuffer());
+    
+    // Define path within storage
+    const folderPath = `user_uploads/${userId}`;
+    const fileName = `${Date.now()}_${file.name}`;
+    const filePath = `${folderPath}/${fileName}`;
+    
+    // Upload to Supabase storage
+    const { data, error } = await supabase
+      .storage
+      .from('logs') // Bucket name - must be created in Supabase dashboard
+      .upload(filePath, buffer, {
+        contentType: file.type,
+        upsert: false
+      });
+      
+    if (error) throw error;
+    
+    // Get public URL for the file
+    const { data: publicUrlData } = supabase
+      .storage
+      .from('logs')
+      .getPublicUrl(filePath);
+      
+    return {
+      url: publicUrlData.publicUrl,
+      path: filePath,
+      metadata: {
+        name: file.name,
+        type: file.type,
+        size: file.size
+      }
+    };
+  } catch (error) {
+    console.error('Error storing file:', error);
+    throw error;
+  }
 }
 
 // Create upload record in Supabase
@@ -52,46 +80,81 @@ async function createUpload(data: {
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
-    const token = formData.get('token');
     const file = formData.get('file') as File;
-    const type = formData.get('type');
-    const notes = formData.get('notes');
-    const userId = formData.get('userId');
+    const type = formData.get('type') as string;
+    const notes = formData.get('notes') as string || '';
+    const userId = formData.get('userId') as string;
 
-    // Validate token
-    const userData = await validateToken(token as string);
-    if (!userData) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    // Validate file
-    if (!file || !type) {
+    // Validate inputs
+    if (!file || !type || !userId) {
       return NextResponse.json(
-        { error: 'File and type are required' },
+        { error: 'Missing required fields: file, type, userId' },
         { status: 400 }
       );
     }
 
+    // Validate file size (10MB limit)
+    if (file.size > 10 * 1024 * 1024) {
+      return NextResponse.json(
+        { error: 'File size exceeds 10MB limit' },
+        { status: 400 }
+      );
+    }
+
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+    if (!allowedTypes.includes(file.type)) {
+      return NextResponse.json(
+        { error: 'Invalid file type. Allowed types: JPG, PNG, PDF' },
+        { status: 400 }
+      );
+    }
+
+    // Check if user exists and is active
+    const { data: userData, error: userError } = await supabase
+      .from('spark_users')
+      .select('status')
+      .eq('id', userId)
+      .single();
+
+    if (userError || !userData) {
+      return NextResponse.json(
+        { error: 'User not found' },
+        { status: 404 }
+      );
+    }
+
+    if (userData.status !== 'active') {
+      return NextResponse.json(
+        { error: 'User account is not active' },
+        { status: 403 }
+      );
+    }
+
     // Store file and get metadata
-    const fileData = await storeFile(file, userId as string);
+    const fileData = await storeFile(file, userId);
 
     // Create upload record
     const upload = await createUpload({
-      userId: userId as string,
-      type: type as string,
-      notes: notes as string,
+      userId,
+      type,
+      notes,
       fileName: file.name,
       fileType: file.type,
       fileSize: file.size,
-      fileUrl: fileData.url, // Will be null for now, populated with Supabase URL later
-      filePath: fileData.path // Store the path for future reference
+      fileUrl: fileData.url,
+      filePath: fileData.path
     });
 
-    return NextResponse.json({ success: true, upload });
+    return NextResponse.json({ 
+      success: true, 
+      upload,
+      message: 'File uploaded successfully' 
+    });
   } catch (error) {
     console.error('Upload error:', error);
     return NextResponse.json(
-      { error: 'Server error' },
+      { error: error instanceof Error ? error.message : 'Server error' },
       { status: 500 }
     );
   }

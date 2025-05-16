@@ -4,9 +4,67 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { SignOutButton } from '@/components/SignOutButton';
 import SectionWrapper from '@/components/SectionWrapper';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabaseClient';
 // import logoImage from '/images/logo-official.png'; // Update path if needed
 
+interface Upload {
+  id: string;
+  type: string;
+  file_name: string;
+  file_url: string;
+  created_at: string;
+  notes?: string;
+  file_type: string;
+  file_size: number;
+}
+
 export function LogPageContent({ userId }: { userId?: string }) {
+  const [recentUploads, setRecentUploads] = useState<Upload[]>([]);
+  const [isLoadingUploads, setIsLoadingUploads] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  // Fetch recent uploads when userId changes
+  useEffect(() => {
+    async function fetchUploads() {
+      if (!userId) return;
+      
+      setIsLoadingUploads(true);
+      setUploadError(null);
+
+      try {
+        const { data, error } = await supabase
+          .from('uploads')
+          .select('*')
+          .eq('user_id', userId)
+          .order('created_at', { ascending: false })
+          .limit(5);
+
+        if (error) throw error;
+        setRecentUploads(data || []);
+      } catch (err) {
+        console.error('Error fetching uploads:', err);
+        setUploadError('Failed to load your recent uploads');
+      } finally {
+        setIsLoadingUploads(false);
+      }
+    }
+
+    fetchUploads();
+  }, [userId]);
+
+  // Format date to a more readable format
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
   // If no userId, show unauthenticated state
   if (!userId) {
     return (
@@ -72,6 +130,76 @@ export function LogPageContent({ userId }: { userId?: string }) {
         <section className="rounded-2xl bg-wcn-card backdrop-blur-wcn-card p-8 shadow-lg border-2 border-wcn-card hover:border-wcn-card-hover transition-all">
           <h2 className="text-2xl font-semibold text-wcn-text mb-4">Upload Your Progress</h2>
           <UploadForm userId={userId} />
+        </section>
+
+        {/* Recent Uploads Section */}
+        <section className="rounded-2xl bg-wcn-card backdrop-blur-wcn-card p-8 shadow-lg border-2 border-wcn-card hover:border-wcn-card-hover transition-all">
+          <h2 className="text-2xl font-semibold text-wcn-text mb-4">Your Recent Uploads</h2>
+          
+          {isLoadingUploads && (
+            <div className="flex justify-center my-8">
+              <div className="animate-pulse flex space-x-2">
+                <div className="w-2 h-2 bg-wcn-accent1 rounded-full"></div>
+                <div className="w-2 h-2 bg-wcn-accent1 rounded-full"></div>
+                <div className="w-2 h-2 bg-wcn-accent1 rounded-full"></div>
+              </div>
+            </div>
+          )}
+          
+          {uploadError && (
+            <p className="text-red-400 text-sm p-3 bg-red-900/20 rounded-lg border border-red-400/30">{uploadError}</p>
+          )}
+          
+          {!isLoadingUploads && !uploadError && recentUploads.length === 0 && (
+            <p className="text-wcn-text/70 text-center py-6">No uploads yet. Upload your first file above!</p>
+          )}
+          
+          {!isLoadingUploads && recentUploads.length > 0 && (
+            <div className="space-y-4">
+              {recentUploads.map((upload) => (
+                <div 
+                  key={upload.id} 
+                  className="p-4 rounded-lg border border-wcn-card-hover bg-wcn-dark/20 hover:bg-wcn-dark/40 transition-colors"
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h3 className="font-medium text-wcn-text">
+                        {upload.type === 'food-log' ? '🍽️ Food Log' : 
+                         upload.type === 'progress-photo' ? '📸 Progress Photo' : 
+                         upload.type === 'measurement' ? '📏 Measurements' : 
+                         upload.type}
+                      </h3>
+                      <p className="text-sm text-wcn-text/60">
+                        {formatDate(upload.created_at)}
+                      </p>
+                    </div>
+                    {upload.file_url && (
+                      <a 
+                        href={upload.file_url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-wcn-accent2 hover:text-wcn-accent1 transition-colors text-sm"
+                      >
+                        View
+                      </a>
+                    )}
+                  </div>
+                  
+                  <div className="flex items-center text-sm text-wcn-text/70">
+                    <span className="mr-2">
+                      {upload.file_type.includes('image') ? '🖼️' : 
+                       upload.file_type.includes('pdf') ? '📄' : '📁'}
+                    </span>
+                    <span className="truncate">{upload.file_name}</span>
+                  </div>
+                  
+                  {upload.notes && (
+                    <p className="mt-2 text-sm text-wcn-text/80 italic">{upload.notes}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </section>
       </div>
     </SectionWrapper>
