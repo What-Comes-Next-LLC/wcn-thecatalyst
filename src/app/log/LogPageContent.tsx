@@ -6,6 +6,7 @@ import { SignOutButton } from '@/components/SignOutButton';
 import SectionWrapper from '@/components/SectionWrapper';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
+import { LockClosedIcon } from '@heroicons/react/24/solid';
 // import logoImage from '/images/logo-official.png'; // Update path if needed
 
 interface Upload {
@@ -23,6 +24,7 @@ export function LogPageContent({ userId }: { userId?: string }) {
   const [recentUploads, setRecentUploads] = useState<Upload[]>([]);
   const [isLoadingUploads, setIsLoadingUploads] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [showUploads, setShowUploads] = useState(true);
 
   // Fetch recent uploads when userId changes
   useEffect(() => {
@@ -63,6 +65,11 @@ export function LogPageContent({ userId }: { userId?: string }) {
       hour: '2-digit',
       minute: '2-digit'
     });
+  };
+
+  // Toggle the visibility of the recent uploads section
+  const toggleUploads = () => {
+    setShowUploads(!showUploads);
   };
 
   // If no userId, show unauthenticated state
@@ -118,89 +125,120 @@ export function LogPageContent({ userId }: { userId?: string }) {
           />
         </div>
       </div>
+      
       {/* Upload Content */}
-      <div className="relative max-w-2xl mx-auto px-4 py-16 space-y-8 z-10">
-        <div className="flex justify-end mb-4">
+      <div className="relative max-w-2xl mx-auto px-4 py-10 space-y-8 z-10">
+        <div className="flex justify-between items-center">
+          <h1 className="text-3xl font-bold text-wcn-text">The Spark</h1>
           <SignOutButton />
         </div>
-        <header className="text-center space-y-2">
-          <h1 className="text-4xl font-bold text-wcn-text">Welcome back, {userName}!</h1>
-          <p className="text-xl text-wcn-text/80 italic">{randomMotivationalText}</p>
-        </header>
+        
+        {/* Welcome Message */}
+        <div className="text-center mb-2">
+          <p className="text-lg text-wcn-text/80 italic">{randomMotivationalText}</p>
+        </div>
+        
+        {/* Main Upload Section - Now Prioritized */}
         <section className="rounded-2xl bg-wcn-card backdrop-blur-wcn-card p-8 shadow-lg border-2 border-wcn-card hover:border-wcn-card-hover transition-all">
-          <h2 className="text-2xl font-semibold text-wcn-text mb-4">Upload Your Progress</h2>
+          <div className="flex justify-between items-start mb-4">
+            <h2 className="text-2xl font-semibold text-wcn-text">Capture Your Progress</h2>
+            <div className="flex items-center text-xs text-wcn-text/60">
+              <LockClosedIcon className="h-3 w-3 mr-1" />
+              <span>Privacy Protected</span>
+            </div>
+          </div>
+          
+          <p className="text-wcn-text/80 mb-6">
+            Upload a photo or log to track your journey. Your data stays private and secure.
+          </p>
+          
           <UploadForm userId={userId} />
         </section>
 
-        {/* Recent Uploads Section */}
+        {/* Recent Uploads Section - Now Collapsible */}
         <section className="rounded-2xl bg-wcn-card backdrop-blur-wcn-card p-8 shadow-lg border-2 border-wcn-card hover:border-wcn-card-hover transition-all">
-          <h2 className="text-2xl font-semibold text-wcn-text mb-4">Your Recent Uploads</h2>
+          <div className="flex justify-between items-center mb-4 cursor-pointer" onClick={toggleUploads}>
+            <h2 className="text-xl font-semibold text-wcn-text">Your Recent Uploads</h2>
+            <button className="text-wcn-accent2 text-sm">
+              {showUploads ? 'Hide' : 'Show'}
+            </button>
+          </div>
           
-          {isLoadingUploads && (
-            <div className="flex justify-center my-8">
-              <div className="animate-pulse flex space-x-2">
-                <div className="w-2 h-2 bg-wcn-accent1 rounded-full"></div>
-                <div className="w-2 h-2 bg-wcn-accent1 rounded-full"></div>
-                <div className="w-2 h-2 bg-wcn-accent1 rounded-full"></div>
-              </div>
-            </div>
-          )}
-          
-          {uploadError && (
-            <p className="text-red-400 text-sm p-3 bg-red-900/20 rounded-lg border border-red-400/30">{uploadError}</p>
-          )}
-          
-          {!isLoadingUploads && !uploadError && recentUploads.length === 0 && (
-            <p className="text-wcn-text/70 text-center py-6">No uploads yet. Upload your first file above!</p>
-          )}
-          
-          {!isLoadingUploads && recentUploads.length > 0 && (
-            <div className="space-y-4">
-              {recentUploads.map((upload) => (
-                <div 
-                  key={upload.id} 
-                  className="p-4 rounded-lg border border-wcn-card-hover bg-wcn-dark/20 hover:bg-wcn-dark/40 transition-colors"
-                >
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <h3 className="font-medium text-wcn-text">
-                        {upload.type === 'food-log' ? '🍽️ Food Log' : 
-                         upload.type === 'progress-photo' ? '📸 Progress Photo' : 
-                         upload.type === 'measurement' ? '📏 Measurements' : 
-                         upload.type}
-                      </h3>
-                      <p className="text-sm text-wcn-text/60">
-                        {formatDate(upload.created_at)}
-                      </p>
-                    </div>
-                    {upload.file_url && (
-                      <a 
-                        href={upload.file_url} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-wcn-accent2 hover:text-wcn-accent1 transition-colors text-sm"
-                      >
-                        View
-                      </a>
-                    )}
+          {showUploads && (
+            <>
+              {isLoadingUploads && (
+                <div className="flex justify-center my-8">
+                  <div className="animate-pulse flex space-x-2">
+                    <div className="w-2 h-2 bg-wcn-accent1 rounded-full"></div>
+                    <div className="w-2 h-2 bg-wcn-accent1 rounded-full"></div>
+                    <div className="w-2 h-2 bg-wcn-accent1 rounded-full"></div>
                   </div>
-                  
-                  <div className="flex items-center text-sm text-wcn-text/70">
-                    <span className="mr-2">
-                      {upload.file_type.includes('image') ? '🖼️' : 
-                       upload.file_type.includes('pdf') ? '📄' : '📁'}
-                    </span>
-                    <span className="truncate">{upload.file_name}</span>
-                  </div>
-                  
-                  {upload.notes && (
-                    <p className="mt-2 text-sm text-wcn-text/80 italic">{upload.notes}</p>
-                  )}
                 </div>
-              ))}
-            </div>
+              )}
+              
+              {uploadError && (
+                <p className="text-red-400 text-sm p-3 bg-red-900/20 rounded-lg border border-red-400/30">{uploadError}</p>
+              )}
+              
+              {!isLoadingUploads && !uploadError && recentUploads.length === 0 && (
+                <p className="text-wcn-text/70 text-center py-6">No uploads yet. Capture your first Spark moment!</p>
+              )}
+              
+              {!isLoadingUploads && recentUploads.length > 0 && (
+                <div className="space-y-4">
+                  {recentUploads.map((upload) => (
+                    <div 
+                      key={upload.id} 
+                      className="p-4 rounded-lg border border-wcn-card-hover bg-wcn-dark/20 hover:bg-wcn-dark/40 transition-colors"
+                    >
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <h3 className="font-medium text-wcn-text">
+                            {upload.type === 'food-log' ? '🍽️ Food Log' : 
+                             upload.type === 'progress-photo' ? '📸 Progress Photo' : 
+                             upload.type === 'measurement' ? '📏 Measurements' : 
+                             upload.type}
+                          </h3>
+                          <p className="text-sm text-wcn-text/60">
+                            {formatDate(upload.created_at)}
+                          </p>
+                        </div>
+                        {upload.file_url && (
+                          <a 
+                            href={upload.file_url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-wcn-accent2 hover:text-wcn-accent1 transition-colors text-sm"
+                          >
+                            View
+                          </a>
+                        )}
+                      </div>
+                      
+                      <div className="flex items-center text-sm text-wcn-text/70">
+                        <span className="mr-2">
+                          {upload.file_type.includes('image') ? '🖼️' : 
+                           upload.file_type.includes('pdf') ? '📄' : '📁'}
+                        </span>
+                        <span className="truncate">{upload.file_name}</span>
+                      </div>
+                      
+                      {upload.notes && (
+                        <p className="mt-2 text-sm text-wcn-text/80 italic">{upload.notes}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </>
           )}
         </section>
+        
+        {/* Privacy Reminder */}
+        <div className="text-center text-xs text-wcn-text/60 pt-2 flex items-center justify-center">
+          <LockClosedIcon className="h-3 w-3 mr-1" />
+          <span>Your uploads are processed on our secure servers, not in the cloud.</span>
+        </div>
       </div>
     </SectionWrapper>
   );

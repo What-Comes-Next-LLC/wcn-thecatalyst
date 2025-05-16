@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { CloudArrowUpIcon } from '@heroicons/react/24/outline';
 
 export function UploadForm({ userId }: { userId: string }) {
   const router = useRouter();
@@ -9,6 +10,7 @@ export function UploadForm({ userId }: { userId: string }) {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
+  const [selectedType, setSelectedType] = useState('food-log');
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -42,10 +44,11 @@ export function UploadForm({ userId }: { userId: string }) {
         throw new Error(errorData.error || 'Upload failed');
       }
 
-      setSuccess('File uploaded successfully!');
+      setSuccess('Spark captured successfully!');
       
       // Clear form
       e.currentTarget.reset();
+      setSelectedType('food-log');
 
       // Refresh the page to show new upload
       setTimeout(() => {
@@ -58,46 +61,73 @@ export function UploadForm({ userId }: { userId: string }) {
     }
   }
 
+  // Handle file type selection
+  const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedType(e.target.value);
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="space-y-2">
-        <label className="block text-sm font-medium text-wcn-text">
-          Upload Type
-        </label>
-        <select 
-          name="type"
-          className="w-full rounded-lg border-2 border-wcn-card bg-white/5 text-wcn-text placeholder-wcn-text/50 focus:border-wcn-accent1 focus:ring-2 focus:ring-wcn-accent1/50 focus:outline-none transition-all duration-200"
-          required
+      {/* Upload Type Selection - Simplified UI */}
+      <div className="grid grid-cols-3 gap-2 mb-4">
+        <button
+          type="button"
+          onClick={() => setSelectedType('food-log')}
+          className={`py-2 px-3 rounded-lg text-center transition-colors ${
+            selectedType === 'food-log' 
+              ? 'bg-wcn-accent1 text-wcn-text font-medium' 
+              : 'bg-white/5 text-wcn-text/70 hover:bg-white/10'
+          }`}
         >
-          <option value="food-log">Food Log</option>
-          <option value="progress-photo">Progress Photo</option>
-          <option value="measurement">Measurements</option>
-        </select>
+          🍽️ Food
+        </button>
+        <button
+          type="button"
+          onClick={() => setSelectedType('progress-photo')}
+          className={`py-2 px-3 rounded-lg text-center transition-colors ${
+            selectedType === 'progress-photo' 
+              ? 'bg-wcn-accent1 text-wcn-text font-medium' 
+              : 'bg-white/5 text-wcn-text/70 hover:bg-white/10'
+          }`}
+        >
+          📸 Photo
+        </button>
+        <button
+          type="button"
+          onClick={() => setSelectedType('measurement')}
+          className={`py-2 px-3 rounded-lg text-center transition-colors ${
+            selectedType === 'measurement' 
+              ? 'bg-wcn-accent1 text-wcn-text font-medium' 
+              : 'bg-white/5 text-wcn-text/70 hover:bg-white/10'
+          }`}
+        >
+          📏 Measure
+        </button>
       </div>
+      
+      {/* Hidden type field that gets the selected value */}
+      <input type="hidden" name="type" value={selectedType} />
 
-      <div className="space-y-2">
-        <label className="block text-sm font-medium text-wcn-text">
-          File Upload
+      {/* File Upload - More Prominent */}
+      <div className="rounded-lg border-2 border-dashed border-wcn-card hover:border-wcn-accent2/50 transition-colors p-4 text-center">
+        <label className="block cursor-pointer">
+          <CloudArrowUpIcon className="h-8 w-8 mx-auto mb-2 text-wcn-text/50" />
+          <span className="block text-wcn-text mb-2">
+            {selectedType === 'food-log' ? 'Upload your food diary or photo' :
+             selectedType === 'progress-photo' ? 'Upload a progress photo' :
+             'Upload your measurements'}
+          </span>
+          <input 
+            type="file" 
+            name="file"
+            className="hidden"
+            accept=".jpg,.jpeg,.png,.pdf"
+            required
+          />
+          <span className="inline-block py-2 px-4 bg-wcn-accent2/20 hover:bg-wcn-accent2/30 rounded-lg text-wcn-text/90 transition-colors">
+            Select File
+          </span>
         </label>
-        <input 
-          type="file" 
-          name="file"
-          className="w-full rounded-lg border-2 border-wcn-card bg-white/5 text-wcn-text file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-wcn-text file:bg-wcn-accent1/20 file:hover:bg-wcn-accent1/30 file:transition-colors file:cursor-pointer"
-          accept=".jpg,.jpeg,.png,.pdf"
-          required
-        />
-      </div>
-
-      <div className="space-y-2">
-        <label className="block text-sm font-medium text-wcn-text">
-          Notes (Optional)
-        </label>
-        <textarea 
-          name="notes"
-          className="w-full rounded-lg border-2 border-wcn-card bg-white/5 text-wcn-text placeholder-wcn-text/50 focus:border-wcn-accent1 focus:ring-2 focus:ring-wcn-accent1/50 focus:outline-none transition-all duration-200"
-          rows={3}
-          placeholder="Add any details about this upload..."
-        />
       </div>
 
       {uploadProgress !== null && isUploading && (
@@ -120,9 +150,19 @@ export function UploadForm({ userId }: { userId: string }) {
       <button
         type="submit"
         disabled={isUploading}
-        className="w-full bg-wcn-accent1 text-wcn-text py-3 px-6 rounded-lg font-medium shadow-lg hover:bg-wcn-accent1/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+        className="w-full bg-wcn-accent1 text-wcn-text py-3 px-6 rounded-lg font-medium shadow-lg hover:bg-wcn-accent1/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center"
       >
-        {isUploading ? 'Uploading...' : 'Submit'}
+        {isUploading ? (
+          <>
+            <span className="animate-pulse mr-2">⚡</span>
+            <span>Capturing...</span>
+          </>
+        ) : (
+          <>
+            <span className="mr-2">⚡</span>
+            <span>Capture Spark Moment</span>
+          </>
+        )}
       </button>
     </form>
   );
