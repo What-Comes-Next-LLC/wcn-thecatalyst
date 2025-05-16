@@ -32,6 +32,23 @@ export default {
         'wcn-card': 'rgba(220, 225, 222, 0.2)',
         'wcn-card-hover': 'rgba(220, 225, 222, 0.4)',
       },
+      animation: {
+        'shimmer': 'shimmer 2s infinite linear',
+        'pulse-subtle': 'pulse-subtle 3s infinite ease-in-out',
+      },
+      keyframes: {
+        shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+        'pulse-subtle': {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.02)' },
+        },
+      },
+      scale: {
+        '102': '1.02',
+      },
     },
   },
   plugins: [],
