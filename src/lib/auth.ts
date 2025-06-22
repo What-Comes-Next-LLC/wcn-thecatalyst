@@ -114,4 +114,48 @@ export async function getCurrentUser() {
     console.error('Get current user error:', error);
     return { user: null, profile: null };
   }
+}
+
+/**
+ * Send magic link for new user signup
+ */
+export async function sendMagicLinkSignup(email: string, userData: { name: string; goal: string; notes?: string }) {
+  try {
+    const { data, error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        data: {
+          role: 'lead',
+          name: userData.name,
+          goal: userData.goal,
+          notes: userData.notes
+        }
+      }
+    });
+    
+    return { data, error };
+  } catch (error) {
+    console.error('Magic link signup error:', error);
+    return { data: null, error: error instanceof Error ? error : new Error('Unknown error occurred') };
+  }
+}
+
+/**
+ * Send magic link for returning user signin
+ */
+export async function sendMagicLinkSignin(email: string) {
+  try {
+    const { data, error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`
+      }
+    });
+    
+    return { data, error };
+  } catch (error) {
+    console.error('Magic link signin error:', error);
+    return { data: null, error: error instanceof Error ? error : new Error('Unknown error occurred') };
+  }
 } 

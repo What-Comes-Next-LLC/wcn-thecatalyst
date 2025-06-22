@@ -22,8 +22,8 @@ export const deckContent = {
       navigation: {
         onboard: {
           heading: "The Spark",
-          description: "Take your first step towards transformation with our guided onboarding process.",
-          link: "/onboard"
+          description: "Express your interest in personal transformation with our simple intake process.",
+          link: "/the-spark"
         },
         promo: {
           heading: "Discover Our Vision",

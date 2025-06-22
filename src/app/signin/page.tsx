@@ -1,16 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { supabase } from '../../lib/supabaseClient';
-import { uploadContent } from '@/content/uploadContent';
+import { sendMagicLinkSignin } from '@/lib/auth';
+import { siteContent } from '@/content/siteContent';
 
 export default function SignInPage() {
-  const router = useRouter();
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -20,24 +17,17 @@ export default function SignInPage() {
     setError(null);
     setLoading(true);
     setSuccess(false);
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    
+    const { error } = await sendMagicLinkSignin(email);
+    
     if (error) {
-      setError(uploadContent.signin.errorInvalid);
+      setError(error.message || 'Failed to send magic link. Please try again.');
       setLoading(false);
       return;
     }
     
-    // Check user role from user metadata
-    const userRole = data.user.user_metadata?.role;
-    
     setSuccess(true);
-    setTimeout(() => {
-      if (userRole === 'coach') {
-        router.replace('/admin');
-      } else {
-        router.replace('/log');
-      }
-    }, 1000);
+    setLoading(false);
   };
 
   return (
@@ -57,47 +47,51 @@ export default function SignInPage() {
       </div>
       <div className="relative z-10 w-full max-w-md mx-auto bg-black/30 backdrop-blur-lg rounded-2xl p-8 border-2 border-wcn-mid/20">
         <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-wcn-text via-wcn-accent2 to-wcn-accent1 bg-clip-text text-transparent text-center">
-          {uploadContent.signin.title}
+          {siteContent.signin.title}
         </h1>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="email" className="block text-wcn-gray text-sm font-medium mb-1">
-              {uploadContent.signin.emailLabel}
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              className="w-full p-3 border-2 border-wcn-gray rounded-lg bg-white/5 text-white placeholder-gray-400 focus:border-wcn-mid focus:ring-2 focus:ring-wcn-mid/50 focus:outline-none transition-all duration-200"
-              placeholder="you@example.com"
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="password" className="block text-wcn-gray text-sm font-medium mb-1">
-              {uploadContent.signin.passwordLabel}
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="w-full p-3 border-2 border-wcn-gray rounded-lg bg-white/5 text-white placeholder-gray-400 focus:border-wcn-mid focus:ring-2 focus:ring-wcn-mid/50 focus:outline-none transition-all duration-200"
-              placeholder="••••••••"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full bg-wcn-mid hover:bg-wcn-dark text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-wcn-mid/20 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+        <p className="text-center text-wcn-text/80 mb-6">
+          {siteContent.signin.subtitle}
+        </p>
+        {success ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            className="bg-wcn-accent2/20 border border-wcn-accent2/50 rounded-lg p-6 text-center"
           >
-            {loading ? 'Signing in...' : uploadContent.signin.buttonText}
-          </button>
-          {error && <p className="text-red-400 text-sm mt-2 text-center">{error}</p>}
-          {success && <p className="text-wcn-accent2 text-center mt-2">{uploadContent.signin.welcomeBack}</p>}
-        </form>
+            <h2 className="text-2xl font-bold text-wcn-accent2 mb-2">
+              {siteContent.signin.confirmation.title}
+            </h2>
+            <p className="text-white">
+              {siteContent.signin.confirmation.message}
+            </p>
+          </motion.div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="email" className="block text-wcn-gray text-sm font-medium mb-1">
+                {siteContent.signin.form.emailLabel}
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="w-full p-3 border-2 border-wcn-gray rounded-lg bg-white/5 text-white placeholder-gray-400 focus:border-wcn-mid focus:ring-2 focus:ring-wcn-mid/50 focus:outline-none transition-all duration-200"
+                placeholder={siteContent.signin.form.emailPlaceholder}
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className={`w-full bg-wcn-mid hover:bg-wcn-dark text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-wcn-mid/20 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              {loading ? siteContent.signin.form.submittingText : siteContent.signin.form.submitButton}
+            </button>
+            {error && <p className="text-red-400 text-sm mt-2 text-center">{error}</p>}
+          </form>
+        )}
       </div>
     </div>
   );

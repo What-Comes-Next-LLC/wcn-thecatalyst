@@ -72,8 +72,8 @@ export const uploadContent = {
     loading: 'Loading your log...'
   },
   theSpark: {
-    title: 'Welcome Back to The Spark',
-    subtitle: 'Your journey continues here. Sign in to access your log and keep building momentum.',
+    title: 'Sign In to Your Log',
+    subtitle: 'Access your progress log and continue building momentum.',
     instructions: 'Returning users, please sign in below to access your progress log.',
     buttonText: 'Sign In to Your Log',
     alreadySignedIn: 'You are already signed in! Redirecting to your log...'

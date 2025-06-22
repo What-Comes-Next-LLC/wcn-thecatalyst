@@ -17,39 +17,10 @@ export const onboardSchema = z.object({
     .max(500, 'Goal description is too long')
     .transform(val => val.trim()),
 
-  age: z.number()
-    .int('Age must be a whole number')
-    .min(13, 'Must be at least 13 years old')
-    .max(120, 'Please enter a valid age')
-    .optional(),
-
-  height: z.number()
-    .int('Height must be a whole number')
-    .min(48, 'Height must be at least 48 inches (4 feet)')
-    .max(96, 'Height must be less than 96 inches (8 feet)')
-    .optional(),
-
-  weight: z.number()
-    .int('Weight must be a whole number')
-    .min(50, 'Weight must be at least 50 lbs')
-    .max(1000, 'Please enter a valid weight')
-    .optional(),
-
   notes: z.string()
     .max(1000, 'Notes are too long')
     .optional()
     .transform(val => val ? val.trim() : undefined),
-
-  password: z.string()
-    .min(8, 'Password must be at least 8 characters')
-    .max(100, 'Password must be less than 100 characters'),
-
-  confirmPassword: z.string()
-    .min(8, 'Password must be at least 8 characters')
-    .max(100, 'Password must be less than 100 characters'),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: 'Passwords do not match',
-  path: ['confirmPassword'],
 });
 
 // Infer the TypeScript type from the schema
@@ -59,9 +30,6 @@ export type OnboardFormData = z.infer<typeof onboardSchema>;
 export type ValidatedOnboardData = {
   name: string;
   email: string;
-  age?: number;
-  height?: number;
-  weight?: number;
   goal: string;
   notes?: string;
   submittedAt: string; // ISO date string
