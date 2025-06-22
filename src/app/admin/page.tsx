@@ -171,7 +171,7 @@ export default function AdminDashboard() {
     }
 
     if (leads.length === 0) {
-      return <div className="text-center text-wcn-text/60 py-12">No new leads available.</div>;
+      return <div className="text-center text-muted py-12">No new leads available.</div>;
     }
 
     return (
@@ -181,30 +181,30 @@ export default function AdminDashboard() {
             key={lead.id}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="p-6 bg-black/30 backdrop-blur-lg rounded-lg border border-wcn-mid/20 hover:border-wcn-mid/40 transition-colors shadow-lg"
+            className="card-interactive p-6"
           >
             <div className="flex justify-between items-start">
               <div className="flex-grow">
-                <h2 className="text-xl font-semibold text-wcn-text">{lead.name}</h2>
-                <p className="text-wcn-text/80">{lead.email}</p>
+                <h2 className="text-xl font-semibold text-heading">{lead.name}</h2>
+                <p className="text-body">{lead.email}</p>
                 <div className="mt-4">
-                  <h3 className="text-sm font-medium text-wcn-gray">Goal:</h3>
-                  <p className="text-wcn-text/90">{lead.goal}</p>
+                  <h3 className="text-sm font-medium text-muted">Goal:</h3>
+                  <p className="text-body">{lead.goal}</p>
                 </div>
                 {lead.notes && (
                   <div className="mt-2">
-                    <h3 className="text-sm font-medium text-wcn-gray">Notes:</h3>
-                    <p className="text-wcn-text/90">{lead.notes}</p>
+                    <h3 className="text-sm font-medium text-muted">Notes:</h3>
+                    <p className="text-body">{lead.notes}</p>
                   </div>
                 )}
-                <p className="text-xs text-wcn-gray mt-4">
+                <p className="text-xs text-muted mt-4">
                   Created: {new Date(lead.created_at).toLocaleDateString()}
                 </p>
               </div>
               <div className="ml-4">
                 <motion.button
                   onClick={() => handleConvertToClient(lead)}
-                  className="px-4 py-2 rounded-lg bg-wcn-accent1 text-wcn-text font-medium shadow-lg hover:bg-wcn-accent1/90 transition-all duration-200"
+                  className="btn-primary"
                   whileTap={{ scale: 0.95 }}
                 >
                   Create Client
@@ -228,7 +228,7 @@ export default function AdminDashboard() {
     }
 
     if (clients.length === 0) {
-      return <div className="text-center text-wcn-text/60 py-12">No active clients found.</div>;
+      return <div className="text-center text-muted py-12">No active clients found.</div>;
     }
 
     return (
@@ -238,45 +238,45 @@ export default function AdminDashboard() {
             key={client.id}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="p-6 bg-black/30 backdrop-blur-lg rounded-lg border border-wcn-mid/20 hover:border-wcn-mid/40 transition-colors shadow-lg"
+            className="card-interactive p-6"
           >
             <div className="flex justify-between">
-              <h2 className="text-xl font-semibold text-wcn-text">{client.name}</h2>
-              <span className="text-sm px-3 py-1 bg-green-500/20 text-green-400 rounded-full">
+              <h2 className="text-xl font-semibold text-heading">{client.name}</h2>
+              <span className="text-sm px-3 py-1 bg-wcn-accent1/20 text-wcn-primary rounded-full">
                 Active
               </span>
             </div>
             
-            <p className="text-wcn-text/80 mb-4">{client.email}</p>
+            <p className="text-body mb-4">{client.email}</p>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
               <div>
-                <h3 className="text-sm font-medium text-wcn-gray">Age:</h3>
-                <p className="text-wcn-text">{client.age || 'Not specified'}</p>
+                <h3 className="text-sm font-medium text-muted">Age:</h3>
+                <p className="text-body">{client.age || 'Not specified'}</p>
               </div>
               <div>
-                <h3 className="text-sm font-medium text-wcn-gray">Height:</h3>
-                <p className="text-wcn-text">{client.height ? `${client.height} inches` : 'Not specified'}</p>
+                <h3 className="text-sm font-medium text-muted">Height:</h3>
+                <p className="text-body">{client.height ? `${client.height} inches` : 'Not specified'}</p>
               </div>
               <div>
-                <h3 className="text-sm font-medium text-wcn-gray">Weight:</h3>
-                <p className="text-wcn-text">{client.weight ? `${client.weight} lbs` : 'Not specified'}</p>
+                <h3 className="text-sm font-medium text-muted">Weight:</h3>
+                <p className="text-body">{client.weight ? `${client.weight} lbs` : 'Not specified'}</p>
               </div>
             </div>
             
             <div className="mt-4">
-              <h3 className="text-sm font-medium text-wcn-gray">Goal:</h3>
-              <p className="text-wcn-text/90">{client.goal}</p>
+              <h3 className="text-sm font-medium text-muted">Goal:</h3>
+              <p className="text-body">{client.goal}</p>
             </div>
             
             {client.notes && (
               <div className="mt-2">
-                <h3 className="text-sm font-medium text-wcn-gray">Notes:</h3>
-                <p className="text-wcn-text/90">{client.notes}</p>
+                <h3 className="text-sm font-medium text-muted">Notes:</h3>
+                <p className="text-body">{client.notes}</p>
               </div>
             )}
             
-            <p className="text-xs text-wcn-gray mt-4">
+            <p className="text-xs text-muted mt-4">
               Created: {new Date(client.created_at).toLocaleDateString()}
             </p>
           </motion.div>
@@ -287,7 +287,7 @@ export default function AdminDashboard() {
 
   // Render communication view (placeholder for now)
   const renderCommunication = () => (
-    <div className="text-center text-wcn-text py-12">
+    <div className="text-center text-body py-12">
       Communication features coming soon...
     </div>
   );
@@ -297,9 +297,9 @@ export default function AdminDashboard() {
     if (!isAuthorized) {
       return (
         <div className="flex flex-col items-center justify-center py-12 text-center">
-          <p className="text-red-400 text-xl mb-4">You are not authorized to access this area.</p>
-          <p className="text-wcn-text/80">This dashboard is only available to coach accounts.</p>
-          <Link href="/" className="mt-6 px-4 py-2 bg-wcn-accent2 text-white rounded-lg">
+          <p className="text-red-500 text-xl mb-4">You are not authorized to access this area.</p>
+          <p className="text-body">This dashboard is only available to coach accounts.</p>
+          <Link href="/" className="btn-primary mt-6">
             Return Home
           </Link>
         </div>
@@ -329,37 +329,19 @@ export default function AdminDashboard() {
   };
 
   return (
-    <SectionWrapper 
-      bgColor="bg-gradient-to-b from-wcn-primary via-wcn-dark to-black" 
-      textColor="text-white"
-      className="min-h-screen relative overflow-hidden"
-    >
-      {/* Watermark Logo */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="relative w-full h-full opacity-10 mix-blend-overlay">
-          <Image
-            src="/images/logo.png"
-            alt="Company Logo"
-            fill
-            style={{ objectFit: 'contain' }}
-            priority
-          />
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="relative max-w-4xl mx-auto px-4 py-12 z-20">
+    <div className="min-h-screen bg-slate-50">
+      <div className="container-wide py-12">
         <div className="flex justify-end mb-4">
           <SignOutButton />
         </div>
         {/* Hero Text */}
         <div className="text-center mb-12">
           <Link href="/" className="inline-block">
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-wcn-text via-wcn-accent2 to-wcn-accent1 bg-clip-text text-transparent hover:opacity-80 transition-opacity">
+            <h1 className="text-5xl font-bold text-heading hover:text-wcn-primary transition-colors duration-200">
               Admin Dashboard
             </h1>
           </Link>
-          <p className="text-xl text-wcn-text/80 mt-4">
+          <p className="text-xl text-body mt-4">
             Manage leads, clients, and communications
           </p>
         </div>
@@ -370,6 +352,6 @@ export default function AdminDashboard() {
         {/* Content Area */}
         {renderContent()}
       </div>
-    </SectionWrapper>
+    </div>
   );
 } 

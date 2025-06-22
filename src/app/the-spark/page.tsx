@@ -88,42 +88,28 @@ export default function TheSparkPage() {
   };
 
   // Styling constants
-  const inputStyles = "w-full p-3 border-2 border-wcn-accent1 rounded-lg bg-white/5 text-white placeholder-gray-400 focus:border-wcn-accent2 focus:ring-2 focus:ring-wcn-accent2/50 focus:outline-none transition-all duration-200";
-  const labelStyles = "block text-wcn-gray text-sm font-medium mb-1";
-  const errorStyles = "text-red-400 text-sm mt-1";
+  const inputStyles = "input";
+  const labelStyles = "block text-heading text-base font-semibold mb-2";
+  const errorStyles = "text-red-500 text-sm mt-2";
   
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-wcn-accent1 via-wcn-primary to-wcn-accent2 flex flex-col items-center justify-center p-4">
-        <div className="text-white text-xl font-semibold">Loading...</div>
+      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">
+        <div className="text-heading text-xl font-semibold">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-wcn-accent1 via-wcn-primary to-wcn-accent2 flex flex-col items-center justify-center p-4">
-      {/* Watermark Logo */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-wcn-primary/10"></div>
-        <div className="absolute inset-0 w-full h-full rotate-12 scale-125">
-          <Image
-            src="/images/logo.png"
-            alt="Company Logo"
-            fill
-            className="object-contain opacity-[0.08] mix-blend-soft-light"
-            priority
-          />
-        </div>
-      </div>
-      
-      <div className="relative z-10 w-full max-w-md mx-auto bg-black/40 backdrop-blur-lg rounded-2xl p-8 border-2 border-wcn-accent1/30">
+    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">
+      <div className="card-elevated w-full max-w-lg mx-auto p-10">
         {/* Header */}
-        <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-wcn-accent2 via-wcn-text to-wcn-accent1 bg-clip-text text-transparent">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-heading">
             {siteContent.intake.title}
           </h1>
-          <p className="text-lg text-wcn-text/80">
+          <p className="text-lg md:text-xl text-body leading-relaxed">
             {siteContent.intake.subtitle}
           </p>
         </div>
@@ -134,12 +120,12 @@ export default function TheSparkPage() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="bg-wcn-accent2/20 border border-wcn-accent2/50 rounded-lg p-6 mb-6"
+            className="bg-wcn-accent1/10 border border-wcn-accent1 rounded-card p-6 mb-6"
           >
-            <h2 className="text-2xl font-bold text-wcn-accent2 mb-2">
+            <h2 className="text-2xl font-bold text-wcn-primary mb-2">
               {siteContent.intake.confirmation.title}
             </h2>
-            <p className="text-white">
+            <p className="text-body">
               {siteContent.intake.confirmation.message}
             </p>
           </motion.div>
@@ -147,7 +133,7 @@ export default function TheSparkPage() {
         
         {/* Intake Form */}
         {!submitted && (
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
               <label htmlFor="name" className={labelStyles}>{siteContent.intake.form.fields.name.label}</label>
               <input
@@ -197,13 +183,13 @@ export default function TheSparkPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full bg-wcn-accent2 hover:bg-wcn-accent1 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-wcn-accent2/20 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`btn-primary w-full py-4 text-lg ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               {isSubmitting ? siteContent.intake.form.submittingText : siteContent.intake.form.submitButton}
             </button>
             
             {onboardError && (
-              <div className="bg-red-500/20 border border-red-500 text-red-200 p-4 rounded-lg mt-4">
+              <div className="bg-red-50 border border-red-200 text-red-800 p-4 rounded-card mt-4">
                 <p>{onboardError}</p>
               </div>
             )}
@@ -213,11 +199,11 @@ export default function TheSparkPage() {
         {/* Link to sign in for returning users */}
         {!submitted && (
           <div className="mt-6 text-center">
-            <p className="text-wcn-text/80">
+            <p className="text-muted">
               {siteContent.intake.returningUser.text}
               <a
                 href="/signin"
-                className="ml-2 text-wcn-accent2 hover:text-wcn-accent1 font-medium transition-colors"
+                className="ml-2 text-wcn-primary hover:text-wcn-accent1 font-medium transition-colors duration-200"
               >
                 {siteContent.intake.returningUser.linkText}
               </a>

@@ -19,7 +19,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <SectionWrapper bgColor="bg-gradient-to-b from-black via-[#1c1c1c] to-gray-900" textColor="text-white" className="relative">
+    <div className="min-h-screen bg-slate-900 text-white relative flex items-center justify-center">
       <AnimatePresence>
         {showTeaser && video && (
           <motion.div
@@ -41,13 +41,13 @@ export default function Hero() {
       </AnimatePresence>
 
       <motion.div 
-        className="max-w-5xl mx-auto z-10 relative"
+        className="container-wide z-10 relative text-center"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: showTeaser ? 0 : 1, y: showTeaser ? 20 : 0 }}
         transition={{ delay: 0.5, duration: 0.8 }}
       >
-        <h1 className="text-5xl md:text-6xl font-bold mb-6">{title}</h1>
-        <p className="text-xl md:text-2xl leading-relaxed">{subtitle}</p>
+        <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white">{title}</h1>
+        <p className="text-xl md:text-2xl leading-relaxed text-slate-200">{subtitle}</p>
       </motion.div>
 
       {/* Scroll trigger button - only down arrow for Hero section */}
@@ -56,6 +56,6 @@ export default function Hero() {
         direction="down" 
         className="z-30"
       />
-    </SectionWrapper>
+    </div>
   );
 }
