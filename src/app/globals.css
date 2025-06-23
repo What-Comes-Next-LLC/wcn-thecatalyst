@@ -46,6 +46,71 @@
   }
 }
 
+/* Homepage Animation System - CSS-only replacements for Framer Motion */
+@layer components {
+  /* Keyframe definitions */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Base animation classes */
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0; /* Start invisible, animation will show */
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+    opacity: 0;
+  }
+  
+  /* Stagger delays using CSS custom properties */
+  .animate-stagger {
+    animation-delay: var(--stagger-delay, 0s);
+  }
+  
+  /* Stagger delay variations */
+  .stagger-1 { --stagger-delay: 0.2s; }
+  .stagger-2 { --stagger-delay: 0.4s; }
+  .stagger-3 { --stagger-delay: 0.6s; }
+  .stagger-4 { --stagger-delay: 0.8s; }
+  .stagger-5 { --stagger-delay: 1.0s; }
+  
+  /* Card hover animations - enhanced existing Tailwind utilities */
+  .card-interactive {
+    transition: all 0.2s ease-out;
+  }
+  
+  .card-interactive:hover {
+    transform: translateY(-2px);
+  }
+  
+  /* Group hover effects for step indicators */
+  .step-indicator {
+    transition: all 0.2s ease-out;
+  }
+  
+  .group:hover .step-indicator {
+    transform: scale(1.05);
+  }
+}
+
 /* Legacy support utilities - will be removed in future cleanup */
 @layer utilities {
   .perspective { 

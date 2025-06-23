@@ -1,164 +1,230 @@
-'use client';
-
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { getHomepageContent } from '@/lib/homepageContent';
 import { siteContent } from '@/content/siteContent';
+import { UserIcon, CogIcon, DocumentTextIcon, ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
 
-export default function HomePage() {
-  const { homepage } = siteContent;
+export default async function HomePage() {
+  const content = await getHomepageContent();
+
+  const testimonials = [
+    {
+      text: "I didn't expect a PDF to change my habits. It did.",
+      author: "Sarah K."
+    },
+    {
+      text: "Jason didn't waste my time. He gave me a map and held me to it.",
+      author: "Marcus J."
+    },
+    {
+      text: "The Spark was weirdly addictive. Logging made me actually pay attention.",
+      author: "David R."
+    }
+  ];
+
+  const stepIcons = [UserIcon, CogIcon, DocumentTextIcon, ArrowsPointingOutIcon];
 
   return (
-    <main className="min-h-screen bg-slate-50">
+    <main className="min-h-screen bg-wcn-gradient from-wcn-primary to-wcn-accent1 relative overflow-hidden">
+      {/* Watermark Logo */}
+      <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
+        <div className="absolute inset-0 bg-wcn-primary/5"></div>
+        <div className="absolute inset-0 w-full h-full">
+          <Image
+            src="/images/logo-official.png"
+            alt="What Comes Next Logo"
+            fill
+            className="object-contain opacity-[0.15] mix-blend-overlay"
+            priority
+          />
+        </div>
+      </div>
+
       {/* Hero Section */}
-      <section className="relative py-24">
+      <section className="relative py-20 md:py-32">
         <div className="container-wide text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight text-heading">
-              {homepage.hero.title}
+          <div className="animate-fade-in-up max-w-4xl mx-auto">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-heading">
+              {content.hero.title}
             </h1>
-            <p className="text-xl md:text-3xl mb-10 text-body font-medium leading-relaxed">
-              {homepage.hero.subtitle}
-            </p>
-            <p className="text-lg md:text-xl mb-12 text-muted max-w-3xl mx-auto leading-relaxed">
-              {homepage.hero.description}
+            <p className="text-xl md:text-2xl mb-8 text-body font-medium leading-relaxed">
+              {content.hero.subhead}
             </p>
             <Link
-              href="/the-spark"
-              className="btn-primary text-xl px-8 py-4"
+              href={content.hero.cta_link}
+              className="btn-primary text-lg px-8 py-4"
             >
-              {homepage.finalCta.buttonText}
+              {content.hero.cta_text}
             </Link>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* How It Works */}
-      <section className="py-24 bg-white">
+      <section className="py-16 md:py-20 bg-wcn-text/80 backdrop-blur-sm">
         <div className="container-wide">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-heading">
-            {homepage.howItWorks.title}
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-heading">
+            How It Works
           </h2>
-          <div className="grid md:grid-cols-3 gap-12">
-            {homepage.howItWorks.steps.map((step, index) => (
-              <motion.div
-                key={step.step}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                className="text-center group"
-              >
-                <div className="w-20 h-20 rounded-full bg-wcn-primary text-white font-bold text-2xl flex items-center justify-center mx-auto mb-6 shadow-button group-hover:shadow-button-hover transition-all duration-200">
-                  {step.step}
+          <div className="grid md:grid-cols-4 gap-6 md:gap-8 max-w-5xl mx-auto">
+            {content.howItWorks.map((step, index) => {
+              const IconComponent = stepIcons[index];
+              return (
+                <div
+                  key={step.title}
+                  className={`text-center group animate-fade-in-up animate-stagger stagger-${index + 1}`}
+                >
+                  <div className="w-16 h-16 rounded-full bg-wcn-primary text-white flex items-center justify-center mx-auto mb-6 shadow-button step-indicator">
+                    <IconComponent className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-4 text-heading">{step.subhead}</h3>
+                  <p className="text-body leading-relaxed">{step.body}</p>
                 </div>
-                <h3 className="text-2xl font-semibold mb-4 text-heading">{step.title}</h3>
-                <p className="text-body text-lg leading-relaxed">{step.description}</p>
-              </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* Pricing */}
-      <section className="py-24 bg-slate-50">
+      <section className="py-16 md:py-20 bg-wcn-primary/30 backdrop-blur-sm">
         <div className="container-wide">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-heading">{homepage.pricing.title}</h2>
-            <p className="text-xl md:text-2xl text-body leading-relaxed">{homepage.pricing.subtitle}</p>
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-heading">Offerings</h2>
+            <p className="text-lg md:text-xl text-body leading-relaxed">Start with The Spark, then decide how deep you want to go.</p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
-            {homepage.pricing.tiers.map((tier, index) => (
-              <motion.div
-                key={tier.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className={`group relative ${
-                  tier.primary 
-                    ? 'transform lg:scale-110 z-10' 
-                    : ''
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {/* All pricing tiers in unified layout */}
+            {content.pricing.slice(0, 3).map((tier, index) => (
+              <div
+                key={tier.title}
+                className={`group relative animate-fade-in-up animate-stagger stagger-${index + 1} ${
+                  index === 1 ? 'transform md:scale-105 z-10' : ''
                 }`}
               >
-                <div className={`card-interactive p-8 h-full flex flex-col ${
-                  tier.primary 
-                    ? 'border-wcn-primary bg-wcn-primary/5' 
-                    : ''
+                <div className={`card-interactive p-6 h-full flex flex-col bg-wcn-text/90 border-2 border-wcn-card shadow-lg hover:shadow-xl hover:scale-102 transition-all duration-300 ${
+                  index === 1 ? 'border-wcn-primary' : 'hover:border-wcn-card-hover'
                 }`}>
-                  {tier.primary && (
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                      <span className="bg-wcn-primary text-white px-6 py-2 rounded-full text-sm font-semibold shadow-button">
+                  {index === 1 && (
+                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                      <span className="bg-wcn-primary text-white px-4 py-1 rounded-full text-sm font-semibold shadow-button">
                         Most Popular
                       </span>
                     </div>
                   )}
                   
                   <div className="text-center flex-grow">
-                    <h3 className="text-3xl font-bold mb-4 text-heading">{tier.name}</h3>
-                    <div className="text-5xl font-bold text-wcn-primary mb-4">
-                      {tier.price}
+                    <h3 className="text-xl font-bold mb-3 text-heading">{tier.title}</h3>
+                    <div className="text-3xl font-bold text-wcn-primary mb-3">
+                      {tier.body}
                     </div>
-                    <p className="text-body mb-8 text-lg leading-relaxed">{tier.description}</p>
-                    
-                    <ul className="space-y-4 mb-10 text-left">
-                      {tier.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-start">
-                          <span className="text-wcn-accent1 mr-3 text-xl font-bold">✓</span>
-                          <span className="text-body">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <p className="text-body mb-6 leading-relaxed text-sm italic">{tier.subhead}</p>
                   </div>
                   
                   <Link
-                    href="/the-spark"
-                    className={tier.primary ? 'btn-primary w-full text-center py-4' : 'btn-secondary w-full text-center py-4'}
+                    href={tier.cta_link}
+                    className={`w-full text-center py-4 text-base font-semibold rounded-lg transition-all duration-300 hover:scale-102 hover:shadow-button ${
+                      index === 1 
+                        ? 'btn-primary' 
+                        : 'btn-secondary'
+                    }`}
                   >
-                    {tier.cta}
+                    {tier.cta_text}
                   </Link>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Social Proof */}
-      <section className="py-24 bg-white">
+      {/* About Section */}
+      <section className="py-16 md:py-20 bg-wcn-accent2/70 backdrop-blur-sm">
         <div className="container-wide">
-          <div className="grid md:grid-cols-3 gap-10">
-            {homepage.testimonials.map((testimonial, index) => (
-              <motion.div
+          <div className="max-w-4xl mx-auto">
+            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12 animate-fade-in-up">
+              <div className="flex-shrink-0">
+                <img
+                  src={content.about.image_url}
+                  alt="Jason"
+                  className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover shadow-card"
+                />
+              </div>
+              <div className="text-center md:text-left">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-heading">
+                  {content.about.title}
+                </h2>
+                <p className="text-lg md:text-xl mb-4 text-body font-medium">
+                  {content.about.subhead}
+                </p>
+                <p className="text-base md:text-lg text-body leading-relaxed">
+                  {content.about.body}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Proof Section */}
+      <section className="py-16 md:py-20 bg-wcn-accent1/35 backdrop-blur-sm">
+        <div className="container-wide">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-heading">
+            {content.proof.title}
+          </h2>
+          
+          {/* Testimonials */}
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-12 max-w-5xl mx-auto">
+            {testimonials.map((testimonial, index) => (
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                className="card-interactive p-8"
+                className={`card-interactive p-8 animate-fade-in-up animate-stagger stagger-${index + 1}`}
               >
                 <div className="text-center">
                   <p className="text-body text-lg italic mb-6 leading-relaxed">"{testimonial.text}"</p>
                   <p className="text-wcn-primary font-semibold text-lg">— {testimonial.author}</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
+          </div>
+          
+          {/* Placeholder Images */}
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="card p-8 text-center animate-fade-in-up animate-stagger stagger-4">
+              <div className="w-full h-64 bg-slate-200 rounded-lg mb-4 flex items-center justify-center">
+                <span className="text-slate-500 text-lg">Spark UI Screenshot</span>
+              </div>
+              <p className="text-body">The Spark interface - simple logging that works</p>
+            </div>
+            
+            <div className="card p-8 text-center animate-fade-in-up animate-stagger stagger-5">
+              <div className="w-full h-64 bg-slate-200 rounded-lg mb-4 flex items-center justify-center">
+                <span className="text-slate-500 text-lg">DITL Sample</span>
+              </div>
+              <p className="text-body">Sample Day in the Life plan output</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Final CTA */}
-      <section className="py-24 bg-slate-50">
+      <section className="py-20 md:py-24 bg-wcn-text/75 backdrop-blur-sm">
         <div className="container-narrow text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-heading">{homepage.finalCta.title}</h2>
-          <p className="text-xl md:text-2xl text-body mb-12 leading-relaxed">{homepage.finalCta.subtitle}</p>
-          <Link
-            href="/the-spark"
-            className="btn-primary text-2xl px-12 py-6"
-          >
-            {homepage.finalCta.buttonText}
-          </Link>
+          <div className="animate-fade-in-up">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-heading">
+              {content.finalCta.title}
+            </h2>
+            <p className="text-lg md:text-2xl text-body mb-8 leading-relaxed">
+              {content.finalCta.subhead}
+            </p>
+            <Link
+              href={content.finalCta.cta_link}
+              className="btn-primary text-lg px-10 py-4"
+            >
+              {content.finalCta.cta_text}
+            </Link>
+          </div>
         </div>
       </section>
 
