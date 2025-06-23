@@ -16,8 +16,56 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "The Catalyst | AI-Powered Coaching Platform for Personal Trainers and Men Over 40",
-  description: "The Catalyst is a privacy-first coaching platform built to empower certified personal trainers and men over 40 with AI-assisted tools for fitness, nutrition, and long-term habit change. Developed by What Comes Next? LLC, The Catalyst combines adaptive planning, client tracking, and real-time insights without sacrificing data privacy.",
+  metadataBase: new URL('https://whatcomesnextllc.ai'),
+  title: "What Comes Next - The Only Way Out Is Through",
+  description: "Start logging. Get a plan. Choose your path. Join our privacy-first coaching platform that empowers real trainers with AI tools for lasting habit change.",
+  keywords: ["coaching", "fitness", "nutrition", "habits", "personal trainer", "AI coaching", "habit tracking"],
+  authors: [{ name: "What Comes Next, LLC" }],
+  creator: "What Comes Next, LLC",
+  publisher: "What Comes Next, LLC",
+  
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    siteName: 'What Comes Next',
+    title: 'What Comes Next - The Only Way Out Is Through',
+    description: 'Start logging. Get a plan. Choose your path. Privacy-first coaching platform empowering real trainers.',
+    url: 'https://whatcomesnextllc.ai',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'What Comes Next - The Only Way Out Is Through',
+        type: 'image/png',
+      }
+    ],
+  },
+  
+  twitter: {
+    card: 'summary_large_image',
+    site: '@whatcomesnextllc',
+    creator: '@whatcomesnextllc', 
+    title: 'What Comes Next - The Only Way Out Is Through',
+    description: 'Start logging. Get a plan. Choose your path.',
+    images: ['/og-image.png'],
+  },
+  
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  
+  verification: {
+    google: 'google-site-verification-code', // Add your Google Search Console verification code
+  },
 };
 
 export default function RootLayout({

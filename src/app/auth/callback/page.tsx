@@ -40,11 +40,23 @@ function AuthCallbackContent() {
             console.error('Verification error:', error);
           } else {
             setStatus('success');
-            setMessage('Your email has been verified! You can now sign in.');
+            setMessage('Your email has been verified!');
             
-            // Redirect after a delay
+            // Get user data to determine redirect destination
+            const { data: { user } } = await supabase.auth.getUser();
+            const userRole = user?.user_metadata?.role;
+            
+            // Redirect based on user role
             setTimeout(() => {
-              router.push('/signin');
+              if (userRole === 'coach') {
+                router.push('/admin');
+              } else if (userRole === 'client') {
+                router.push('/log');
+              } else if (userRole === 'lead') {
+                router.push('/pending');
+              } else {
+                router.push('/signin');
+              }
             }, 3000);
           }
         } else {
