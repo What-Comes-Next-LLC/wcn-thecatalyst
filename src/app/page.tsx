@@ -229,21 +229,21 @@ export default async function HomePage() {
       </section>
 
       {/* Simple Footer */}
-      <footer className="border-t border-slate-200 py-12 bg-white">
+      <footer className="border-t border-black/20 py-12 bg-black/70 backdrop-blur-sm">
         <div className="container-wide">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
-              <p className="text-body">{siteContent.footer.tagline}</p>
-              <p className="text-muted text-sm">{siteContent.footer.company}</p>
+              <p className="text-white">{siteContent.footer.tagline}</p>
+              <p className="text-white/70 text-sm">{siteContent.footer.company}</p>
             </div>
             <div className="flex space-x-6">
-              <Link href="/about" className="text-muted hover:text-wcn-primary transition-colors duration-200">
+              <Link href="/about" className="text-white/80 hover:text-wcn-accent2 transition-colors duration-200">
                 {siteContent.navigation.about}
               </Link>
-              <Link href="/foundersletter" className="text-muted hover:text-wcn-primary transition-colors duration-200">
+              <Link href="/foundersletter" className="text-white/80 hover:text-wcn-accent2 transition-colors duration-200">
                 {siteContent.navigation.founderLetter}
               </Link>
-              <Link href="/signin" className="text-muted hover:text-wcn-primary transition-colors duration-200">
+              <Link href="/signin" className="text-white/80 hover:text-wcn-accent2 transition-colors duration-200">
                 {siteContent.navigation.signin}
               </Link>
             </div>
