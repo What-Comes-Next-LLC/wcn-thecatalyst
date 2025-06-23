@@ -44,10 +44,10 @@ export default async function HomePage() {
       <section className="relative py-20 md:py-32">
         <div className="container-wide text-center">
           <div className="animate-fade-in-up max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-heading">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-wcn-text">
               {content.hero.title}
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-body font-medium leading-relaxed">
+            <p className="text-xl md:text-2xl mb-8 text-wcn-text font-medium leading-relaxed">
               {content.hero.subhead}
             </p>
             <Link
@@ -61,9 +61,9 @@ export default async function HomePage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-16 md:py-20 bg-wcn-text/80 backdrop-blur-sm">
+      <section className="py-16 md:py-20 bg-wcn-accent1/35 backdrop-blur-sm">
         <div className="container-wide">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-heading">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-wcn-text">
             How It Works
           </h2>
           <div className="grid md:grid-cols-4 gap-6 md:gap-8 max-w-5xl mx-auto">
@@ -77,8 +77,8 @@ export default async function HomePage() {
                   <div className="w-16 h-16 rounded-full bg-wcn-primary text-white flex items-center justify-center mx-auto mb-6 shadow-button step-indicator">
                     <IconComponent className="w-8 h-8" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-4 text-heading">{step.subhead}</h3>
-                  <p className="text-body leading-relaxed">{step.body}</p>
+                  <h3 className="text-xl font-semibold mb-4 text-wcn-text">{step.subhead}</h3>
+                  <p className="text-wcn-text leading-relaxed">{step.body}</p>
                 </div>
               );
             })}
@@ -90,8 +90,8 @@ export default async function HomePage() {
       <section className="py-16 md:py-20 bg-wcn-primary/30 backdrop-blur-sm">
         <div className="container-wide">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-heading">Offerings</h2>
-            <p className="text-lg md:text-xl text-body leading-relaxed">Start with The Spark, then decide how deep you want to go.</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-wcn-text">Offerings</h2>
+            <p className="text-lg md:text-xl text-wcn-text leading-relaxed">Start with The Spark, then decide how deep you want to go.</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -103,7 +103,7 @@ export default async function HomePage() {
                   index === 1 ? 'transform md:scale-105 z-10' : ''
                 }`}
               >
-                <div className={`card-interactive p-6 h-full flex flex-col bg-wcn-text/90 border-2 border-wcn-card shadow-lg hover:shadow-xl hover:scale-102 transition-all duration-300 ${
+                <div className={`card-interactive p-6 h-full flex flex-col bg-wcn-primary/80 border-2 border-wcn-card shadow-lg hover:shadow-xl hover:scale-102 transition-all duration-300 ${
                   index === 1 ? 'border-wcn-primary' : 'hover:border-wcn-card-hover'
                 }`}>
                   {index === 1 && (
@@ -115,11 +115,11 @@ export default async function HomePage() {
                   )}
                   
                   <div className="text-center flex-grow">
-                    <h3 className="text-xl font-bold mb-3 text-heading">{tier.title}</h3>
+                    <h3 className="text-xl font-bold mb-3 text-wcn-text">{tier.title}</h3>
                     <div className="text-3xl font-bold text-wcn-primary mb-3">
                       {tier.body}
                     </div>
-                    <p className="text-body mb-6 leading-relaxed text-sm italic">{tier.subhead}</p>
+                    <p className="text-wcn-text mb-6 leading-relaxed text-sm italic">{tier.subhead}</p>
                   </div>
                   
                   <Link
@@ -152,13 +152,13 @@ export default async function HomePage() {
                 />
               </div>
               <div className="text-center md:text-left">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-heading">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-wcn-text">
                   {content.about.title}
                 </h2>
-                <p className="text-lg md:text-xl mb-4 text-body font-medium">
+                <p className="text-lg md:text-xl mb-4 text-wcn-text font-medium">
                   {content.about.subhead}
                 </p>
-                <p className="text-base md:text-lg text-body leading-relaxed">
+                <p className="text-base md:text-lg text-wcn-text leading-relaxed">
                   {content.about.body}
                 </p>
               </div>
@@ -170,7 +170,7 @@ export default async function HomePage() {
       {/* Proof Section */}
       <section className="py-16 md:py-20 bg-wcn-accent1/35 backdrop-blur-sm">
         <div className="container-wide">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-heading">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-wcn-text">
             {content.proof.title}
           </h2>
           
@@ -182,7 +182,7 @@ export default async function HomePage() {
                 className={`card-interactive p-8 animate-fade-in-up animate-stagger stagger-${index + 1}`}
               >
                 <div className="text-center">
-                  <p className="text-body text-lg italic mb-6 leading-relaxed">"{testimonial.text}"</p>
+                  <p className="text-wcn-text text-lg italic mb-6 leading-relaxed">"{testimonial.text}"</p>
                   <p className="text-wcn-primary font-semibold text-lg">— {testimonial.author}</p>
                 </div>
               </div>
@@ -195,27 +195,27 @@ export default async function HomePage() {
               <div className="w-full h-64 bg-slate-200 rounded-lg mb-4 flex items-center justify-center">
                 <span className="text-slate-500 text-lg">Spark UI Screenshot</span>
               </div>
-              <p className="text-body">The Spark interface - simple logging that works</p>
+              <p className="text-wcn-text">The Spark interface - simple logging that works</p>
             </div>
             
             <div className="card p-8 text-center animate-fade-in-up animate-stagger stagger-5">
               <div className="w-full h-64 bg-slate-200 rounded-lg mb-4 flex items-center justify-center">
                 <span className="text-slate-500 text-lg">DITL Sample</span>
               </div>
-              <p className="text-body">Sample Day in the Life plan output</p>
+              <p className="text-wcn-text">Sample Day in the Life plan output</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 md:py-24 bg-wcn-text/75 backdrop-blur-sm">
+      <section className="py-20 md:py-24 backdrop-blur-sm">
         <div className="container-narrow text-center">
           <div className="animate-fade-in-up">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-heading">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-wcn-text">
               {content.finalCta.title}
             </h2>
-            <p className="text-lg md:text-2xl text-body mb-8 leading-relaxed">
+            <p className="text-lg md:text-2xl text-wcn-text mb-8 leading-relaxed">
               {content.finalCta.subhead}
             </p>
             <Link
