@@ -103,12 +103,12 @@ export default async function HomePage() {
                   index === 1 ? 'transform md:scale-105 z-10' : ''
                 }`}
               >
-                <div className={`card-interactive p-6 h-full flex flex-col bg-wcn-primary/80 border-2 border-wcn-card shadow-lg hover:shadow-xl hover:scale-102 transition-all duration-300 ${
+                <div className={`card-interactive p-8 h-full flex flex-col bg-wcn-primary/80 border-4 border-wcn-card rounded-2xl shadow-2xl hover:shadow-3xl hover:scale-102 hover:-translate-y-2 transition-all duration-500 ${
                   index === 1 ? 'border-wcn-primary' : 'hover:border-wcn-card-hover'
                 }`}>
                   {index === 1 && (
-                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                      <span className="bg-wcn-primary text-white px-4 py-1 rounded-full text-sm font-semibold shadow-button">
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                      <span className="bg-gradient-to-r from-wcn-accent2 to-wcn-accent1 text-wcn-primary px-6 py-2 rounded-full text-base font-bold shadow-xl border-2 border-wcn-primary">
                         Most Popular
                       </span>
                     </div>
@@ -116,18 +116,18 @@ export default async function HomePage() {
                   
                   <div className="text-center flex-grow">
                     <h3 className="text-xl font-bold mb-3 text-wcn-text">{tier.title}</h3>
-                    <div className="text-3xl font-bold text-wcn-primary mb-3">
-                      {tier.body}
+                    <div className="text-4xl md:text-5xl font-bold text-wcn-accent2 mb-4 bg-wcn-accent2/10 rounded-xl py-2">
+                      {tier.subhead}
                     </div>
-                    <p className="text-wcn-text mb-6 leading-relaxed text-sm italic">{tier.subhead}</p>
+                    <p className="text-wcn-text mb-6 leading-relaxed text-base opacity-90">{tier.body}</p>
                   </div>
                   
                   <Link
                     href={tier.cta_link}
-                    className={`w-full text-center py-4 text-base font-semibold rounded-lg transition-all duration-300 hover:scale-102 hover:shadow-button ${
+                    className={`w-full text-center py-5 px-8 text-lg font-bold rounded-xl transition-all duration-500 hover:scale-105 hover:shadow-xl active:scale-95 shadow-lg border-2 border-transparent hover:border-wcn-accent2 ${
                       index === 1 
-                        ? 'btn-primary' 
-                        : 'btn-secondary'
+                        ? 'btn-primary bg-gradient-to-r from-wcn-primary to-wcn-accent1' 
+                        : 'btn-secondary bg-gradient-to-r from-wcn-accent1 to-wcn-accent2'
                     }`}
                   >
                     {tier.cta_text}
