@@ -1,8 +1,8 @@
 # Final Authentication Architecture Documentation
 
-**Date:** 2025-06-23  
+**Date:** 2025-06-24  
 **Status:** ✅ Complete and Production Ready  
-**Last Updated:** Homepage Redesign Implementation  
+**Last Updated:** Authentication System Troubleshooting & Enhancement  
 
 ## Overview
 
@@ -16,8 +16,9 @@ The authentication system uses **Supabase Auth** as the primary identity provide
 
 1. **User Metadata Authority**: `user_metadata.role` is the authoritative source for user roles
 2. **Database as Profile Storage**: `spark_users` table stores extended profile information only
-3. **Magic Link Authentication**: Passwordless authentication for better security and UX
+3. **Dual Authentication**: Magic link for customers, password option for coaches
 4. **Role-Based Routing**: Automatic routing based on user role after authentication
+5. **Header-Based API Auth**: Secure token-based authentication for server-side operations
 
 ## User Roles and States
 
@@ -106,13 +107,26 @@ graph TD
 
 ### 5. Returning User Signin (`/signin`)
 
-**Process:**
+**Process (Enhanced with Dual Authentication):**
 1. User enters email address
-2. `sendMagicLinkSignin()` sends verification email
-3. User clicks link → `/auth/callback` → role-based routing
+2. **Coach Email Detection:** If email matches coach patterns, shows password option
+3. **Authentication Method Selection:**
+   - **Magic Link:** `sendMagicLinkSignin()` → email verification → role-based routing
+   - **Password:** `signInWithPassword()` → immediate role-based routing
 4. Client users land on `/log`, coaches on `/admin`
 
 **Files:** `src/app/signin/page.tsx`
+
+### 6. Coach Password Setup (`/admin/setup`)
+
+**Process:**
+1. Coach accesses setup page (role verification required)
+2. Enter and confirm new password
+3. `setupUserPassword()` configures password authentication
+4. Redirect to admin dashboard
+5. Skip option available to continue with magic link only
+
+**Files:** `src/app/admin/setup/page.tsx`
 
 ## Database Schema
 
@@ -177,21 +191,38 @@ if (userRole === 'coach') {
 |-------|--------|---------------|
 | `/log` | `client` only | `coach` → `/admin`, `lead` → pending state |
 | `/admin` | `coach` only | Non-coach → unauthorized |
+| `/admin/setup` | `coach` only | Password setup for coaches |
 | `/pending` | `lead` only | `client` → `/log`, `coach` → `/admin` |
 
 ## API Security
 
-### Role Verification
+### Role Verification (Enhanced with Header Authentication)
 
-Admin API routes verify coach access:
+Admin API routes now use header-based authentication:
 
 ```typescript
-// Example from /api/admin/approve/route.ts
-const { data: { user } } = await supabase.auth.getUser();
-const isCoach = user?.user_metadata?.role === 'coach';
-
-if (!isCoach) {
-  return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+// Enhanced pattern from /api/admin/entries/route.ts
+export async function GET(req: Request) {
+  // Extract auth token from request headers
+  const authHeader = req.headers.get('Authorization');
+  const token = authHeader?.replace('Bearer ', '');
+  
+  if (!token) {
+    return NextResponse.json({ error: 'No authorization token provided' }, { status: 401 });
+  }
+  
+  // Verify token and get user
+  const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+  
+  if (authError || !user) {
+    return NextResponse.json({ error: 'Invalid or expired token' }, { status: 401 });
+  }
+  
+  // Check coach role
+  const isCoach = user.user_metadata?.role === 'coach';
+  if (!isCoach) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
 }
 ```
 
@@ -345,8 +376,9 @@ Monitor these key events:
 
 **Admin access denied:**
 - Verify user has `role: 'coach'` in metadata
-- Check `hasCoachAccess()` function
-- Confirm API route permissions
+- Check Authorization header is being sent with valid token
+- Confirm API route receives and processes Bearer token correctly
+- Test with browser network tab for 401/403 responses
 
 ### Support Commands
 
@@ -373,14 +405,16 @@ The finalized authentication architecture provides:
 
 ✅ **Clean Role Management**: Single source of truth via user metadata  
 ✅ **Complete User Journeys**: From signup through approval to active use  
-✅ **Secure Access Control**: JWT-based permissions with database backup  
+✅ **Dual Authentication**: Magic link for customers, password for coaches  
+✅ **Secure API Access**: Header-based token authentication for server operations  
 ✅ **Scalable Design**: Role-based system supports future permission expansion  
+✅ **Mobile Ready**: Standard Bearer token authentication compatible with mobile apps  
 ✅ **Production Ready**: Comprehensive error handling and security measures  
 
-This system successfully eliminates the previous technical debt while providing a robust foundation for The Catalyst platform's authentication needs.
+This system successfully eliminates all previous authentication issues while providing a robust, future-proof foundation for The Catalyst platform's authentication needs.
 
 ---
 
 **Documentation Maintainer:** Development Team  
-**Next Review Date:** 2025-09-23 (Quarterly)  
-**Version:** 1.0 (Homepage Redesign Release)
+**Next Review Date:** 2025-09-24 (Quarterly)  
+**Version:** 2.0 (Authentication Enhancement & Troubleshooting Complete)

@@ -89,27 +89,57 @@ export default function TheSparkPage() {
 
   // Styling constants
   const inputStyles = "input";
-  const labelStyles = "block text-heading text-base font-semibold mb-2";
-  const errorStyles = "text-red-500 text-sm mt-2";
+  const labelStyles = "block text-wcn-text text-base font-semibold mb-2";
+  const errorStyles = "text-red-300 text-sm mt-2";
   
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">
-        <div className="text-heading text-xl font-semibold">Loading...</div>
-      </div>
+      <main className="min-h-screen bg-wcn-gradient from-wcn-primary to-wcn-accent1 relative overflow-hidden">
+        {/* Watermark Logo */}
+        <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
+          <div className="absolute inset-0 bg-wcn-primary/5"></div>
+          <div className="absolute inset-0 w-full h-full">
+            <Image
+              src="/images/logo-official.png"
+              alt="What Comes Next Logo"
+              fill
+              className="object-contain opacity-[0.15] mix-blend-overlay"
+              priority
+            />
+          </div>
+        </div>
+        <div className="relative flex flex-col items-center justify-center p-4 min-h-screen">
+          <div className="text-wcn-text text-xl font-semibold">Loading...</div>
+        </div>
+      </main>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">
-      <div className="card-elevated w-full max-w-lg mx-auto p-10">
+    <main className="min-h-screen bg-wcn-gradient from-wcn-primary to-wcn-accent1 relative overflow-hidden">
+      {/* Watermark Logo */}
+      <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
+        <div className="absolute inset-0 bg-wcn-primary/5"></div>
+        <div className="absolute inset-0 w-full h-full">
+          <Image
+            src="/images/logo-official.png"
+            alt="What Comes Next Logo"
+            fill
+            className="object-contain opacity-[0.15] mix-blend-overlay"
+            priority
+          />
+        </div>
+      </div>
+
+      <div className="relative flex flex-col items-center justify-center p-4 min-h-screen">
+        <div className="card-elevated w-full max-w-lg mx-auto p-10 bg-wcn-primary/80 backdrop-blur-sm border-2 border-wcn-card shadow-2xl">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-heading">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-wcn-text">
             {siteContent.intake.title}
           </h1>
-          <p className="text-lg md:text-xl text-body leading-relaxed">
+          <p className="text-lg md:text-xl text-wcn-text leading-relaxed">
             {siteContent.intake.subtitle}
           </p>
         </div>
@@ -125,7 +155,7 @@ export default function TheSparkPage() {
             <h2 className="text-2xl font-bold text-wcn-primary mb-2">
               {siteContent.intake.confirmation.title}
             </h2>
-            <p className="text-body">
+            <p className="text-wcn-text">
               {siteContent.intake.confirmation.message}
             </p>
           </motion.div>
@@ -189,7 +219,7 @@ export default function TheSparkPage() {
             </button>
             
             {onboardError && (
-              <div className="bg-red-50 border border-red-200 text-red-800 p-4 rounded-card mt-4">
+              <div className="bg-red-900/20 border border-red-500/50 text-red-300 p-4 rounded-card mt-4">
                 <p>{onboardError}</p>
               </div>
             )}
@@ -199,18 +229,19 @@ export default function TheSparkPage() {
         {/* Link to sign in for returning users */}
         {!submitted && (
           <div className="mt-6 text-center">
-            <p className="text-muted">
+            <p className="text-wcn-text/80">
               {siteContent.intake.returningUser.text}
               <a
                 href="/signin"
-                className="ml-2 text-wcn-primary hover:text-wcn-accent1 font-medium transition-colors duration-200"
+                className="ml-2 text-wcn-accent2 hover:text-wcn-accent1 font-medium transition-colors duration-200"
               >
                 {siteContent.intake.returningUser.linkText}
               </a>
             </p>
           </div>
         )}
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

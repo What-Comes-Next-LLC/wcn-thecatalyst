@@ -31,7 +31,28 @@ const config: Config = {
           accent1: "#49a078",   // Mid green - success, highlights  
           accent2: "#9cc5a1",   // Light green - subtle accents
           text: "#dce1de",      // Light text for dark backgrounds
+          dark: "#000000",      // Black for dark backgrounds
+          mid: "#49a078",       // Mid green alias
+          light: "#9cc5a1",     // Light green alias
+          gray: "#dce1de",      // Gray alias
+          black: "#000000",     // Black alias
         },
+      },
+      
+      // Background gradients
+      backgroundImage: {
+        'wcn-gradient': 'linear-gradient(to bottom, var(--tw-gradient-stops))',
+      },
+      
+      // Background colors for cards
+      backgroundColor: {
+        'wcn-card': 'rgba(255, 255, 255, 0.1)',
+      },
+      
+      // Border colors for cards
+      borderColor: {
+        'wcn-card': 'rgba(220, 225, 222, 0.2)',
+        'wcn-card-hover': 'rgba(220, 225, 222, 0.4)',
       },
       
       // System typography - no external font dependencies
