@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { Caveat } from 'next/font/google';
 
 // Load the Caveat font which has a handwritten style perfect for a note
@@ -11,6 +10,7 @@ const caveat = Caveat({ subsets: ['latin'] });
 export default function FounderNote() {
   const [isOpen, setIsOpen] = useState(false);
   const [isGlowing, setIsGlowing] = useState(false);
+  const [isBouncing, setIsBouncing] = useState(false);
   
   // Close the note if clicked outside
   useEffect(() => {
@@ -27,41 +27,26 @@ export default function FounderNote() {
 
   // Periodic gentle bounce and glow effect
   useEffect(() => {
-    // Start subtle pulsing glow after a delay
-    const glowTimer = setTimeout(() => {
+    // Start subtle pulsing glow and bounce after a delay
+    const effectTimer = setTimeout(() => {
       const interval = setInterval(() => {
         setIsGlowing(prev => !prev);
-      }, 2000);
+        setIsBouncing(true);
+        // Reset bounce after animation completes
+        setTimeout(() => setIsBouncing(false), 1200);
+      }, 4000);
       return () => clearInterval(interval);
     }, 3000);
     
-    return () => clearTimeout(glowTimer);
+    return () => clearTimeout(effectTimer);
   }, []);
-  
-  // Bounce animation variants
-  const tabAnimations = {
-    initial: { y: 0 },
-    bounce: { 
-      y: [0, -8, 0], 
-      transition: { 
-        duration: 0.6,
-        repeat: 2,
-        repeatType: "reverse" as const,
-        ease: "easeOut" 
-      } 
-    }
-  };
 
   return (
     <div className="fixed bottom-8 right-8 z-50 flex flex-col items-end">
       {/* The sticky note tab that's always visible */}
-      <motion.div 
-        className={`founder-note-tab bg-wcn-accent2 shadow-md rounded-t-lg px-4 py-2 cursor-pointer transform rotate-2 border-t border-x border-wcn-card hover:rotate-0 transition-all ${isGlowing ? 'animate-glow' : ''}`}
+      <div 
+        className={`founder-note-tab bg-wcn-accent2 shadow-md rounded-t-lg px-4 py-2 cursor-pointer transform rotate-2 border-t border-x border-wcn-card hover:rotate-0 hover:scale-105 transition-all duration-300 ${isGlowing ? 'animate-glow' : ''} ${isBouncing ? 'animate-bounce' : ''}`}
         onClick={() => setIsOpen(!isOpen)}
-        whileHover={{ scale: 1.05 }}
-        initial="initial"
-        animate={isGlowing ? "bounce" : "initial"}
-        variants={tabAnimations}
         style={{
           boxShadow: isGlowing 
             ? '0 0 10px 2px rgba(156, 197, 161, 0.7), 0 4px 6px -1px rgba(0, 0, 0, 0.1)' 
@@ -69,16 +54,12 @@ export default function FounderNote() {
         }}
       >
         <p className={`${caveat.className} text-wcn-dark font-medium text-base`}>A note from our Founder</p>
-      </motion.div>
+      </div>
       
       {/* The expanded sticky note content */}
       {isOpen && (
-        <motion.div 
-          className={`founder-note-content bg-wcn-accent2 max-w-xs p-5 rounded-lg rounded-tr-none shadow-lg border border-wcn-card transform rotate-2`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 20 }}
-          transition={{ duration: 0.3 }}
+        <div 
+          className={`founder-note-content bg-wcn-accent2 max-w-xs p-5 rounded-lg rounded-tr-none shadow-lg border border-wcn-card transform rotate-2 animate-slide-in`}
           style={{ 
             backgroundImage: 'linear-gradient(to bottom right, rgba(156, 197, 161, 1), rgba(156, 197, 161, 0.85))',
           }}
@@ -94,10 +75,10 @@ export default function FounderNote() {
           >
             Read the full letter →
           </Link>
-        </motion.div>
+        </div>
       )}
 
-      {/* Add global styles for the glow animation */}
+      {/* Add global styles for animations */}
       <style jsx global>{`
         @keyframes glow {
           0% { box-shadow: 0 0 5px 1px rgba(156, 197, 161, 0.4), 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
@@ -105,8 +86,23 @@ export default function FounderNote() {
           100% { box-shadow: 0 0 5px 1px rgba(156, 197, 161, 0.4), 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
         }
         
+        @keyframes slide-in {
+          0% { 
+            opacity: 0; 
+            transform: translateY(20px) rotate(2deg); 
+          }
+          100% { 
+            opacity: 1; 
+            transform: translateY(0) rotate(2deg); 
+          }
+        }
+        
         .animate-glow {
           animation: glow 2s ease-in-out infinite;
+        }
+        
+        .animate-slide-in {
+          animation: slide-in 0.3s ease-out;
         }
       `}</style>
     </div>
