@@ -84,7 +84,7 @@ export default function AdminDashboard() {
     setLoading(true);
     setError(null);
     try {
-      // Use the updated API endpoint to get all users with role 'lead'
+      // Use the existing entries endpoint (now fixed for Supabase)
       const response = await fetch('/api/admin/entries');
       if (!response.ok) {
         throw new Error('Failed to fetch leads');
@@ -93,13 +93,13 @@ export default function AdminDashboard() {
       const data = await response.json();
       
       // Format leads from API response
-      const formattedLeads = data.records.map((record: any) => ({
-        id: record.id,
-        name: record.fields.Name,
-        email: record.fields.Email,
-        goal: record.fields.Goal || 'Not specified',
-        notes: record.fields.Notes || '',
-        created_at: record.fields['Created At']
+      const formattedLeads = data.leads.map((lead: any) => ({
+        id: lead.id,
+        name: lead.name,
+        email: lead.email,
+        goal: lead.goal || 'Not specified',
+        notes: lead.notes || '',
+        created_at: lead.created_at
       }));
       
       setLeads(formattedLeads);

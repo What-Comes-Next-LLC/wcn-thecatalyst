@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { hasCoachAccess } from '@/lib/auth';
 import { User } from '@supabase/supabase-js';
 
@@ -17,8 +18,8 @@ export async function GET() {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
     
-    // Fetch all users with role 'lead' from auth system
-    const { data: leadUsers, error } = await supabase.auth.admin.listUsers();
+    // Fetch all users with role 'lead' from auth system using admin client
+    const { data: leadUsers, error } = await supabaseAdmin.auth.admin.listUsers();
     
     if (error) throw error;
     
@@ -30,6 +31,8 @@ export async function GET() {
       fields: {
         Name: user.user_metadata?.name || 'Unknown',
         Email: user.email,
+        Goal: user.user_metadata?.goal || 'Not specified',
+        Notes: user.user_metadata?.notes || '',
         Status: 'pending',
         'Created At': user.created_at,
       }
