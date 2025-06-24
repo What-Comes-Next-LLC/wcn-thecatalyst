@@ -84,8 +84,17 @@ export default function AdminDashboard() {
     setLoading(true);
     setError(null);
     try {
+      // Get current user's session token for API auth
+      const { data: { session } } = await supabase.auth.getSession();
+      const authToken = session?.access_token;
+      
       // Use the existing entries endpoint (now fixed for Supabase)
-      const response = await fetch('/api/admin/entries');
+      const response = await fetch('/api/admin/entries', {
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
       if (!response.ok) {
         throw new Error('Failed to fetch leads');
       }
