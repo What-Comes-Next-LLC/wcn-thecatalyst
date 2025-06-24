@@ -52,7 +52,7 @@ export default async function HomePage() {
             </p>
             <Link
               href={content.hero.cta_link}
-              className="btn-primary text-lg px-8 py-4"
+              className="btn-primary btn-xl"
             >
               {content.hero.cta_text}
             </Link>
@@ -124,10 +124,10 @@ export default async function HomePage() {
                   
                   <Link
                     href={tier.cta_link}
-                    className={`w-full text-center py-5 px-8 text-lg font-bold rounded-xl transition-all duration-500 hover:scale-105 hover:shadow-xl active:scale-95 shadow-lg border-2 border-transparent hover:border-wcn-accent2 ${
+                    className={`w-full text-center btn-lg font-bold transition-all duration-300 hover:scale-105 active:scale-95 py-5 ${
                       index === 1 
-                        ? 'btn-primary bg-gradient-to-r from-wcn-primary to-wcn-accent1' 
-                        : 'btn-secondary bg-gradient-to-r from-wcn-accent1 to-wcn-accent2'
+                        ? 'btn-primary' 
+                        : 'btn-secondary'
                     }`}
                   >
                     {tier.cta_text}
@@ -220,7 +220,7 @@ export default async function HomePage() {
             </p>
             <Link
               href={content.finalCta.cta_link}
-              className="btn-primary text-lg px-10 py-4"
+              className="btn-primary btn-xl px-10"
             >
               {content.finalCta.cta_text}
             </Link>

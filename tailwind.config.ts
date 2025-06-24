@@ -139,6 +139,17 @@ const config: Config = {
           '@apply btn text-wcn-primary hover:bg-slate-50 focus:ring-wcn-primary': {},
         },
         
+        // Button size variants
+        '.btn-sm': {
+          '@apply px-3 py-1.5 text-sm': {},
+        },
+        '.btn-lg': {
+          '@apply px-6 py-3 text-lg': {},
+        },
+        '.btn-xl': {
+          '@apply px-8 py-4 text-xl': {},
+        },
+        
         // Input components
         '.input': {
           '@apply block w-full px-3 py-2 border border-slate-300 rounded-input shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-wcn-primary focus:border-wcn-primary transition-colors duration-200': {},
