@@ -38,7 +38,7 @@ export async function GET() {
       }
     }));
 
-    return NextResponse.json({ records: leads });
+    return NextResponse.json({ leads: leads });
   } catch (error) {
     console.error('Failed to fetch entries:', error);
     return NextResponse.json(

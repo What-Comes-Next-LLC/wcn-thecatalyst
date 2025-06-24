@@ -95,11 +95,11 @@ export default function AdminDashboard() {
       // Format leads from API response
       const formattedLeads = data.leads.map((lead: any) => ({
         id: lead.id,
-        name: lead.name,
-        email: lead.email,
-        goal: lead.goal || 'Not specified',
-        notes: lead.notes || '',
-        created_at: lead.created_at
+        name: lead.fields.Name,
+        email: lead.fields.Email,
+        goal: lead.fields.Goal || 'Not specified',
+        notes: lead.fields.Notes || '',
+        created_at: lead.fields['Created At']
       }));
       
       setLeads(formattedLeads);

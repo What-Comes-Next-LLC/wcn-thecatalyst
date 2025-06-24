@@ -158,4 +158,61 @@ export async function sendMagicLinkSignin(email: string) {
     console.error('Magic link signin error:', error);
     return { data: null, error: error instanceof Error ? error : new Error('Unknown error occurred') };
   }
-} 
+}
+
+/**
+ * Sign in with email and password
+ */
+export async function signInWithPassword(email: string, password: string) {
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+    
+    return { data, error };
+  } catch (error) {
+    console.error('Password signin error:', error);
+    return { data: null, error: error instanceof Error ? error : new Error('Unknown error occurred') };
+  }
+}
+
+/**
+ * Set up password for a user (used for coach setup)
+ */
+export async function setupUserPassword(email: string, password: string) {
+  try {
+    const { data, error } = await supabase.auth.updateUser({
+      password: password
+    });
+    
+    return { data, error };
+  } catch (error) {
+    console.error('Password setup error:', error);
+    return { data: null, error: error instanceof Error ? error : new Error('Unknown error occurred') };
+  }
+}
+
+/**
+ * Check if email appears to be a coach email
+ * This is a simple heuristic - can be enhanced with better detection
+ */
+export function isCoachEmail(email: string): boolean {
+  // Simple heuristic: check for known coach email patterns
+  // This can be enhanced with a database lookup or more sophisticated logic
+  const coachDomains = ['whatcomesnextllc.ai', 'yourcompany.com']; // Add your coach domains
+  const coachKeywords = ['coach', 'admin', 'trainer'];
+  
+  const domain = email.split('@')[1]?.toLowerCase();
+  const localPart = email.split('@')[0]?.toLowerCase();
+  
+  if (domain && coachDomains.includes(domain)) {
+    return true;
+  }
+  
+  if (localPart && coachKeywords.some(keyword => localPart.includes(keyword))) {
+    return true;
+  }
+  
+  return false;
+}
