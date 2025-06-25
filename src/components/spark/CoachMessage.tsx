@@ -73,9 +73,11 @@ export default function CoachMessage({ userId, className = '' }: CoachMessagePro
   if (isLoading) {
     return (
       <div className={`text-center ${className}`}>
-        <div className="animate-pulse">
-          <div className="h-6 bg-wcn-primary/20 rounded mb-2 w-3/4 mx-auto"></div>
-          <div className="h-4 bg-wcn-primary/10 rounded w-1/2 mx-auto"></div>
+        <div className="bg-wcn-primary/20 backdrop-blur-sm rounded-2xl px-8 py-6 border-2 border-wcn-accent1/40 shadow-xl">
+          <div className="animate-pulse">
+            <div className="h-8 bg-wcn-primary/30 rounded-lg mb-3 w-3/4 mx-auto"></div>
+            <div className="h-6 bg-wcn-primary/20 rounded-lg w-1/2 mx-auto"></div>
+          </div>
         </div>
       </div>
     );
@@ -85,30 +87,37 @@ export default function CoachMessage({ userId, className = '' }: CoachMessagePro
     <div className={`text-center ${className}`}>
       {/* Message bubble */}
       <div className="relative inline-block">
-        {/* Background bubble */}
-        <div className="bg-wcn-primary/20 backdrop-blur-sm rounded-2xl px-6 py-4 border border-wcn-primary/30">
+        {/* Background bubble with enhanced styling */}
+        <div className="bg-gradient-to-br from-wcn-accent1/30 to-wcn-primary/20 backdrop-blur-sm rounded-2xl px-8 py-6 border-2 border-wcn-accent1/40 shadow-xl">
+          {/* Coach icon */}
+          <div className="mb-3">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto text-wcn-accent2">
+              <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          
           {/* Message text */}
-          <div className="text-lg font-medium text-wcn-text mb-2">
+          <div className="text-xl font-semibold text-wcn-text mb-3 leading-relaxed">
             "{displayMessage.message_text}"
           </div>
           
           {/* Coach attribution */}
-          <div className="text-sm text-wcn-text/70">
+          <div className="text-base text-wcn-text/80 font-medium">
             — {displayMessage.coach_name}
           </div>
         </div>
         
-        {/* Speech bubble tail */}
+        {/* Enhanced speech bubble tail */}
         <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full">
-          <div className="w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-wcn-primary/20"></div>
+          <div className="w-0 h-0 border-l-10 border-r-10 border-t-10 border-l-transparent border-r-transparent border-t-wcn-accent1/40"></div>
         </div>
       </div>
       
-      {/* Coaching indicator */}
-      <div className="mt-6 flex items-center justify-center space-x-2 text-wcn-text/50 text-sm">
-        <span className="w-2 h-2 bg-wcn-accent1 rounded-full animate-pulse"></span>
+      {/* Enhanced coaching indicator */}
+      <div className="mt-8 flex items-center justify-center space-x-3 text-wcn-text/70 text-base font-medium">
+        <span className="w-3 h-3 bg-wcn-accent1 rounded-full animate-pulse shadow-lg"></span>
         <span>Your coach is cheering you on</span>
-        <span className="w-2 h-2 bg-wcn-accent1 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></span>
+        <span className="w-3 h-3 bg-wcn-accent2 rounded-full animate-pulse shadow-lg" style={{ animationDelay: '0.5s' }}></span>
       </div>
     </div>
   );

@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
+import { supabase } from '@/lib/supabaseClient';
 
 // Define validation schema for client data
 const clientSchema = z.object({
@@ -13,7 +14,8 @@ const clientSchema = z.object({
   // Make these fields optional with reasonable defaults
   age: z.number().int().min(13).max(120).optional(),
   height: z.number().int().min(48).max(96).optional(),
-  weight: z.number().int().min(50).max(1000).optional()
+  weight: z.number().int().min(50).max(1000).optional(),
+  assigned_coach_id: z.string().uuid().optional()
 });
 
 type ClientFormData = z.infer<typeof clientSchema>;
@@ -30,9 +32,17 @@ interface ClientFormProps {
   onCancel: () => void;
 }
 
+interface Coach {
+  id: string;
+  name: string;
+  email: string;
+}
+
 export default function ClientForm({ leadData, onSuccess, onCancel }: ClientFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [coaches, setCoaches] = useState<Coach[]>([]);
+  const [loadingCoaches, setLoadingCoaches] = useState(true);
   
   const {
     register,
@@ -47,6 +57,31 @@ export default function ClientForm({ leadData, onSuccess, onCancel }: ClientForm
       notes: leadData.notes || ''
     }
   });
+  
+  // Load available coaches
+  useEffect(() => {
+    const fetchCoaches = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('coaches')
+          .select('id, name, email')
+          .eq('is_active', true)
+          .order('name');
+          
+        if (error) {
+          console.error('Error fetching coaches:', error);
+        } else {
+          setCoaches(data || []);
+        }
+      } catch (err) {
+        console.error('Failed to load coaches:', err);
+      } finally {
+        setLoadingCoaches(false);
+      }
+    };
+    
+    fetchCoaches();
+  }, []);
   
   const onSubmit = async (data: ClientFormData) => {
     setIsSubmitting(true);
@@ -69,8 +104,9 @@ export default function ClientForm({ leadData, onSuccess, onCancel }: ClientForm
             goal: data.goal,
             notes: data.notes,
             age: data.age,
-            height: data.height,
-            weight: data.weight
+            height: data.height ? data.height.toString() : undefined,
+            weight: data.weight ? data.weight.toString() : undefined,
+            assigned_coach_id: data.assigned_coach_id
           }
         }),
       });
@@ -175,6 +211,29 @@ export default function ClientForm({ leadData, onSuccess, onCancel }: ClientForm
             className={`${inputStyles} ${errors.goal ? 'border-red-500' : ''}`}
           ></textarea>
           {errors.goal && <p className={errorStyles}>{errors.goal.message}</p>}
+        </div>
+        
+        <div>
+          <label htmlFor="assigned_coach_id" className={labelStyles}>Assign Coach (optional)</label>
+          {loadingCoaches ? (
+            <div className={`${inputStyles} flex items-center`}>
+              <span className="text-gray-400">Loading coaches...</span>
+            </div>
+          ) : (
+            <select
+              id="assigned_coach_id"
+              {...register('assigned_coach_id')}
+              className={`${inputStyles} ${errors.assigned_coach_id ? 'border-red-500' : ''}`}
+            >
+              <option value="">No coach assigned</option>
+              {coaches.map((coach) => (
+                <option key={coach.id} value={coach.id}>
+                  {coach.name} ({coach.email})
+                </option>
+              ))}
+            </select>
+          )}
+          {errors.assigned_coach_id && <p className={errorStyles}>{errors.assigned_coach_id.message}</p>}
         </div>
         
         <div>

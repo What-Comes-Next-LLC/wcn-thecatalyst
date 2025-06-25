@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { supabase } from '../../lib/supabaseClient';
 import { uploadContent } from '@/content/uploadContent';
 import { LoadingState } from '@/components/ui/LoadingState';
@@ -174,10 +175,26 @@ export default function LogPage() {
   // Loading state
   if (state.status === 'loading') {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-wcn-primary via-wcn-dark to-black flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-wcn-text/80 text-lg mb-4">{uploadContent.log.loading}</div>
-          <LoadingState />
+      <main className="min-h-screen bg-wcn-gradient from-wcn-primary to-wcn-accent1 relative overflow-hidden">
+        {/* Watermark Logo */}
+        <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
+          <div className="absolute inset-0 bg-wcn-primary/5"></div>
+          <div className="absolute inset-0 w-full h-full">
+            <Image
+              src="/images/logo-official.png"
+              alt="What Comes Next Logo"
+              fill
+              className="object-contain opacity-[0.08] mix-blend-overlay"
+              priority
+            />
+          </div>
+        </div>
+        
+        <div className="relative z-10 flex items-center justify-center min-h-screen">
+          <div className="text-center bg-wcn-primary/20 backdrop-blur-sm border-2 border-wcn-accent2/30 rounded-2xl p-12 shadow-2xl">
+            <div className="text-wcn-text text-2xl mb-6 font-medium">{uploadContent.log.loading}</div>
+            <LoadingState />
+          </div>
         </div>
       </main>
     );
@@ -186,18 +203,36 @@ export default function LogPage() {
   // Unauthorized state
   if (state.status === 'unauthorized') {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-wcn-primary via-wcn-dark to-black flex items-center justify-center p-4">
-        <div className="container-narrow text-center">
-          <div className="text-6xl mb-6">🔒</div>
-          <h1 className="text-3xl font-bold text-wcn-text mb-4">
-            {uploadContent.log.unauthorized}
-          </h1>
-          <button
-            onClick={() => router.push('/the-spark')}
-            className="btn-primary btn-xl"
-          >
-            Get Started
-          </button>
+      <main className="min-h-screen bg-wcn-gradient from-wcn-primary to-wcn-accent1 relative overflow-hidden">
+        {/* Watermark Logo */}
+        <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
+          <div className="absolute inset-0 bg-wcn-primary/5"></div>
+          <div className="absolute inset-0 w-full h-full">
+            <Image
+              src="/images/logo-official.png"
+              alt="What Comes Next Logo"
+              fill
+              className="object-contain opacity-[0.08] mix-blend-overlay"
+              priority
+            />
+          </div>
+        </div>
+        
+        <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
+          <div className="container-narrow text-center">
+            <div className="bg-wcn-primary/80 backdrop-blur-sm border-2 border-wcn-card rounded-2xl p-12 shadow-2xl">
+              <div className="text-6xl mb-6">🔒</div>
+              <h1 className="text-3xl md:text-4xl font-bold text-wcn-text mb-6">
+                {uploadContent.log.unauthorized}
+              </h1>
+              <button
+                onClick={() => router.push('/the-spark')}
+                className="btn-primary btn-xl px-10"
+              >
+                Get Started
+              </button>
+            </div>
+          </div>
         </div>
       </main>
     );
@@ -206,21 +241,39 @@ export default function LogPage() {
   // Pending approval state
   if (state.status === 'pending') {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-wcn-primary via-wcn-dark to-black flex items-center justify-center p-4">
-        <div className="container-narrow text-center">
-          <div className="text-6xl mb-6">⏳</div>
-          <h1 className="text-3xl font-bold text-wcn-text mb-4">
-            Account Pending Approval
-          </h1>
-          <p className="text-wcn-text/80 mb-8">
-            {uploadContent.log.pending}
-          </p>
-          <button
-            onClick={() => router.push('/')}
-            className="btn-secondary btn-lg"
-          >
-            Return Home
-          </button>
+      <main className="min-h-screen bg-wcn-gradient from-wcn-primary to-wcn-accent1 relative overflow-hidden">
+        {/* Watermark Logo */}
+        <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
+          <div className="absolute inset-0 bg-wcn-primary/5"></div>
+          <div className="absolute inset-0 w-full h-full">
+            <Image
+              src="/images/logo-official.png"
+              alt="What Comes Next Logo"
+              fill
+              className="object-contain opacity-[0.08] mix-blend-overlay"
+              priority
+            />
+          </div>
+        </div>
+        
+        <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
+          <div className="container-narrow text-center">
+            <div className="bg-wcn-primary/80 backdrop-blur-sm border-2 border-wcn-card rounded-2xl p-12 shadow-2xl">
+              <div className="text-6xl mb-6">⏳</div>
+              <h1 className="text-3xl md:text-4xl font-bold text-wcn-text mb-6">
+                Account Pending Approval
+              </h1>
+              <p className="text-xl text-wcn-text/80 mb-8 leading-relaxed">
+                {uploadContent.log.pending}
+              </p>
+              <button
+                onClick={() => router.push('/')}
+                className="btn-secondary btn-lg"
+              >
+                Return Home
+              </button>
+            </div>
+          </div>
         </div>
       </main>
     );
@@ -250,30 +303,48 @@ export default function LogPage() {
   // Uploading state
   if (state.interface === 'uploading') {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-wcn-primary via-wcn-dark to-black flex items-center justify-center p-4">
-        <div className="container-narrow text-center">
-          <div className="text-6xl mb-6 animate-bounce">⚡</div>
-          <h1 className="text-3xl font-bold text-wcn-text mb-4">
-            Capturing Your Spark...
-          </h1>
-          
-          {/* Progress bar */}
-          <div className="w-full bg-wcn-primary/30 rounded-full h-3 mb-4 overflow-hidden">
-            <div 
-              className="bg-wcn-accent1 h-3 rounded-full transition-all duration-300"
-              style={{ width: `${uploadProgress}%` }}
+      <main className="min-h-screen bg-wcn-gradient from-wcn-primary to-wcn-accent1 relative overflow-hidden">
+        {/* Watermark Logo */}
+        <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
+          <div className="absolute inset-0 bg-wcn-primary/5"></div>
+          <div className="absolute inset-0 w-full h-full">
+            <Image
+              src="/images/logo-official.png"
+              alt="What Comes Next Logo"
+              fill
+              className="object-contain opacity-[0.08] mix-blend-overlay"
+              priority
             />
           </div>
-          
-          <p className="text-wcn-text/70">
-            {uploadProgress}% complete
-          </p>
-          
-          {uploadError && (
-            <div className="mt-6 p-4 bg-red-900/20 border border-red-500/50 rounded-lg text-red-300">
-              {uploadError}
+        </div>
+        
+        <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
+          <div className="container-narrow text-center">
+            <div className="bg-wcn-primary/80 backdrop-blur-sm border-2 border-wcn-card rounded-2xl p-12 shadow-2xl">
+              <div className="text-6xl mb-6 animate-bounce">⚡</div>
+              <h1 className="text-3xl md:text-4xl font-bold text-wcn-text mb-6">
+                Capturing Your Spark...
+              </h1>
+              
+              {/* Progress bar */}
+              <div className="w-full bg-wcn-primary/30 rounded-full h-4 mb-6 overflow-hidden shadow-inner">
+                <div 
+                  className="bg-gradient-to-r from-wcn-accent1 to-wcn-accent2 h-4 rounded-full transition-all duration-300 shadow-lg"
+                  style={{ width: `${uploadProgress}%` }}
+                />
+              </div>
+              
+              <p className="text-xl text-wcn-text/80 font-medium">
+                {uploadProgress}% complete
+              </p>
+              
+              {uploadError && (
+                <div className="mt-8 p-6 bg-red-900/30 border border-red-500/50 rounded-xl text-red-300">
+                  {uploadError}
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </main>
     );
@@ -282,52 +353,89 @@ export default function LogPage() {
   // Main Spark interface (active state)
   return (
     <>
-      <main className="min-h-screen bg-gradient-to-b from-wcn-primary via-wcn-dark to-black relative overflow-hidden">
-        <div className="container-narrow min-h-screen flex flex-col py-8">
+      <main className="min-h-screen bg-wcn-gradient from-wcn-primary to-wcn-accent1 relative overflow-hidden">
+        {/* Watermark Logo */}
+        <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
+          <div className="absolute inset-0 bg-wcn-primary/5"></div>
+          <div className="absolute inset-0 w-full h-full">
+            <Image
+              src="/images/logo-official.png"
+              alt="What Comes Next Logo"
+              fill
+              className="object-contain opacity-[0.08] mix-blend-overlay"
+              priority
+            />
+          </div>
+        </div>
+        
+        <div className="relative z-10 container-narrow min-h-screen flex flex-col py-12">
           
           {/* Header */}
-          <header className="text-center mb-8">
-            <h1 className="text-6xl md:text-7xl font-bold text-wcn-text mb-4">
-              🔥 THE SPARK 🔥
+          <header className="text-center mb-12">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-wcn-text mb-6 leading-tight">
+              The Spark
             </h1>
-            <p className="text-xl text-wcn-text/80">
+            <p className="text-xl md:text-2xl text-wcn-text font-medium leading-relaxed">
               Document your journey, one moment at a time
             </p>
           </header>
 
           {/* Constellation Progress Display */}
-          <div className="flex-1 mb-8">
-            <ConstellationDisplay 
-              sparkCount={state.sparkCount}
-              className="mb-8"
-            />
+          <div className="flex-1 mb-12">
+            <div className="bg-wcn-primary/20 backdrop-blur-sm border-2 border-wcn-accent2/30 rounded-2xl p-8 shadow-2xl">
+              <ConstellationDisplay 
+                sparkCount={state.sparkCount}
+                className="mb-4"
+              />
+              <div className="text-center">
+                <div className="text-2xl md:text-3xl font-bold text-wcn-text mb-2">
+                  Your Journey: {state.sparkCount} Sparks
+                </div>
+                <div className="text-wcn-text/70">
+                  {state.sparkCount < 50 && "Keep going! Little Dipper at 50 ⭐"}
+                  {state.sparkCount >= 50 && state.sparkCount < 100 && "Amazing! Big Dipper unlocks at 100 ✨"}
+                  {state.sparkCount >= 100 && state.sparkCount < 250 && "Incredible! Orion awaits at 250 🌌"}
+                  {state.sparkCount >= 250 && state.sparkCount < 500 && "Phenomenal! Winter Sky at 500 ❄️"}
+                  {state.sparkCount >= 500 && state.sparkCount < 1000 && "Legendary! Galaxy Master at 1000 🌠"}
+                  {state.sparkCount >= 1000 && "🌌 GALAXY MASTER ACHIEVED! 🌌"}
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Coach Message */}
           <div className="mb-12">
-            <CoachMessage userId={state.userId || undefined} />
+            <div className="bg-wcn-accent1/20 backdrop-blur-sm border-2 border-wcn-accent1/40 rounded-2xl p-6 shadow-xl">
+              <CoachMessage userId={state.userId || undefined} />
+            </div>
           </div>
 
           {/* Main Capture Button */}
-          <div className="mb-8">
+          <div className="mb-12">
             <CaptureButton
               onCameraClick={handleCameraClick}
               onFileClick={handleFileClick}
-              className="mb-8"
+              className="transform hover:scale-105 transition-all duration-300"
             />
           </div>
 
           {/* Quick Stats */}
-          <div className="text-center text-wcn-text/60 text-sm">
-            <p>Your journey: {state.sparkCount} Sparks captured</p>
-            <p className="text-xs mt-1">Privacy protected • Securely stored</p>
+          <div className="text-center">
+            <div className="bg-wcn-primary/10 backdrop-blur-sm border border-wcn-text/20 rounded-xl px-6 py-4 inline-block">
+              <p className="text-wcn-text/80 text-sm font-medium mb-1">
+                Privacy protected • Securely stored
+              </p>
+              <p className="text-xs text-wcn-text/60">
+                Your data is encrypted and accessible only to you and your coach
+              </p>
+            </div>
           </div>
 
           {/* Sign out (subtle) */}
-          <div className="mt-8 text-center">
+          <div className="mt-12 text-center">
             <button
               onClick={() => supabase.auth.signOut().then(() => router.push('/'))}
-              className="text-wcn-text/40 hover:text-wcn-text/60 text-xs transition-colors"
+              className="text-wcn-text/50 hover:text-wcn-text/70 text-sm underline transition-colors duration-200"
             >
               Sign out
             </button>
