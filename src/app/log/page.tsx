@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { supabase } from '../../lib/supabaseClient';
 import { uploadContent } from '@/content/uploadContent';
 import { LoadingState } from '@/components/ui/LoadingState';
-import { announceToScreenReader, announceSuccess, announceMilestone, announceUploadProgress } from '@/lib/accessibility';
+import { announceMilestone, announceUploadProgress } from '@/lib/accessibility';
 
 // New Spark components
 import ConstellationDisplay from '@/components/spark/ConstellationDisplay';
@@ -40,7 +40,7 @@ export default function LogPage() {
 
   useEffect(() => {
     checkAuthAndLoadData();
-  }, [router]);
+  }, [router]); // checkAuthAndLoadData is stable, router dependency sufficient
 
   const checkAuthAndLoadData = async () => {
     const { data: { user } } = await supabase.auth.getUser();

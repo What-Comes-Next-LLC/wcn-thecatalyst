@@ -3,15 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-import SectionWrapper from '@/components/SectionWrapper';
 import EmailTabs from '@/components/admin/EmailTabs';
 import { AdminView } from '@/types/admin';
 import { supabase } from '@/lib/supabaseClient';
 import { hasCoachAccess } from '@/lib/auth';
 import { SignOutButton } from '@/components/SignOutButton';
 import Link from 'next/link';
-import { uploadContent } from '@/content/uploadContent';
 import ClientForm from '@/components/admin/ClientForm';
 
 interface Lead {

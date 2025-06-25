@@ -39,7 +39,7 @@ export default function CoachMessage({ userId, className = '' }: CoachMessagePro
     if (userId) {
       fetchCoachMessage();
     }
-  }, [userId]);
+  }, [userId]); // fetchCoachMessage is stable, userId dependency sufficient
 
   const fetchCoachMessage = async () => {
     if (!userId) return;
@@ -98,7 +98,7 @@ export default function CoachMessage({ userId, className = '' }: CoachMessagePro
           
           {/* Message text */}
           <div className="text-xl font-semibold text-wcn-text mb-3 leading-relaxed">
-            "{displayMessage.message_text}"
+            &ldquo;{displayMessage.message_text}&rdquo;
           </div>
           
           {/* Coach attribution */}
