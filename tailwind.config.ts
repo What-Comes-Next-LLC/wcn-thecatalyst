@@ -117,13 +117,13 @@ const config: Config = {
       addComponents({
         // Card components
         '.card': {
-          '@apply bg-white border border-slate-200 rounded-card shadow-card': {},
+          '@apply bg-wcn-primary/10 backdrop-blur-sm border border-wcn-accent2/30 rounded-card shadow-card': {},
         },
         '.card-elevated': {
-          '@apply bg-white border border-slate-200 rounded-card shadow-card-hover': {},
+          '@apply bg-wcn-primary/15 backdrop-blur-sm border border-wcn-accent2/40 rounded-card shadow-card-hover': {},
         },
         '.card-interactive': {
-          '@apply bg-white border border-slate-200 rounded-card shadow-card hover:shadow-card-hover transition-shadow duration-200 cursor-pointer': {},
+          '@apply bg-wcn-primary/10 backdrop-blur-sm border border-wcn-accent2/30 rounded-card shadow-card hover:shadow-card-hover hover:bg-wcn-primary/15 hover:border-wcn-accent2/50 transition-all duration-200 cursor-pointer': {},
         },
         
         // Button components
@@ -134,10 +134,10 @@ const config: Config = {
           '@apply btn bg-wcn-primary text-white hover:bg-wcn-accent1 focus:ring-wcn-primary shadow-button hover:shadow-button-hover': {},
         },
         '.btn-secondary': {
-          '@apply btn bg-slate-100 text-slate-800 hover:bg-slate-200 focus:ring-slate-500 shadow-button hover:shadow-button-hover': {},
+          '@apply btn bg-wcn-accent2/20 backdrop-blur-sm text-wcn-text hover:bg-wcn-accent2/30 hover:text-white focus:ring-wcn-accent2 border border-wcn-accent2/40 hover:border-wcn-accent2/60 shadow-button hover:shadow-button-hover': {},
         },
         '.btn-ghost': {
-          '@apply btn text-wcn-primary hover:bg-slate-50 focus:ring-wcn-primary': {},
+          '@apply btn text-wcn-primary hover:bg-wcn-primary/10 focus:ring-wcn-primary': {},
         },
         
         // Button size variants

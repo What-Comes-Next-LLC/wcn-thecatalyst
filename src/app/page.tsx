@@ -192,15 +192,15 @@ export default async function HomePage() {
           {/* Placeholder Images */}
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div className="card p-8 text-center animate-fade-in-up animate-stagger stagger-4">
-              <div className="w-full h-64 bg-slate-200 rounded-lg mb-4 flex items-center justify-center">
-                <span className="text-slate-500 text-lg">Spark UI Screenshot</span>
+              <div className="w-full h-64 bg-wcn-accent2/30 rounded-lg mb-4 flex items-center justify-center">
+                <span className="text-wcn-text/70 text-lg font-medium">Spark UI Screenshot</span>
               </div>
               <p className="text-wcn-text">The Spark interface - simple logging that works</p>
             </div>
             
             <div className="card p-8 text-center animate-fade-in-up animate-stagger stagger-5">
-              <div className="w-full h-64 bg-slate-200 rounded-lg mb-4 flex items-center justify-center">
-                <span className="text-slate-500 text-lg">DITL Sample</span>
+              <div className="w-full h-64 bg-wcn-accent2/30 rounded-lg mb-4 flex items-center justify-center">
+                <span className="text-wcn-text/70 text-lg font-medium">DITL Sample</span>
               </div>
               <p className="text-wcn-text">Sample Day in the Life plan output</p>
             </div>
