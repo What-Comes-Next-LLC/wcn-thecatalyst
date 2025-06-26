@@ -150,14 +150,38 @@ export default function TheSparkPage() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="bg-wcn-accent1/10 border border-wcn-accent1 rounded-card p-6 mb-6"
+            className="bg-wcn-accent1/10 border border-wcn-accent1 rounded-card p-8 mb-6"
           >
-            <h2 className="text-2xl font-bold text-wcn-primary mb-2">
+            <h2 className="text-2xl font-bold text-wcn-primary mb-4">
               {siteContent.intake.confirmation.title}
             </h2>
-            <p className="text-wcn-text">
+            <p className="text-wcn-text mb-6 leading-relaxed">
               {siteContent.intake.confirmation.message}
             </p>
+            
+            {/* Next Steps */}
+            <div className="mt-6">
+              <h3 className="text-lg font-semibold text-wcn-text mb-4">What happens next:</h3>
+              <div className="space-y-3">
+                {siteContent.intake.confirmation.steps.map((step, index) => (
+                  <div key={index} className="flex items-start space-x-3">
+                    <div className="flex-shrink-0 w-6 h-6 bg-wcn-primary text-white text-sm font-bold rounded-full flex items-center justify-center mt-0.5">
+                      {index + 1}
+                    </div>
+                    <p className="text-wcn-text/90">{step}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="mt-8 pt-6 border-t border-wcn-accent1/20">
+              <a
+                href="/"
+                className="btn-secondary inline-block"
+              >
+                Return to Homepage
+              </a>
+            </div>
           </motion.div>
         )}
         

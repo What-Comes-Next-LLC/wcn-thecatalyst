@@ -90,26 +90,44 @@ export default function PendingPage() {
           </h1>
           
           <h2 className="text-xl font-semibold text-wcn-text mb-6">
-            Your application is under review
+            We're preparing your coaching consultation
           </h2>
           
           <div className="space-y-4 text-wcn-text">
             <p className="text-lg leading-relaxed">
-              Thanks for signing up! Your email has been verified and your application is now being reviewed by our coaching team.
+              Perfect! Your email is verified and our coaching team is reviewing your information. We'll reach out within 24-48 hours to schedule your initial consultation.
             </p>
             
             <p className="leading-relaxed">
-              You'll receive an email notification once you've been approved and can start logging with The Spark.
+              Once approved, you'll gain immediate access to The Spark habit tracker and begin your personalized transformation journey.
             </p>
             
-            <div className="bg-wcn-accent1/20 rounded-xl p-4 mt-6">
-              <h3 className="font-semibold mb-2">What happens next?</h3>
-              <ul className="text-sm space-y-1 text-left">
-                <li>• Our team reviews your application</li>
-                <li>• You'll receive email confirmation when approved</li>
-                <li>• Access to The Spark habit tracker will be activated</li>
-                <li>• Your coaching journey begins!</li>
-              </ul>
+            <div className="bg-wcn-accent1/20 rounded-xl p-6 mt-6">
+              <h3 className="font-semibold mb-4 text-lg">Your Next Steps:</h3>
+              <div className="space-y-3 text-left">
+                <div className="flex items-start space-x-3">
+                  <div className="flex-shrink-0 w-6 h-6 bg-wcn-accent2 text-wcn-primary text-sm font-bold rounded-full flex items-center justify-center mt-0.5">1</div>
+                  <p className="text-sm">Our coaching team reviews your goals and background</p>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <div className="flex-shrink-0 w-6 h-6 bg-wcn-accent2 text-wcn-primary text-sm font-bold rounded-full flex items-center justify-center mt-0.5">2</div>
+                  <p className="text-sm">You'll receive an email to schedule your consultation call</p>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <div className="flex-shrink-0 w-6 h-6 bg-wcn-accent2 text-wcn-primary text-sm font-bold rounded-full flex items-center justify-center mt-0.5">3</div>
+                  <p className="text-sm">After approval, immediate access to The Spark tracker</p>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <div className="flex-shrink-0 w-6 h-6 bg-wcn-accent2 text-wcn-primary text-sm font-bold rounded-full flex items-center justify-center mt-0.5">4</div>
+                  <p className="text-sm">Begin building sustainable habits with coach guidance</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-wcn-primary/20 rounded-lg p-4 mt-4">
+              <p className="text-sm font-medium">
+                💡 <strong>Pro tip:</strong> Keep an eye on your email for our outreach within the next 1-2 business days!
+              </p>
             </div>
           </div>
 

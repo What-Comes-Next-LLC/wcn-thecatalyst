@@ -125,7 +125,13 @@ export const siteContent = {
 
     confirmation: {
       title: "Check Your Email",
-      message: "We'll follow up after reviewing your intake."
+      message: "We've sent you a verification link to confirm your email address. Once verified, our coaching team will review your information and reach out within 24-48 hours to schedule your initial consultation.",
+      steps: [
+        "Click the verification link in your email",
+        "Our coaches review your intake information", 
+        "We'll email you to schedule your consultation",
+        "Begin your transformation journey"
+      ]
     },
 
     returningUser: {

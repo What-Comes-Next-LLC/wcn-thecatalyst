@@ -40,11 +40,20 @@ function AuthCallbackContent() {
             console.error('Verification error:', error);
           } else {
             setStatus('success');
-            setMessage('Your email has been verified!');
             
-            // Get user data to determine redirect destination
+            // Get user data to determine redirect destination and customize message
             const { data: { user } } = await supabase.auth.getUser();
             const userRole = user?.user_metadata?.role;
+            
+            if (userRole === 'lead') {
+              setMessage('Email verified! Redirecting you to your status page where our coaching team will be in touch...');
+            } else if (userRole === 'client') {
+              setMessage('Welcome back! Redirecting you to your habit tracker...');
+            } else if (userRole === 'coach') {
+              setMessage('Welcome back! Redirecting you to the admin dashboard...');
+            } else {
+              setMessage('Email verified! Redirecting you to sign in...');
+            }
             
             // Redirect based on user role
             setTimeout(() => {
