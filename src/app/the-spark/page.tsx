@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabaseClient';
 import { sendMagicLinkSignup } from '@/lib/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { onboardSchema, type OnboardFormData } from '@/lib/schemas/onboard';
@@ -13,6 +14,7 @@ import { siteContent } from '@/content/siteContent';
 
 export default function TheSparkPage() {
   const router = useRouter();
+  const { user, loading: authLoading } = useAuth();
   const [loading, setLoading] = useState(true);
   const [submitted, setSubmitted] = useState(false);
   const [onboardError, setOnboardError] = useState<string | undefined>();
@@ -30,40 +32,39 @@ export default function TheSparkPage() {
   // Check authentication status on page load
   useEffect(() => {
     const checkAuth = async () => {
-      setLoading(true);
-      // Add session buffer to allow magic link session to establish
-      await new Promise(resolve => setTimeout(resolve, 200));
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (user) {
-        // Get user role from metadata
-        const role = user.user_metadata?.role || null;
+      if (!authLoading) {
+        setLoading(true);
         
-        // If user is a coach, redirect them to admin without signing out
-        if (role === 'coach') {
-          router.replace('/admin');
-          return;
-        }
-        
-        // Check if user is active
-        const { data, error } = await supabase
-          .from('spark_users')
-          .select('status')
-          .eq('id', user.id)
-          .single();
+        if (user) {
+          // Get user role from metadata
+          const role = user.user_metadata?.role || null;
           
-        if (!error && data && data.status === 'active') {
-          // Redirect active client users to their log
-          router.replace('/log');
-          return;
+          // If user is a coach, redirect them to admin without signing out
+          if (role === 'coach') {
+            router.replace('/admin');
+            return;
+          }
+          
+          // Check if user is active
+          const { data, error } = await supabase
+            .from('spark_users')
+            .select('status')
+            .eq('id', user.id)
+            .single();
+            
+          if (!error && data && data.status === 'active') {
+            // Redirect active client users to their log
+            router.replace('/log');
+            return;
+          }
         }
+        
+        setLoading(false);
       }
-      
-      setLoading(false);
     };
     
     checkAuth();
-  }, [router]);
+  }, [user, authLoading, router]);
 
   // Handle form submission with magic link
   const onSubmit = async (data: OnboardFormData) => {

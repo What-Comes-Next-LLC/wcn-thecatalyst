@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { supabase } from '../../lib/supabaseClient';
+import { useAuth } from '@/contexts/AuthContext';
 import { uploadContent } from '@/content/uploadContent';
 import { LoadingState } from '@/components/ui/LoadingState';
 import { announceMilestone, announceUploadProgress } from '@/lib/accessibility';
@@ -26,6 +27,7 @@ interface SparkPageState {
 }
 
 export default function LogPage() {
+  const { user, loading: authLoading } = useAuth();
   const [state, setState] = useState<SparkPageState>({
     status: 'loading',
     userId: null,
@@ -39,14 +41,12 @@ export default function LogPage() {
   const router = useRouter();
 
   useEffect(() => {
-    checkAuthAndLoadData();
-  }, [router]); // checkAuthAndLoadData is stable, router dependency sufficient
+    if (!authLoading) {
+      checkAuthAndLoadData();
+    }
+  }, [user, authLoading, router]);
 
   const checkAuthAndLoadData = async () => {
-    // Add session buffer to allow magic link session to establish
-    await new Promise(resolve => setTimeout(resolve, 200));
-    const { data: { user } } = await supabase.auth.getUser();
-    
     if (!user) {
       setState(prev => ({ ...prev, status: 'unauthorized' }));
       return;

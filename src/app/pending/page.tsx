@@ -1,21 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { supabase } from '@/lib/supabaseClient';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function PendingPage() {
-  const [loading, setLoading] = useState(true);
+  const { user, loading, signOut } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      // Add session buffer to allow magic link session to establish
-      await new Promise(resolve => setTimeout(resolve, 200));
-      const { data: { user } } = await supabase.auth.getUser();
-      
+    if (!loading) {
       if (!user) {
         router.replace('/signin');
         return;
@@ -34,12 +30,8 @@ export default function PendingPage() {
         router.replace('/signin');
         return;
       }
-      
-      setLoading(false);
-    };
-    
-    checkAuth();
-  }, [router]);
+    }
+  }, [user, loading, router]);
 
   if (loading) {
     return (
@@ -143,7 +135,7 @@ export default function PendingPage() {
             
             <div>
               <button
-                onClick={() => supabase.auth.signOut().then(() => router.push('/'))}
+                onClick={() => signOut().then(() => router.push('/'))}
                 className="text-wcn-text/80 hover:text-wcn-text transition-colors text-sm underline"
               >
                 Sign out

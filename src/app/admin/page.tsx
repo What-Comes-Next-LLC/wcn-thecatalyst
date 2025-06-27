@@ -7,6 +7,7 @@ import EmailTabs from '@/components/admin/EmailTabs';
 import { AdminView } from '@/types/admin';
 import { supabase } from '@/lib/supabaseClient';
 import { hasCoachAccess } from '@/lib/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import { SignOutButton } from '@/components/SignOutButton';
 import Link from 'next/link';
 import ClientForm from '@/components/admin/ClientForm';
@@ -43,29 +44,29 @@ export default function AdminDashboard() {
   
   const [activeView, setActiveView] = useState<AdminView>(AdminView.LEADS);
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+  const { user, loading: authLoading } = useAuth();
   const router = useRouter();
 
   // Check user authorization on load
   useEffect(() => {
     const checkAuth = async () => {
-      // Add session buffer to allow magic link session to establish
-      await new Promise(resolve => setTimeout(resolve, 200));
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        router.replace('/signin');
-        return;
-      }
-      
-      // Check if user is coach using metadata
-      const isCoach = await hasCoachAccess();
-      if (!isCoach) {
-        setIsAuthorized(false);
-      } else {
-        setIsAuthorized(true);
+      if (!authLoading) {
+        if (!user) {
+          router.replace('/signin');
+          return;
+        }
+        
+        // Check if user is coach using metadata
+        const isCoach = await hasCoachAccess();
+        if (!isCoach) {
+          setIsAuthorized(false);
+        } else {
+          setIsAuthorized(true);
+        }
       }
     };
     checkAuth();
-  }, [router]);
+  }, [user, authLoading, router]);
 
   // Fetch data when view changes
   useEffect(() => {
