@@ -125,6 +125,7 @@ export async function sendMagicLinkSignup(email: string, userData: { name: strin
       email,
       options: {
         emailRedirectTo: `${window.location.origin}/auth/callback`,
+        shouldCreateUser: true,
         data: {
           role: 'lead',
           name: userData.name,

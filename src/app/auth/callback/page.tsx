@@ -29,8 +29,22 @@ function AuthCallbackContent() {
 
         // Handle magic link authentication - Supabase uses 'magiclink' for signInWithOtp
         if (type === 'magiclink' || type === 'signup' || type === 'email_change') {
-          // Extract session from URL hash (for hash-based redirects)
-          const { data: { session }, error } = await supabase.auth.getSessionFromUrl();
+          // Check for PKCE code parameter first (modern flow)
+          const code = searchParams.get('code');
+          let session = null;
+          let error = null;
+
+          if (code) {
+            // Use PKCE code exchange flow
+            const result = await supabase.auth.exchangeCodeForSession(code);
+            session = result.data.session;
+            error = result.error;
+          } else {
+            // Fallback: Check for existing session (handles hash-based redirects)
+            const result = await supabase.auth.getSession();
+            session = result.data.session;
+            error = result.error;
+          }
 
           if (error || !session) {
             setStatus('error');
