@@ -31,6 +31,8 @@ export default function TheSparkPage() {
   useEffect(() => {
     const checkAuth = async () => {
       setLoading(true);
+      // Add session buffer to allow magic link session to establish
+      await new Promise(resolve => setTimeout(resolve, 200));
       const { data: { user } } = await supabase.auth.getUser();
       
       if (user) {

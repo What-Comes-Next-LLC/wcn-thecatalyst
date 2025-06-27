@@ -12,6 +12,8 @@ export default function PendingPage() {
 
   useEffect(() => {
     const checkAuth = async () => {
+      // Add session buffer to allow magic link session to establish
+      await new Promise(resolve => setTimeout(resolve, 200));
       const { data: { user } } = await supabase.auth.getUser();
       
       if (!user) {

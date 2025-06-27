@@ -43,6 +43,8 @@ export default function LogPage() {
   }, [router]); // checkAuthAndLoadData is stable, router dependency sufficient
 
   const checkAuthAndLoadData = async () => {
+    // Add session buffer to allow magic link session to establish
+    await new Promise(resolve => setTimeout(resolve, 200));
     const { data: { user } } = await supabase.auth.getUser();
     
     if (!user) {
