@@ -29,9 +29,8 @@ function AuthCallbackContent() {
 
         // Handle magic link authentication - Supabase uses 'magiclink' for signInWithOtp
         if (type === 'magiclink' || type === 'signup' || type === 'email_change') {
-          // For magic links, Supabase automatically handles session creation
-          // We just need to check if the session was established
-          const { data: { session }, error } = await supabase.auth.getSession();
+          // Extract session from URL hash (for hash-based redirects)
+          const { data: { session }, error } = await supabase.auth.getSessionFromUrl();
 
           if (error || !session) {
             setStatus('error');
