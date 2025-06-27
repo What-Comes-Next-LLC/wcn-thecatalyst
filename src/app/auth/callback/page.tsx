@@ -17,9 +17,17 @@ function AuthCallbackContent() {
   useEffect(() => {
     const handleEmailConfirmation = async () => {
       try {
-        // Get token and type from URL
-        const token = searchParams.get('token');
-        const type = searchParams.get('type');
+        // Get token and type from URL parameters or hash fragments
+        let token = searchParams.get('token');
+        let type = searchParams.get('type');
+
+        // If not in URL parameters, check hash fragments (Supabase magic links)
+        if (!token || !type) {
+          const hash = window.location.hash.substring(1);
+          const hashParams = new URLSearchParams(hash);
+          token = hashParams.get('access_token') || token;
+          type = hashParams.get('type') || type;
+        }
 
         if (!token || !type) {
           setStatus('error');
