@@ -27,22 +27,21 @@ function AuthCallbackContent() {
           return;
         }
 
-        // Verify the token
-        if (type === 'email_change' || type === 'signup') {
-          const { error } = await supabase.auth.verifyOtp({
-            token_hash: token,
-            type: type === 'signup' ? 'signup' : 'email_change',
-          });
+        // Handle magic link authentication - Supabase uses 'magiclink' for signInWithOtp
+        if (type === 'magiclink' || type === 'signup' || type === 'email_change') {
+          // For magic links, Supabase automatically handles session creation
+          // We just need to check if the session was established
+          const { data: { session }, error } = await supabase.auth.getSession();
 
-          if (error) {
+          if (error || !session) {
             setStatus('error');
             setMessage('Could not verify your email. The link may have expired.');
-            console.error('Verification error:', error);
+            console.error('Magic link verification error:', error);
           } else {
             setStatus('success');
             
-            // Get user data to determine redirect destination and customize message
-            const { data: { user } } = await supabase.auth.getUser();
+            // Get user data from the established session
+            const user = session.user;
             const userRole = user?.user_metadata?.role;
             
             if (userRole === 'lead') {
