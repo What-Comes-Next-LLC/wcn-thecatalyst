@@ -15,82 +15,58 @@ function AuthCallbackContent() {
   const [message, setMessage] = useState('Verifying your email...');
 
   useEffect(() => {
-    const handleEmailConfirmation = async () => {
+    const handleAuthCallback = async () => {
       try {
-        // Get token and type from URL parameters or hash fragments
-        let token = searchParams.get('token');
-        let type = searchParams.get('type');
+        // Check for PKCE code parameter first (modern flow)
+        const code = searchParams.get('code');
+        let session = null;
+        let error = null;
 
-        // If not in URL parameters, check hash fragments (Supabase magic links)
-        if (!token || !type) {
-          const hash = window.location.hash.substring(1);
-          const hashParams = new URLSearchParams(hash);
-          token = hashParams.get('access_token') || token;
-          type = hashParams.get('type') || type;
-        }
-
-        if (!token || !type) {
-          setStatus('error');
-          setMessage('Invalid confirmation link. Please try again or contact support.');
-          return;
-        }
-
-        // Handle magic link authentication - Supabase uses 'magiclink' for signInWithOtp
-        if (type === 'magiclink' || type === 'signup' || type === 'email_change') {
-          // Check for PKCE code parameter first (modern flow)
-          const code = searchParams.get('code');
-          let session = null;
-          let error = null;
-
-          if (code) {
-            // Use PKCE code exchange flow
-            const result = await supabase.auth.exchangeCodeForSession(code);
-            session = result.data.session;
-            error = result.error;
-          } else {
-            // Fallback: Check for existing session (handles hash-based redirects)
-            const result = await supabase.auth.getSession();
-            session = result.data.session;
-            error = result.error;
-          }
-
-          if (error || !session) {
-            setStatus('error');
-            setMessage('Could not verify your email. The link may have expired.');
-            console.error('Magic link verification error:', error);
-          } else {
-            setStatus('success');
-            
-            // Get user data from the established session
-            const user = session.user;
-            const userRole = user?.user_metadata?.role;
-            
-            if (userRole === 'lead') {
-              setMessage('Email verified! Redirecting you to your status page where our coaching team will be in touch...');
-            } else if (userRole === 'client') {
-              setMessage('Welcome back! Redirecting you to your habit tracker...');
-            } else if (userRole === 'coach') {
-              setMessage('Welcome back! Redirecting you to the admin dashboard...');
-            } else {
-              setMessage('Email verified! Redirecting you to sign in...');
-            }
-            
-            // Redirect based on user role
-            setTimeout(() => {
-              if (userRole === 'coach') {
-                router.push('/admin');
-              } else if (userRole === 'client') {
-                router.push('/log');
-              } else if (userRole === 'lead') {
-                router.push('/pending');
-              } else {
-                router.push('/signin');
-              }
-            }, 3000);
-          }
+        if (code) {
+          // Use PKCE code exchange flow
+          const result = await supabase.auth.exchangeCodeForSession(code);
+          session = result.data.session;
+          error = result.error;
         } else {
+          // Check for established session (magic link flow)
+          const result = await supabase.auth.getSession();
+          session = result.data.session;
+          error = result.error;
+        }
+
+        if (error || !session) {
           setStatus('error');
-          setMessage('Invalid confirmation type.');
+          setMessage('Could not verify your email. The link may have expired.');
+          console.error('Auth callback error:', error);
+        } else {
+          setStatus('success');
+          
+          // Get user data from the established session
+          const user = session.user;
+          const userRole = user?.user_metadata?.role;
+          
+          if (userRole === 'lead') {
+            setMessage('Email verified! Redirecting you to your status page where our coaching team will be in touch...');
+          } else if (userRole === 'client') {
+            setMessage('Welcome back! Redirecting you to your habit tracker...');
+          } else if (userRole === 'coach') {
+            setMessage('Welcome back! Redirecting you to the admin dashboard...');
+          } else {
+            setMessage('Email verified! Redirecting you to sign in...');
+          }
+          
+          // Redirect based on user role
+          setTimeout(() => {
+            if (userRole === 'coach') {
+              router.push('/admin');
+            } else if (userRole === 'client') {
+              router.push('/log');
+            } else if (userRole === 'lead') {
+              router.push('/pending');
+            } else {
+              router.push('/signin');
+            }
+          }, 3000);
         }
       } catch (error) {
         console.error('Callback processing error:', error);
@@ -99,7 +75,7 @@ function AuthCallbackContent() {
       }
     };
 
-    handleEmailConfirmation();
+    handleAuthCallback();
   }, [searchParams, router]);
 
   return (
