@@ -10,7 +10,8 @@ export default function EmailTabs({ activeView, onViewChange }: EmailTabsProps) 
   const tabs = [
     { id: AdminView.LEADS, label: 'New Leads' },
     { id: AdminView.CLIENTS, label: 'Active Clients' },
-    { id: AdminView.COMMUNICATION, label: 'Communication' }
+    { id: AdminView.COMMUNICATION, label: 'Communication' },
+    { id: AdminView.CONTENT, label: 'Content' }
   ];
 
   return (

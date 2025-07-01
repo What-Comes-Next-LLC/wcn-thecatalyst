@@ -11,6 +11,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { SignOutButton } from '@/components/SignOutButton';
 import Link from 'next/link';
 import ClientForm from '@/components/admin/ClientForm';
+import ContentManagement from '@/components/admin/ContentManagement';
 
 interface Lead {
   id: string;
@@ -332,6 +333,8 @@ export default function AdminDashboard() {
         return renderClients();
       case AdminView.COMMUNICATION:
         return renderCommunication();
+      case AdminView.CONTENT:
+        return <ContentManagement />;
       default:
         return null;
     }
