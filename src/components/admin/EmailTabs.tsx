@@ -15,7 +15,7 @@ export default function EmailTabs({ activeView, onViewChange }: EmailTabsProps) 
   ];
 
   return (
-    <div className="flex space-x-4 mb-8 border-b border-wcn-mid/20">
+    <div className="flex space-x-4 mb-8 border-b border-wcn-accent2/40">
       {tabs.map((tab) => (
         <button
           key={tab.id}
@@ -28,7 +28,7 @@ export default function EmailTabs({ activeView, onViewChange }: EmailTabsProps) 
           {activeView === tab.id && (
             <motion.div
               layoutId="activeTab"
-              className="absolute bottom-0 left-0 right-0 h-0.5 bg-wcn-accent1"
+              className="absolute bottom-0 left-0 right-0 h-0.5 bg-wcn-accent2"
               initial={false}
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
             />

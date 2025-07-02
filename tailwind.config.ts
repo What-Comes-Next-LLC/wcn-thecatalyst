@@ -126,6 +126,17 @@ const config: Config = {
           '@apply bg-wcn-primary/10 backdrop-blur-sm border border-wcn-accent2/30 rounded-card shadow-card hover:shadow-card-hover hover:bg-wcn-primary/15 hover:border-wcn-accent2/50 transition-all duration-200 cursor-pointer': {},
         },
         
+        // Admin theme components - dark WCN inversion
+        '.card-admin': {
+          '@apply bg-wcn-primary/80 backdrop-blur-sm border border-wcn-accent2/60 rounded-card shadow-card text-wcn-text': {},
+        },
+        '.card-admin-elevated': {
+          '@apply bg-wcn-primary/85 backdrop-blur-sm border border-wcn-accent2/70 rounded-card shadow-card-hover text-wcn-text': {},
+        },
+        '.card-admin-interactive': {
+          '@apply bg-wcn-primary/80 backdrop-blur-sm border border-wcn-accent2/60 rounded-card shadow-card hover:shadow-card-hover hover:bg-wcn-primary/85 hover:border-wcn-accent2/80 transition-all duration-200 cursor-pointer text-wcn-text': {},
+        },
+        
         // Button components
         '.btn': {
           '@apply inline-flex items-center px-4 py-2 rounded-button font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2': {},
@@ -138,6 +149,17 @@ const config: Config = {
         },
         '.btn-ghost': {
           '@apply btn text-wcn-primary hover:bg-wcn-primary/10 focus:ring-wcn-primary': {},
+        },
+        
+        // Admin button variants - dark WCN theme
+        '.btn-admin-primary': {
+          '@apply btn bg-wcn-primary/90 text-wcn-text hover:bg-wcn-accent1 focus:ring-wcn-accent1 shadow-button hover:shadow-button-hover border border-wcn-accent2/40': {},
+        },
+        '.btn-admin-secondary': {
+          '@apply btn bg-wcn-primary/60 backdrop-blur-sm text-wcn-text hover:bg-wcn-primary/70 focus:ring-wcn-accent2 border border-wcn-accent2/60 hover:border-wcn-accent2/80 shadow-button hover:shadow-button-hover': {},
+        },
+        '.btn-admin-ghost': {
+          '@apply btn text-wcn-text hover:bg-wcn-primary/20 focus:ring-wcn-accent2 border border-wcn-accent2/30 hover:border-wcn-accent2/50': {},
         },
         
         // Button size variants
@@ -176,6 +198,17 @@ const config: Config = {
         },
         '.text-muted': {
           '@apply text-slate-500': {},
+        },
+        
+        // Admin text utilities - light text for dark backgrounds
+        '.text-admin-heading': {
+          '@apply font-semibold text-wcn-text': {},
+        },
+        '.text-admin-body': {
+          '@apply text-wcn-text/90': {},
+        },
+        '.text-admin-muted': {
+          '@apply text-wcn-text/70': {},
         },
       });
     },

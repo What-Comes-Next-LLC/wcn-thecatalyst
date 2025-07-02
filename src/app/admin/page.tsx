@@ -10,6 +10,7 @@ import { hasCoachAccess } from '@/lib/auth';
 import { useAuth } from '@/contexts/AuthContext';
 import { SignOutButton } from '@/components/SignOutButton';
 import Link from 'next/link';
+import Image from 'next/image';
 import ClientForm from '@/components/admin/ClientForm';
 import ContentManagement from '@/components/admin/ContentManagement';
 
@@ -173,15 +174,15 @@ export default function AdminDashboard() {
   // Render leads list
   const renderLeads = () => {
     if (loading) {
-      return <div className="flex justify-center items-center py-12">Loading...</div>;
+      return <div className="flex justify-center items-center py-12 text-admin-body">Loading...</div>;
     }
 
     if (error) {
-      return <div className="text-red-500 py-8">{error}</div>;
+      return <div className="text-red-400 py-8">{error}</div>;
     }
 
     if (leads.length === 0) {
-      return <div className="text-center text-muted py-12">No new leads available.</div>;
+      return <div className="text-center text-admin-muted py-12">No new leads available.</div>;
     }
 
     return (
@@ -191,30 +192,30 @@ export default function AdminDashboard() {
             key={lead.id}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="card-interactive p-6"
+            className="card-admin-interactive p-6"
           >
             <div className="flex justify-between items-start">
               <div className="flex-grow">
-                <h2 className="text-xl font-semibold text-heading">{lead.name}</h2>
-                <p className="text-body">{lead.email}</p>
+                <h2 className="text-xl font-semibold text-admin-heading">{lead.name}</h2>
+                <p className="text-admin-body">{lead.email}</p>
                 <div className="mt-4">
-                  <h3 className="text-sm font-medium text-muted">Goal:</h3>
-                  <p className="text-body">{lead.goal}</p>
+                  <h3 className="text-sm font-medium text-admin-muted">Goal:</h3>
+                  <p className="text-admin-body">{lead.goal}</p>
                 </div>
                 {lead.notes && (
                   <div className="mt-2">
-                    <h3 className="text-sm font-medium text-muted">Notes:</h3>
-                    <p className="text-body">{lead.notes}</p>
+                    <h3 className="text-sm font-medium text-admin-muted">Notes:</h3>
+                    <p className="text-admin-body">{lead.notes}</p>
                   </div>
                 )}
-                <p className="text-xs text-muted mt-4">
+                <p className="text-xs text-admin-muted mt-4">
                   Created: {new Date(lead.created_at).toLocaleDateString()}
                 </p>
               </div>
               <div className="ml-4">
                 <motion.button
                   onClick={() => handleConvertToClient(lead)}
-                  className="btn-primary"
+                  className="btn-admin-primary"
                   whileTap={{ scale: 0.95 }}
                 >
                   Create Client
@@ -230,15 +231,15 @@ export default function AdminDashboard() {
   // Render clients list
   const renderClients = () => {
     if (loading) {
-      return <div className="flex justify-center items-center py-12">Loading...</div>;
+      return <div className="flex justify-center items-center py-12 text-admin-body">Loading...</div>;
     }
 
     if (error) {
-      return <div className="text-red-500 py-8">{error}</div>;
+      return <div className="text-red-400 py-8">{error}</div>;
     }
 
     if (clients.length === 0) {
-      return <div className="text-center text-muted py-12">No active clients found.</div>;
+      return <div className="text-center text-admin-muted py-12">No active clients found.</div>;
     }
 
     return (
@@ -248,45 +249,45 @@ export default function AdminDashboard() {
             key={client.id}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="card-interactive p-6"
+            className="card-admin-interactive p-6"
           >
             <div className="flex justify-between">
-              <h2 className="text-xl font-semibold text-heading">{client.name}</h2>
-              <span className="text-sm px-3 py-1 bg-wcn-accent1/20 text-wcn-primary rounded-full">
+              <h2 className="text-xl font-semibold text-admin-heading">{client.name}</h2>
+              <span className="text-sm px-3 py-1 bg-wcn-accent2/30 text-wcn-text rounded-full border border-wcn-accent2/60">
                 Active
               </span>
             </div>
             
-            <p className="text-body mb-4">{client.email}</p>
+            <p className="text-admin-body mb-4">{client.email}</p>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
               <div>
-                <h3 className="text-sm font-medium text-muted">Age:</h3>
-                <p className="text-body">{client.age || 'Not specified'}</p>
+                <h3 className="text-sm font-medium text-admin-muted">Age:</h3>
+                <p className="text-admin-body">{client.age || 'Not specified'}</p>
               </div>
               <div>
-                <h3 className="text-sm font-medium text-muted">Height:</h3>
-                <p className="text-body">{client.height ? `${client.height} inches` : 'Not specified'}</p>
+                <h3 className="text-sm font-medium text-admin-muted">Height:</h3>
+                <p className="text-admin-body">{client.height ? `${client.height} inches` : 'Not specified'}</p>
               </div>
               <div>
-                <h3 className="text-sm font-medium text-muted">Weight:</h3>
-                <p className="text-body">{client.weight ? `${client.weight} lbs` : 'Not specified'}</p>
+                <h3 className="text-sm font-medium text-admin-muted">Weight:</h3>
+                <p className="text-admin-body">{client.weight ? `${client.weight} lbs` : 'Not specified'}</p>
               </div>
             </div>
             
             <div className="mt-4">
-              <h3 className="text-sm font-medium text-muted">Goal:</h3>
-              <p className="text-body">{client.goal}</p>
+              <h3 className="text-sm font-medium text-admin-muted">Goal:</h3>
+              <p className="text-admin-body">{client.goal}</p>
             </div>
             
             {client.notes && (
               <div className="mt-2">
-                <h3 className="text-sm font-medium text-muted">Notes:</h3>
-                <p className="text-body">{client.notes}</p>
+                <h3 className="text-sm font-medium text-admin-muted">Notes:</h3>
+                <p className="text-admin-body">{client.notes}</p>
               </div>
             )}
             
-            <p className="text-xs text-muted mt-4">
+            <p className="text-xs text-admin-muted mt-4">
               Created: {new Date(client.created_at).toLocaleDateString()}
             </p>
           </motion.div>
@@ -297,7 +298,7 @@ export default function AdminDashboard() {
 
   // Render communication view (placeholder for now)
   const renderCommunication = () => (
-    <div className="text-center text-body py-12">
+    <div className="text-center text-admin-body py-12">
       Communication features coming soon...
     </div>
   );
@@ -307,9 +308,9 @@ export default function AdminDashboard() {
     if (!isAuthorized) {
       return (
         <div className="flex flex-col items-center justify-center py-12 text-center">
-          <p className="text-red-500 text-xl mb-4">You are not authorized to access this area.</p>
-          <p className="text-body">This dashboard is only available to coach accounts.</p>
-          <Link href="/" className="btn-primary mt-6">
+          <p className="text-red-400 text-xl mb-4">You are not authorized to access this area.</p>
+          <p className="text-admin-body">This dashboard is only available to coach accounts.</p>
+          <Link href="/" className="btn-admin-primary mt-6">
             Return Home
           </Link>
         </div>
@@ -341,19 +342,33 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="container-wide py-12">
+    <div className="min-h-screen bg-wcn-gradient from-wcn-dark to-wcn-primary relative overflow-hidden">
+      {/* Admin Watermark Logo */}
+      <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
+        <div className="absolute inset-0 bg-wcn-primary/10"></div>
+        <div className="absolute inset-0 w-full h-full">
+          <Image
+            src="/images/logo-official.png"
+            alt="What Comes Next Logo"
+            fill
+            className="object-contain opacity-[0.08] mix-blend-overlay"
+            priority
+          />
+        </div>
+      </div>
+      
+      <div className="container-wide py-12 relative">
         <div className="flex justify-end mb-4">
           <SignOutButton />
         </div>
         {/* Hero Text */}
         <div className="text-center mb-12">
           <Link href="/" className="inline-block">
-            <h1 className="text-5xl font-bold text-heading hover:text-wcn-primary transition-colors duration-200">
+            <h1 className="text-5xl font-bold text-admin-heading hover:text-wcn-accent2 transition-colors duration-200">
               Admin Dashboard
             </h1>
           </Link>
-          <p className="text-xl text-body mt-4">
+          <p className="text-xl text-admin-body mt-4">
             Manage leads, clients, and communications
           </p>
         </div>

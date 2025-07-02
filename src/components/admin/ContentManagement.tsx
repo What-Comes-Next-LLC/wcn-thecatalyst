@@ -53,10 +53,10 @@ function ContentSectionForm({ section, onSave, saving, saveStatus }: ContentSect
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="card-interactive p-6 mb-6"
+      className="card-admin-interactive p-6 mb-6"
     >
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold text-heading">{section.section_id}</h3>
+        <h3 className="text-lg font-semibold text-admin-heading">{section.section_id}</h3>
         <div className="flex items-center space-x-3">
           {status === 'success' && (
             <motion.span
@@ -76,7 +76,7 @@ function ContentSectionForm({ section, onSave, saving, saveStatus }: ContentSect
           <motion.button
             onClick={handleSave}
             disabled={isCurrentlySaving}
-            className={`btn-primary ${isCurrentlySaving ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`btn-admin-primary ${isCurrentlySaving ? 'opacity-50 cursor-not-allowed' : ''}`}
             whileTap={!isCurrentlySaving ? { scale: 0.95 } : {}}
           >
             {isCurrentlySaving ? 'Saving...' : 'Save'}
@@ -87,7 +87,7 @@ function ContentSectionForm({ section, onSave, saving, saveStatus }: ContentSect
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-muted mb-1">
+            <label className="block text-sm font-medium text-admin-muted mb-1">
               Title
             </label>
             <input
@@ -100,7 +100,7 @@ function ContentSectionForm({ section, onSave, saving, saveStatus }: ContentSect
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-muted mb-1">
+            <label className="block text-sm font-medium text-admin-muted mb-1">
               Subhead
             </label>
             <input
@@ -113,7 +113,7 @@ function ContentSectionForm({ section, onSave, saving, saveStatus }: ContentSect
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-muted mb-1">
+            <label className="block text-sm font-medium text-admin-muted mb-1">
               CTA Text
             </label>
             <input
@@ -128,7 +128,7 @@ function ContentSectionForm({ section, onSave, saving, saveStatus }: ContentSect
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-muted mb-1">
+            <label className="block text-sm font-medium text-admin-muted mb-1">
               Body
             </label>
             <textarea
@@ -141,7 +141,7 @@ function ContentSectionForm({ section, onSave, saving, saveStatus }: ContentSect
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-muted mb-1">
+            <label className="block text-sm font-medium text-admin-muted mb-1">
               Image URL
             </label>
             <input
@@ -154,7 +154,7 @@ function ContentSectionForm({ section, onSave, saving, saveStatus }: ContentSect
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-muted mb-1">
+            <label className="block text-sm font-medium text-admin-muted mb-1">
               CTA Link
             </label>
             <input
@@ -269,7 +269,7 @@ export default function ContentManagement() {
   if (loading) {
     return (
       <div className="flex justify-center items-center py-12">
-        <div className="text-body">Loading content sections...</div>
+        <div className="text-admin-body">Loading content sections...</div>
       </div>
     );
   }
@@ -277,10 +277,10 @@ export default function ContentManagement() {
   if (error) {
     return (
       <div className="text-center py-12">
-        <div className="text-red-500 mb-4">{error}</div>
+        <div className="text-red-400 mb-4">{error}</div>
         <motion.button
           onClick={fetchContent}
-          className="btn-primary"
+          className="btn-admin-primary"
           whileTap={{ scale: 0.95 }}
         >
           Try Again
@@ -291,7 +291,7 @@ export default function ContentManagement() {
 
   if (content.length === 0) {
     return (
-      <div className="text-center text-muted py-12">
+      <div className="text-center text-admin-muted py-12">
         No content sections found.
       </div>
     );
@@ -300,8 +300,8 @@ export default function ContentManagement() {
   return (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-heading mb-2">Homepage Content Management</h2>
-        <p className="text-body">
+        <h2 className="text-2xl font-bold text-admin-heading mb-2">Homepage Content Management</h2>
+        <p className="text-admin-body">
           Edit the content sections that appear on your homepage. Changes will be live immediately after saving.
         </p>
       </div>
