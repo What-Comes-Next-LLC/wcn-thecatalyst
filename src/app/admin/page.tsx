@@ -13,6 +13,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ClientForm from '@/components/admin/ClientForm';
 import ContentManagement from '@/components/admin/ContentManagement';
+import EditLeadModal from '@/components/admin/EditLeadModal';
+import CreateCoachForm from '@/components/admin/CreateCoachForm';
 
 interface Lead {
   id: string;
@@ -43,6 +45,7 @@ export default function AdminDashboard() {
   
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [showClientForm, setShowClientForm] = useState(false);
+  const [editingLead, setEditingLead] = useState<Lead | null>(null);
   
   const [activeView, setActiveView] = useState<AdminView>(AdminView.LEADS);
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
@@ -73,7 +76,7 @@ export default function AdminDashboard() {
   // Fetch data when view changes
   useEffect(() => {
     if (isAuthorized) {
-      if (activeView === AdminView.LEADS) {
+      if (activeView === AdminView.LEADS || activeView === AdminView.USER_MANAGEMENT) {
         fetchLeads();
       } else if (activeView === AdminView.CLIENTS) {
         fetchClients();
@@ -104,7 +107,16 @@ export default function AdminDashboard() {
       const data = await response.json();
       
       // Format leads from API response
-      const formattedLeads = data.leads.map((lead: any) => ({
+      const formattedLeads = data.leads.map((lead: {
+        id: string;
+        fields: {
+          Name: string;
+          Email: string;
+          Goal?: string;
+          Notes?: string;
+          'Created At': string;
+        };
+      }) => ({
         id: lead.id,
         name: lead.fields.Name,
         email: lead.fields.Email,
@@ -115,7 +127,7 @@ export default function AdminDashboard() {
       
       setLeads(formattedLeads);
       setLoading(false);
-    } catch (err) {
+    } catch {
       setError('Failed to fetch leads. Please try again.');
       setLoading(false);
     }
@@ -135,7 +147,16 @@ export default function AdminDashboard() {
       const data = await response.json();
       
       // Format clients from API response
-      const formattedClients = data.users.map((userRecord: any) => ({
+      const formattedClients = data.users.map((userRecord: {
+        id: string;
+        fields: {
+          Name: string;
+          Email: string;
+          Goal?: string;
+          Notes?: string;
+          'Created At': string;
+        };
+      }) => ({
         id: userRecord.id,
         name: userRecord.fields.Name,
         email: userRecord.fields.Email,
@@ -146,7 +167,7 @@ export default function AdminDashboard() {
       
       setClients(formattedClients);
       setLoading(false);
-    } catch (err) {
+    } catch {
       setError('Failed to fetch clients. Please try again.');
       setLoading(false);
     }
@@ -303,6 +324,50 @@ export default function AdminDashboard() {
     </div>
   );
 
+  // Render user management view
+  const renderUserManagement = () => (
+    <div className="space-y-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Edit Leads Section */}
+        <div className="card-admin-base p-6">
+          <h2 className="text-2xl font-semibold text-admin-heading mb-6">Edit Leads</h2>
+          <p className="text-admin-body mb-4">Modify existing lead information before conversion</p>
+          
+          {loading ? (
+            <div className="text-center text-admin-muted py-8">Loading leads...</div>
+          ) : leads.length === 0 ? (
+            <div className="text-center text-admin-muted py-8">No leads available to edit</div>
+          ) : (
+            <div className="space-y-3 max-h-96 overflow-y-auto">
+              {leads.map((lead) => (
+                <div key={lead.id} className="flex items-center justify-between p-3 bg-wcn-primary/40 rounded-lg border border-wcn-accent2/30">
+                  <div>
+                    <p className="font-medium text-admin-heading">{lead.name}</p>
+                    <p className="text-sm text-admin-body">{lead.email}</p>
+                  </div>
+                  <button 
+                    className="btn-admin-secondary text-sm px-3 py-1"
+                    onClick={() => setEditingLead(lead)}
+                  >
+                    Edit
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Create Coach Section */}
+        <CreateCoachForm onSuccess={() => {
+          // Refresh leads if needed
+          if (activeView === AdminView.LEADS) {
+            fetchLeads();
+          }
+        }} />
+      </div>
+    </div>
+  );
+
   // Main render content function
   const renderContent = () => {
     if (!isAuthorized) {
@@ -336,6 +401,8 @@ export default function AdminDashboard() {
         return renderCommunication();
       case AdminView.CONTENT:
         return <ContentManagement />;
+      case AdminView.USER_MANAGEMENT:
+        return renderUserManagement();
       default:
         return null;
     }
@@ -378,6 +445,20 @@ export default function AdminDashboard() {
 
         {/* Content Area */}
         {renderContent()}
+        
+        {/* Modals */}
+        {editingLead && (
+          <EditLeadModal
+            lead={editingLead}
+            onClose={() => setEditingLead(null)}
+            onSuccess={() => {
+              setEditingLead(null);
+              if (activeView === AdminView.LEADS || activeView === AdminView.USER_MANAGEMENT) {
+                fetchLeads();
+              }
+            }}
+          />
+        )}
       </div>
     </div>
   );

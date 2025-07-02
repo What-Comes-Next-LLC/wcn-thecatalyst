@@ -43,8 +43,8 @@ export async function POST(req: NextRequest) {
         goal: leadData.goal || '',
         notes: leadData.notes || '',
         age: leadData.age,
-        height: leadData.height, // Already converted to string in ClientForm
-        weight: leadData.weight, // Already converted to string in ClientForm
+        height: leadData.height, // Integer in centimeters
+        weight: leadData.weight, // Integer in kilograms
         assigned_coach_id: leadData.assigned_coach_id,
         status: 'active',
         role: 'client'

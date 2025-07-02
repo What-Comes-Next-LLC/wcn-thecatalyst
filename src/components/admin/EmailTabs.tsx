@@ -11,7 +11,8 @@ export default function EmailTabs({ activeView, onViewChange }: EmailTabsProps) 
     { id: AdminView.LEADS, label: 'New Leads' },
     { id: AdminView.CLIENTS, label: 'Active Clients' },
     { id: AdminView.COMMUNICATION, label: 'Communication' },
-    { id: AdminView.CONTENT, label: 'Content' }
+    { id: AdminView.CONTENT, label: 'Content' },
+    { id: AdminView.USER_MANAGEMENT, label: 'User Management' }
   ];
 
   return (

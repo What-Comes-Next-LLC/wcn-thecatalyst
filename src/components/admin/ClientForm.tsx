@@ -13,8 +13,8 @@ const clientSchema = z.object({
   notes: z.string().optional(),
   // Make these fields optional with reasonable defaults
   age: z.number().int().min(13).max(120).optional(),
-  height: z.number().int().min(48).max(96).optional(),
-  weight: z.number().int().min(50).max(1000).optional(),
+  height: z.number().int().min(120).max(250).optional(), // Height in centimeters (4ft - 8.2ft)
+  weight: z.number().int().min(30).max(300).optional(), // Weight in kilograms (66lb - 661lb)
   assigned_coach_id: z.string().uuid().optional()
 });
 
@@ -41,8 +41,10 @@ interface Coach {
 export default function ClientForm({ leadData, onSuccess, onCancel }: ClientFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
   const [coaches, setCoaches] = useState<Coach[]>([]);
   const [loadingCoaches, setLoadingCoaches] = useState(true);
+  const [coachError, setCoachError] = useState<string | null>(null);
   
   const {
     register,
@@ -70,11 +72,14 @@ export default function ClientForm({ leadData, onSuccess, onCancel }: ClientForm
           
         if (error) {
           console.error('Error fetching coaches:', error);
+          setCoachError('Failed to load coaches. Coach assignment will not be available.');
         } else {
           setCoaches(data || []);
+          setCoachError(null);
         }
       } catch (err) {
         console.error('Failed to load coaches:', err);
+        setCoachError('Failed to load coaches. Coach assignment will not be available.');
       } finally {
         setLoadingCoaches(false);
       }
@@ -88,12 +93,21 @@ export default function ClientForm({ leadData, onSuccess, onCancel }: ClientForm
     setError(null);
     
     try {
+      // Get current user's session token for API auth
+      const { data: { session } } = await supabase.auth.getSession();
+      const authToken = session?.access_token;
+      
+      if (!authToken) {
+        throw new Error('No authentication token available');
+      }
+      
       // Call the updated approve API endpoint to:
       // 1. Create spark_users entry for the lead
       // 2. Update user_metadata.role from 'lead' to 'client'
       const response = await fetch('/api/admin/approve', {
         method: 'POST',
         headers: {
+          'Authorization': `Bearer ${authToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -104,8 +118,8 @@ export default function ClientForm({ leadData, onSuccess, onCancel }: ClientForm
             goal: data.goal,
             notes: data.notes,
             age: data.age,
-            height: data.height ? data.height.toString() : undefined,
-            weight: data.weight ? data.weight.toString() : undefined,
+            height: data.height, // Already in centimeters from form
+            weight: data.weight, // Already in kilograms from form
             assigned_coach_id: data.assigned_coach_id
           }
         }),
@@ -118,7 +132,10 @@ export default function ClientForm({ leadData, onSuccess, onCancel }: ClientForm
       }
       
       // Success
-      onSuccess();
+      setSuccess(true);
+      setTimeout(() => {
+        onSuccess();
+      }, 1500); // Show success message briefly before closing
     } catch (err) {
       setError(`Failed to create client: ${err instanceof Error ? err.message : 'Unknown error'}`);
     } finally {
@@ -126,21 +143,27 @@ export default function ClientForm({ leadData, onSuccess, onCancel }: ClientForm
     }
   };
   
-  const inputStyles = "w-full p-3 border-2 border-wcn-gray rounded-lg bg-white/5 text-white placeholder-gray-400 focus:border-wcn-mid focus:ring-2 focus:ring-wcn-mid/50 focus:outline-none transition-all duration-200";
-  const labelStyles = "block text-wcn-gray text-sm font-medium mb-1";
+  const inputStyles = "input w-full bg-wcn-primary/20 border-wcn-accent2/40 text-wcn-text placeholder-wcn-text/50 focus:border-wcn-accent2 focus:ring-wcn-accent2/50";
+  const labelStyles = "block text-admin-muted text-sm font-medium mb-1";
   const errorStyles = "text-red-400 text-sm mt-1";
   
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-black/40 backdrop-blur-lg rounded-2xl p-8 border-2 border-wcn-mid/30 max-w-2xl mx-auto"
+      className="card-admin-elevated p-8 max-w-2xl mx-auto"
     >
-      <h2 className="text-2xl font-bold text-wcn-text mb-6">Create Client Profile</h2>
+      <h2 className="text-2xl font-bold text-admin-heading mb-6">Coach's Clipboard</h2>
       
       {error && (
-        <div className="bg-red-500/20 border border-red-500 text-red-200 p-4 rounded-lg mb-6">
-          <p>{error}</p>
+        <div className="bg-red-500/20 border border-red-400 text-red-300 p-4 rounded-lg mb-6">
+          <p className="text-sm font-medium">{error}</p>
+        </div>
+      )}
+      
+      {success && (
+        <div className="bg-green-500/20 border border-green-400 text-green-300 p-4 rounded-lg mb-6">
+          <p className="text-sm font-medium">✅ Client created successfully! Returning to dashboard...</p>
         </div>
       )}
       
@@ -179,23 +202,24 @@ export default function ClientForm({ leadData, onSuccess, onCancel }: ClientForm
           </div>
           
           <div>
-            <label htmlFor="height" className={labelStyles}>Height in inches (optional)</label>
+            <label htmlFor="height" className={labelStyles}>Height in centimeters (optional)</label>
             <input
               id="height"
               type="number"
               {...register('height', { valueAsNumber: true })}
-              placeholder="72 for 6 feet"
+              placeholder="175 cm (5'9&quot;)"
               className={`${inputStyles} ${errors.height ? 'border-red-500' : ''}`}
             />
             {errors.height && <p className={errorStyles}>{errors.height.message}</p>}
           </div>
           
           <div>
-            <label htmlFor="weight" className={labelStyles}>Weight in lbs (optional)</label>
+            <label htmlFor="weight" className={labelStyles}>Weight in kilograms (optional)</label>
             <input
               id="weight"
               type="number"
               {...register('weight', { valueAsNumber: true })}
+              placeholder="70 kg (154 lbs)"
               className={`${inputStyles} ${errors.weight ? 'border-red-500' : ''}`}
             />
             {errors.weight && <p className={errorStyles}>{errors.weight.message}</p>}
@@ -217,7 +241,11 @@ export default function ClientForm({ leadData, onSuccess, onCancel }: ClientForm
           <label htmlFor="assigned_coach_id" className={labelStyles}>Assign Coach (optional)</label>
           {loadingCoaches ? (
             <div className={`${inputStyles} flex items-center`}>
-              <span className="text-gray-400">Loading coaches...</span>
+              <span className="text-admin-muted">Loading coaches...</span>
+            </div>
+          ) : coachError ? (
+            <div className="text-sm text-red-400 mb-2">
+              {coachError}
             </div>
           ) : (
             <select
@@ -250,14 +278,14 @@ export default function ClientForm({ leadData, onSuccess, onCancel }: ClientForm
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 rounded-lg border-2 border-wcn-mid/20 text-wcn-text/80 hover:border-wcn-mid/40 hover:text-wcn-text transition-all duration-200"
+            className="btn-admin-ghost"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`px-6 py-2 rounded-lg bg-wcn-accent1 text-wcn-text font-medium shadow-lg hover:bg-wcn-accent1/90 transition-all duration-200 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`btn-admin-primary ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             {isSubmitting ? 'Creating...' : 'Create Client'}
           </button>
