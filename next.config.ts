@@ -1,6 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async rewrites() {
+    return process.env.SHOWCASE_AS_HOME === '1'
+      ? [{ source: '/', destination: '/showcase.html' }]
+      : [];
+  },
+
   eslint: {
     ignoreDuringBuilds: true, // We'll rely on IDE/local linting instead of build-time linting
   },
