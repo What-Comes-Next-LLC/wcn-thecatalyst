@@ -1,14 +1,17 @@
+// next.config.ts
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   async rewrites() {
     return [
-      { source: '/', destination: '/showcase.html' }
+      { source: "/", destination: "/showcase.html" },
+    ];
   },
 
   eslint: {
-    ignoreDuringBuilds: true, // We'll rely on IDE/local linting instead of build-time linting
+    ignoreDuringBuilds: true, // rely on IDE/local linting
   },
 };
 
 export default nextConfig;
+
