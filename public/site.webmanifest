@@ -1,7 +1,6 @@
 {
-  "name": "What Comes Next - The Only Way Out Is Through",
-  "short_name": "What Comes Next",
-  "description": "Privacy-first coaching platform empowering real trainers with AI tools for lasting habit change.",
+  "name": "What Comes Next",
+  "short_name": "WCN",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -9,14 +8,12 @@
       "type": "image/png"
     },
     {
-      "src": "/android-chrome-512x512.png", 
+      "src": "/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
-  "theme_color": "#1a1a1a",
-  "background_color": "#000000",
-  "display": "standalone",
-  "start_url": "/",
-  "scope": "/"
+  "theme_color": "#216869",
+  "background_color": "#216869",
+  "display": "standalone"
 }
