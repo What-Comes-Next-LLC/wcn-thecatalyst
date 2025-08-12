@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Day in the Life — What Comes Next</title>
+    <meta name="description" content="Day in the Life — your habit map, built for real life. Coach‑powered. Privacy‑first." />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#216869',
+              accent1: '#49A078',
+              accent2: '#9CC5A1',
+              ink: '#0b1f17',
+              inkMuted: '#24453b',
+              surface: '#f6fbf8',
+              surfaceAlt: '#ecf6f0'
+            },
+            boxShadow: {
+              soft: '0 6px 18px rgba(0,0,0,0.10)',
+              card: '0 14px 28px rgba(0,0,0,0.12)'
+            },
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui']
+            },
+            borderRadius: {
+              '2xl': '1rem'
+            }
+          }
+        }
+      }
+    </script>
+
+    <style>
+      :root { color-scheme: light; }
+      html, body { height: 100%; }
+      body { background: #f6fbf8; color: #0b1f17; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
+      /* Button utilities */
+      .btn-primary { @apply inline-flex items-center justify-center rounded-2xl bg-primary px-5 py-3 text-white shadow-soft transition hover:shadow-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary; }
+      .btn-outline { @apply inline-flex items-center justify-center rounded-2xl border border-accent2 text-primary px-5 py-3 hover:bg-surfaceAlt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary; }
+      .btn-ghost { @apply inline-flex items-center justify-center rounded-2xl px-3 py-2 text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary; }
+    </style>
+  </head>
+  <body class="min-h-full">
+    <!-- Fixed watermark (center-left) -->
+    <div aria-hidden="true" class="pointer-events-none fixed inset-y-0 left-0 flex items-center opacity-5">
+      <img src="/logo.svg" alt="" class="h-[60vh] translate-x-[-25%]" />
+    </div>
+
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:shadow-soft">Skip to main</a>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-surface/80 backdrop-blur supports-[backdrop-filter]:bg-surface/60 border-b border-surfaceAlt">
+      <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+        <a class="flex items-center gap-3" href="/">
+          <img src="/logo.svg" alt="What Comes Next logo" class="h-8 w-8" />
+          <span class="font-bold text-primary">What Comes Next</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-6 text-sm">
+          <a class="text-ink hover:underline" href="/showcase.html#spark">The Spark</a>
+          <a class="text-ink hover:underline" href="/showcase.html#clipboard">Coach’s Clipboard</a>
+          <span class="text-ink font-semibold" aria-current="page">Day in the Life</span>
+          <a class="btn-outline" href="mailto:coach@whatcomesnextllc.ai?subject=Question%20about%20DITL">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="relative">
+      <!-- Hero -->
+      <section class="relative">
+        <div class="mx-auto max-w-6xl px-4 py-20 md:py-28">
+          <div class="grid md:grid-cols-2 gap-10 items-center">
+            <div>
+              <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-ink">Day in the Life — <span class="text-primary">Your habit map</span>, built for real life.</h1>
+              <p class="mt-5 max-w-[62ch] text-inkMuted text-lg">A personalized, coach‑powered plan that translates your habits into a simple daily flow—hydration, movement, meals, and recovery—so you can act without overthinking.</p>
+              <div class="mt-8 flex flex-wrap gap-4">
+                <a class="btn-primary" href="mailto:coach@whatcomesnextllc.ai?subject=Day%20in%20the%20Life%20%E2%80%94%20Request%20a%20Quote&body=Hi%20WCN%20team%2C%0A%0AI%E2%80%99m%20interested%20in%20a%20Day%20in%20the%20Life%20plan.%20Here%E2%80%99s%20some%20context%3A%0A%E2%80%A2%20Goal(s)%3A%20%0A%E2%80%A2%20Typical%20day%3A%20%0A%E2%80%A2%20Constraints%20(schedule%2C%20equipment%2C%20food%2C%20travel)%3A%20%0A%E2%80%A2%20Any%20injuries%20or%20considerations%3A%20%0A%0AThanks!">Request a Quote</a>
+                <a class="btn-ghost" href="mailto:coach@whatcomesnextllc.ai?subject=Coach-Linked%20DITL%20%E2%80%94%20I%E2%80%99m%20interested">Work with a Coach</a>
+              </div>
+              <p class="mt-3 text-sm text-inkMuted">No chatbots. No hype. Just plans that fit your life.</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-card p-6 md:p-8 border border-surfaceAlt" role="img" aria-label="Preview of Day in the Life sample tiles">
+              <div class="grid grid-cols-2 gap-4">
+                <div class="rounded-xl bg-surfaceAlt p-4"><div class="text-xs text-inkMuted">Sample</div><div class="font-semibold">Daily Timeline</div><div class="mt-2 h-24 bg-white rounded-lg"></div></div>
+                <div class="rounded-xl bg-surfaceAlt p-4"><div class="text-xs text-inkMuted">Sample</div><div class="font-semibold">Hydration Targets</div><div class="mt-2 h-24 bg-white rounded-lg"></div></div>
+                <div class="rounded-xl bg-surfaceAlt p-4"><div class="text-xs text-inkMuted">Sample</div><div class="font-semibold">Movement Snacks</div><div class="mt-2 h-24 bg-white rounded-lg"></div></div>
+                <div class="rounded-xl bg-surfaceAlt p-4"><div class="text-xs text-inkMuted">Sample</div><div class="font-semibold">Snack Matrix</div><div class="mt-2 h-24 bg-white rounded-lg"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- What you get -->
+      <section class="py-14 md:py-20">
+        <div class="mx-auto max-w-6xl px-4">
+          <h2 class="text-2xl md:text-3xl font-bold">What you get</h2>
+          <p class="mt-2 text-inkMuted max-w-[62ch]">Delivered as a clean, printable PDF and mobile‑friendly view.</p>
+          <div class="mt-8 grid md:grid-cols-2 gap-6">
+            <div class="rounded-2xl bg-white p-6 border border-surfaceAlt shadow-soft">
+              <h3 class="font-semibold">Plan essentials</h3>
+              <ul class="mt-3 space-y-2 list-disc pl-5">
+                <li>Daily timeline with anchors you can actually keep</li>
+                <li>Hydration targets and reminders that follow your day</li>
+                <li>Movement “snacks” (2–5 minutes) to stay active</li>
+                <li>Meal rhythm + simple snack matrix (protein‑forward)</li>
+                <li>Sleep wind‑down cues and morning reset</li>
+              </ul>
+            </div>
+            <div class="rounded-2xl bg-white p-6 border border-surfaceAlt shadow-soft">
+              <h3 class="font-semibold">Plus</h3>
+              <ul class="mt-3 space-y-2 list-disc pl-5">
+                <li>Coach’s notes with 2–3 behavior nudges</li>
+                <li>Grocery quick list (swaps + staples)</li>
+                <li>Travel/meetings adaptations</li>
+                <li>Printable one‑pager summary</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- How it’s made -->
+      <section class="py-14 md:py-20 bg-surfaceAlt/60 border-y border-surfaceAlt">
+        <div class="mx-auto max-w-6xl px-4">
+          <h2 class="text-2xl md:text-3xl font-bold">How it’s made</h2>
+          <div class="mt-8 grid md:grid-cols-2 gap-6">
+            <article class="rounded-2xl bg-white p-6 border border-surfaceAlt shadow-soft">
+              <h3 class="font-semibold">Quick‑Start (Point‑in‑Time)</h3>
+              <p class="mt-2 text-inkMuted">Built from your intake snapshot. Great for getting started fast.</p>
+              <ul class="mt-3 space-y-2 list-disc pl-5">
+                <li>You share goals, schedule, constraints</li>
+                <li>We craft a plan that fits your day
+                </li>
+                <li><em>No delivery ETA promised</em> (manual build while we automate)</li>
+              </ul>
+            </article>
+            <article class="rounded-2xl bg-white p-6 border border-surfaceAlt shadow-soft">
+              <h3 class="font-semibold">Coach‑Linked (Longitudinal)</h3>
+              <p class="mt-2 text-inkMuted">Built from your Spark patterns + coach context. <strong>Best results.</strong></p>
+              <ul class="mt-3 space-y-2 list-disc pl-5">
+                <li>Real behavior data over time → better fit</li>
+                <li>Coach adjusts the plan as you go</li>
+                <li>Privacy‑first: your data stays yours</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sample gallery (SVG, representative) -->
+      <section class="py-14 md:py-20">
+        <div class="mx-auto max-w-6xl px-4">
+          <div class="flex items-baseline justify-between">
+            <h2 class="text-2xl md:text-3xl font-bold">Sample gallery</h2>
+            <p class="text-sm text-inkMuted">Persona: Busy 40+ professional</p>
+          </div>
+          <div class="mt-8 grid md:grid-cols-3 gap-6">
+            <!-- Tile 1: Daily Timeline -->
+            <figure class="rounded-2xl bg-white p-5 border border-surfaceAlt shadow-soft">
+              <figcaption class="mb-3 flex items-center justify-between">
+                <span class="font-semibold">Daily Timeline</span>
+                <span class="text-xs text-inkMuted">Sample</span>
+              </figcaption>
+              <svg role="img" aria-label="Daily timeline preview" class="w-full h-56" viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0" y="0" width="600" height="260" rx="16" fill="#ecf6f0" />
+                <rect x="40" y="50" width="520" height="14" rx="7" fill="#9CC5A1"/>
+                <circle cx="100" cy="57" r="9" fill="#216869"/>
+                <circle cx="230" cy="57" r="9" fill="#216869"/>
+                <circle cx="360" cy="57" r="9" fill="#216869"/>
+                <circle cx="490" cy="57" r="9" fill="#216869"/>
+                <text x="40" y="95" font-family="Inter, sans-serif" font-size="12" fill="#24453b">Wake → Hydrate → 10‑min walk → Protein breakfast</text>
+                <text x="40" y="120" font-family="Inter, sans-serif" font-size="12" fill="#24453b">Meetings block: stand every 30 min; water sip every 20–30 min</text>
+                <text x="40" y="145" font-family="Inter, sans-serif" font-size="12" fill="#24453b">Lunch: protein + veg; afternoon movement snack</text>
+                <text x="40" y="170" font-family="Inter, sans-serif" font-size="12" fill="#24453b">Wind‑down: lights dim, screens off, stretch, journal</text>
+              </svg>
+              <figcaption class="sr-only">Anchored flow with hydration, movement, meals, and wind‑down.</figcaption>
+            </figure>
+
+            <!-- Tile 2: Hydration Targets -->
+            <figure class="rounded-2xl bg-white p-5 border border-surfaceAlt shadow-soft">
+              <figcaption class="mb-3 flex items-center justify-between">
+                <span class="font-semibold">Hydration Targets</span>
+                <span class="text-xs text-inkMuted">Sample</span>
+              </figcaption>
+              <svg role="img" aria-label="Hydration targets preview" class="w-full h-56" viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0" y="0" width="600" height="260" rx="16" fill="#ecf6f0" />
+                <!-- Morning, Midday, Afternoon, Evening segments -->
+                <rect x="40" y="50" width="110" height="150" rx="12" fill="#9CC5A1" />
+                <rect x="170" y="70" width="110" height="130" rx="12" fill="#49A078" />
+                <rect x="300" y="60" width="110" height="140" rx="12" fill="#9CC5A1" />
+                <rect x="430" y="80" width="110" height="120" rx="12" fill="#49A078" />
+                <text x="55" y="215" font-family="Inter, sans-serif" font-size="12" fill="#0b1f17">AM</text>
+                <text x="195" y="215" font-family="Inter, sans-serif" font-size="12" fill="#0b1f17">Midday</text>
+                <text x="325" y="215" font-family="Inter, sans-serif" font-size="12" fill="#0b1f17">PM</text>
+                <text x="465" y="215" font-family="Inter, sans-serif" font-size="12" fill="#0b1f17">Eve</text>
+              </svg>
+              <figcaption class="sr-only">Segmented water goals that follow your schedule.</figcaption>
+            </figure>
+
+            <!-- Tile 3: Movement Snacks -->
+            <figure class="rounded-2xl bg-white p-5 border border-surfaceAlt shadow-soft">
+              <figcaption class="mb-3 flex items-center justify-between">
+                <span class="font-semibold">Movement Snacks</span>
+                <span class="text-xs text-inkMuted">Sample</span>
+              </figcaption>
+              <svg role="img" aria-label="Movement snacks preview" class="w-full h-56" viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0" y="0" width="600" height="260" rx="16" fill="#ecf6f0" />
+                <rect x="40" y="50" width="520" height="36" rx="10" fill="#216869" />
+                <rect x="40" y="100" width="220" height="28" rx="8" fill="#49A078" />
+                <rect x="270" y="100" width="140" height="28" rx="8" fill="#49A078" />
+                <rect x="420" y="100" width="140" height="28" rx="8" fill="#49A078" />
+                <text x="50" y="74" font-family="Inter, sans-serif" font-size="12" fill="#ffffff">Every 30–60 min: stand, roll shoulders, neck circles</text>
+                <text x="50" y="118" font-family="Inter, sans-serif" font-size="12" fill="#0b1f17">2–5 min choices: wall pushups · air squats · brisk stairs</text>
+              </svg>
+              <figcaption class="sr-only">Short bouts to break up sitting and keep joints happy.</figcaption>
+            </figure>
+
+            <!-- Tile 4: Snack Matrix -->
+            <figure class="rounded-2xl bg-white p-5 border border-surfaceAlt shadow-soft">
+              <figcaption class="mb-3 flex items-center justify-between">
+                <span class="font-semibold">Snack Matrix</span>
+                <span class="text-xs text-inkMuted">Sample</span>
+              </figcaption>
+              <svg role="img" aria-label="Snack matrix preview" class="w-full h-56" viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0" y="0" width="600" height="260" rx="16" fill="#ecf6f0" />
+                <!-- 3x3 grid blocks -->
+                <g>
+                  <rect x="40" y="50" width="150" height="50" rx="10" fill="#ffffff" stroke="#9CC5A1" />
+                  <rect x="220" y="50" width="150" height="50" rx="10" fill="#ffffff" stroke="#9CC5A1" />
+                  <rect x="400" y="50" width="150" height="50" rx="10" fill="#ffffff" stroke="#9CC5A1" />
+                  <rect x="40" y="110" width="150" height="50" rx="10" fill="#ffffff" stroke="#9CC5A1" />
+                  <rect x="220" y="110" width="150" height="50" rx="10" fill="#ffffff" stroke="#9CC5A1" />
+                  <rect x="400" y="110" width="150" height="50" rx="10" fill="#ffffff" stroke="#9CC5A1" />
+                  <rect x="40" y="170" width="150" height="50" rx="10" fill="#ffffff" stroke="#9CC5A1" />
+                  <rect x="220" y="170" width="150" height="50" rx="10" fill="#ffffff" stroke="#9CC5A1" />
+                  <rect x="400" y="170" width="150" height="50" rx="10" fill="#ffffff" stroke="#9CC5A1" />
+                </g>
+                <text x="48" y="82" font-family="Inter, sans-serif" font-size="11" fill="#24453b">Greek yogurt + berries</text>
+                <text x="228" y="82" font-family="Inter, sans-serif" font-size="11" fill="#24453b">Hummus + carrots</text>
+                <text x="410" y="82" font-family="Inter, sans-serif" font-size="11" fill="#24453b">Protein shake</text>
+                <text x="48" y="142" font-family="Inter, sans-serif" font-size="11" fill="#24453b">Apple + nut butter</text>
+                <text x="228" y="142" font-family="Inter, sans-serif" font-size="11" fill="#24453b">Tuna + crackers</text>
+                <text x="410" y="142" font-family="Inter, sans-serif" font-size="11" fill="#24453b">Cheese + grapes</text>
+                <text x="48" y="202" font-family="Inter, sans-serif" font-size="11" fill="#24453b">Eggs + salsa</text>
+                <text x="228" y="202" font-family="Inter, sans-serif" font-size="11" fill="#24453b">Edamame bowl</text>
+                <text x="410" y="202" font-family="Inter, sans-serif" font-size="11" fill="#24453b">Trail mix</text>
+              </svg>
+              <figcaption class="sr-only">Simple protein‑forward snack ideas in a 3×3 grid.</figcaption>
+            </figure>
+
+            <!-- Tile 5: Sleep Anchors -->
+            <figure class="rounded-2xl bg-white p-5 border border-surfaceAlt shadow-soft">
+              <figcaption class="mb-3 flex items-center justify-between">
+                <span class="font-semibold">Sleep Anchors</span>
+                <span class="text-xs text-inkMuted">Sample</span>
+              </figcaption>
+              <svg role="img" aria-label="Sleep anchors preview" class="w-full h-56" viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0" y="0" width="600" height="260" rx="16" fill="#ecf6f0" />
+                <rect x="40" y="60" width="520" height="20" rx="10" fill="#9CC5A1" />
+                <rect x="40" y="100" width="420" height="20" rx="10" fill="#49A078" />
+                <rect x="40" y="140" width="320" height="20" rx="10" fill="#9CC5A1" />
+                <text x="40" y="200" font-family="Inter, sans-serif" font-size="12" fill="#24453b">Dim lights · screens off · stretch 5 min · journal 3 lines · breathe 4‑7‑8</text>
+              </svg>
+              <figcaption class="sr-only">Wind‑down sequence with actionable cues.</figcaption>
+            </figure>
+
+            <!-- Tile 6: Coach’s Notes -->
+            <figure class="rounded-2xl bg-white p-5 border border-surfaceAlt shadow-soft">
+              <figcaption class="mb-3 flex items-center justify-between">
+                <span class="font-semibold">Coach’s Notes</span>
+                <span class="text-xs text-inkMuted">Sample</span>
+              </figcaption>
+              <svg role="img" aria-label="Coach notes preview" class="w-full h-56" viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0" y="0" width="600" height="260" rx="16" fill="#ecf6f0" />
+                <rect x="40" y="50" width="520" height="60" rx="12" fill="#ffffff" stroke="#9CC5A1" />
+                <rect x="40" y="120" width="520" height="60" rx="12" fill="#ffffff" stroke="#9CC5A1" />
+                <rect x="40" y="190" width="520" height="40" rx="12" fill="#ffffff" stroke="#9CC5A1" />
+                <text x="55" y="80" font-family="Inter, sans-serif" font-size="12" fill="#0b1f17">Nudge: keep a water bottle visible during calls</text>
+                <text x="55" y="150" font-family="Inter, sans-serif" font-size="12" fill="#0b1f17">Watch‑out: afternoon slump → take a 5‑min walk first</text>
+                <text x="55" y="215" font-family="Inter, sans-serif" font-size="12" fill="#0b1f17">Win: 3 days in a row hitting hydration target</text>
+              </svg>
+              <figcaption class="sr-only">Three short notes: a nudge, a watch‑out, and a win.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- Why this works + privacy -->
+      <section class="py-14 md:py-20 bg-surfaceAlt/60 border-y border-surfaceAlt">
+        <div class="mx-auto max-w-6xl px-4">
+          <h2 class="text-2xl md:text-3xl font-bold">Why this works</h2>
+          <div class="mt-6 grid md:grid-cols-3 gap-6">
+            <div class="rounded-2xl bg-white p-6 border border-surfaceAlt shadow-soft">
+              <h3 class="font-semibold">Built from behavior</h3>
+              <p class="mt-2 text-inkMuted">Plans align to how you already live—so change feels doable.</p>
+            </div>
+            <div class="rounded-2xl bg-white p-6 border border-surfaceAlt shadow-soft">
+              <h3 class="font-semibold">Coach‑powered</h3>
+              <p class="mt-2 text-inkMuted">Humans lead. Tech stays quiet in the background.</p>
+            </div>
+            <div class="rounded-2xl bg-white p-6 border border-surfaceAlt shadow-soft">
+              <h3 class="font-semibold">Privacy‑first</h3>
+              <p class="mt-2 text-inkMuted">Local‑first architecture. Your data stays yours.</p>
+            </div>
+          </div>
+          <div class="mt-8 rounded-2xl bg-white p-6 border border-surfaceAlt shadow-soft">
+            <h3 class="font-semibold">The loop</h3>
+            <p class="mt-2 text-inkMuted">Behavior → Insight → Plan → Behavior. Over time, the map adapts with you.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- What it’s not -->
+      <section class="py-14 md:py-20">
+        <div class="mx-auto max-w-6xl px-4">
+          <h2 class="text-2xl md:text-3xl font-bold">What it’s not</h2>
+          <ul class="mt-4 grid md:grid-cols-2 gap-3 list-disc pl-5">
+            <li>Not medical advice or therapy</li>
+            <li>Not a chatbot trying to replace your coach</li>
+            <li>Not generic templates—your plan fits <em>your</em> day</li>
+            <li>Not surveillance—we keep it local‑first</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- CTA module -->
+      <section class="py-14 md:py-20 bg-gradient-to-br from-surfaceAlt to-surface">
+        <div class="mx-auto max-w-6xl px-4 text-center">
+          <h2 class="text-2xl md:text-3xl font-bold">Ready for your first map?</h2>
+          <p class="mt-2 text-inkMuted max-w-2xl mx-auto">Tell us about your day and goals. We’ll tailor a Day in the Life that fits how you actually live.</p>
+          <div class="mt-6 flex flex-wrap items-center justify-center gap-4">
+            <a class="btn-primary" href="mailto:coach@whatcomesnextllc.ai?subject=Day%20in%20the%20Life%20%E2%80%94%20Request%20a%20Quote&body=Hi%20WCN%20team%2C%0A%0AI%E2%80%99m%20interested%20in%20a%20Day%20in%20the%20Life%20plan.%20Here%E2%80%99s%20some%20context%3A%0A%E2%80%A2%20Goal(s)%3A%20%0A%E2%80%A2%20Typical%20day%3A%20%0A%E2%80%A2%20Constraints%20(schedule%2C%20equipment%2C%20food%2C%20travel)%3A%20%0A%E2%80%A2%20Any%20injuries%20or%20considerations%3A%20%0A%0AThanks!">Request a Quote</a>
+            <a class="btn-ghost" href="mailto:coach@whatcomesnextllc.ai?subject=Coach-Linked%20DITL%20%E2%80%94%20I%E2%80%99m%20interested">Work with a Coach</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="py-14 md:py-20">
+        <div class="mx-auto max-w-6xl px-4">
+          <h2 class="text-2xl md:text-3xl font-bold">FAQ</h2>
+          <div class="mt-6 grid md:grid-cols-2 gap-6">
+            <details class="rounded-2xl bg-white p-6 border border-surfaceAlt shadow-soft group" open>
+              <summary class="font-semibold cursor-pointer">What’s included?</summary>
+              <p class="mt-2 text-inkMuted">A personalized habit map: daily timeline, hydration targets, movement snacks, snack matrix, sleep anchors, coach notes, and a grocery quick list—delivered as a PDF and mobile‑friendly view.</p>
+            </details>
+            <details class="rounded-2xl bg-white p-6 border border-surfaceAlt shadow-soft group">
+              <summary class="font-semibold cursor-pointer">How long does it take?</summary>
+              <p class="mt-2 text-inkMuted">We don’t promise delivery times while the engine is manual. If timing is critical, include that in your email—we’ll reply quickly with feasibility.</p>
+            </details>
+            <details class="rounded-2xl bg-white p-6 border border-surfaceAlt shadow-soft group">
+              <summary class="font-semibold cursor-pointer">Do you offer refunds?</summary>
+              <p class="mt-2 text-inkMuted">If we haven’t started building your plan, you can cancel. Once delivered, refunds are case‑by‑case. Our goal is to make your plan useful—reach out and we’ll make it right.</p>
+            </details>
+            <details class="rounded-2xl bg-white p-6 border border-surfaceAlt shadow-soft group">
+              <summary class="font-semibold cursor-pointer">Will my plan update over time?</summary>
+              <p class="mt-2 text-inkMuted">Yes—especially with a coach. Quick‑Start plans can be refreshed later. Coach‑Linked plans evolve as your habits do.</p>
+            </details>
+            <details class="rounded-2xl bg-white p-6 border border-surfaceAlt shadow-soft group">
+              <summary class="font-semibold cursor-pointer">How do you handle privacy?</summary>
+              <p class="mt-2 text-inkMuted">We design local‑first. Your data stays yours. We use the minimum necessary information to build your plan—no ads, no resale.</p>
+            </details>
+            <details class="rounded-2xl bg-white p-6 border border-surfaceAlt shadow-soft group">
+              <summary class="font-semibold cursor-pointer">Can coaches use this with clients?</summary>
+              <p class="mt-2 text-inkMuted">Yes. Email us to discuss Coach’s Clipboard access and Coach‑Linked DITL maps.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer with mirrored watermark -->
+    <footer class="relative bg-ink text-white mt-10">
+      <div class="absolute right-2 bottom-2 opacity-10 scale-x-[-1] select-none pointer-events-none" aria-hidden="true">
+        <img src="/logo.svg" alt="" class="h-28" />
+      </div>
+      <div class="mx-auto max-w-6xl px-4 py-10">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div>
+            <div class="font-semibold">Coach‑powered. Privacy‑first. Built for real life.</div>
+            <div class="text-sm text-white/80">© <span id="year"></span> What Comes Next, LLC</div>
+          </div>
+          <div class="flex gap-4">
+            <a class="btn-outline !text-white !border-white/30 hover:bg-white/10" href="/showcase.html">Back to Showcase</a>
+            <a class="btn-ghost !text-white" href="mailto:coach@whatcomesnextllc.ai">coach@whatcomesnextllc.ai</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+    <!--
+      IMPLEMENTATION NOTES
+      1) Place this file at /public/ditl.html in your Next.js app (or web root if static hosting).
+      2) From showcase.html, change the Day in the Life CTA to: href="/ditl.html" with label “See a sample →”.
+      3) Ensure /public/logo.svg exists for watermarking; optional /public/avatar.png not required on this page.
+      4) Brand palette: primary #216869, accent1 #49A078, accent2 #9CC5A1, ink #0b1f17, inkMuted #24453b, surface #f6fbf8, surfaceAlt #ecf6f0.
+      5) Accessibility: All SVG tiles include ARIA labels; decorative watermarks are aria-hidden.
+    -->
+  </body>
+</html>
