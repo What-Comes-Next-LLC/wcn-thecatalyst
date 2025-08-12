@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
@@ -15,7 +14,7 @@
 <!-- Inter font -->
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
 <!-- Tailwind CDN (no build). Configure brand tokens. -->
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -46,214 +45,229 @@
     body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans; }
   </style>
 </head>
-<body class="bg-surface text-ink"><div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10" data-global-watermark="wcn"><img alt="" class="absolute top-1/2 -translate-y-1/2 w-[640px] md:w-[880px] opacity-[0.04] grayscale left-[-120px] md:left-[-80px]" src="/logo.svg"/></div>
-<a class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:bg-white focus:text-black focus:px-3 focus:py-2 focus:rounded-md" href="#main">Skip to content</a>
-<!-- Header -->
-<header class="sticky top-0 z-50 backdrop-blur bg-white/80 border-b border-surfaceAlt relative z-10">
-<div class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center gap-3">
-<div class="flex items-center gap-2">
-<div aria-hidden="true" class="w-8 h-8 rounded-xl bg-primary"></div>
-<div class="text-sm md:text-base font-semibold">What Comes Next, LLC</div>
-</div>
-<nav aria-label="Primary" class="ml-auto hidden md:flex items-center gap-6 text-sm">
-<a class="hover:underline" href="#spark">Spark</a>
-<a class="hover:underline" href="#clipboard">Clipboard</a>
-<a class="hover:underline" href="#ditl">Day in the Life</a>
-<a class="hover:underline" href="/about">About</a>
-<a class="hover:underline" href="/donate">Donate</a>
-</nav>
-<div class="ml-2">
-<a aria-label="Get The Spark" class="inline-flex items-center gap-2 rounded-2xl bg-primary text-white px-3 py-2 text-sm font-medium shadow-soft hover:shadow-card focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent1" href="/the-spark">
+<body class="bg-surface text-ink">
+  <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10" data-global-watermark="wcn">
+    <img alt="" class="absolute top-1/2 -translate-y-1/2 w-[640px] md:w-[880px] opacity-[0.04] grayscale left-[-120px] md:left-[-80px]" src="/logo.svg"/>
+  </div>
+
+  <a class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:bg-white focus:text-black focus:px-3 focus:py-2 focus:rounded-md" href="#main">Skip to content</a>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 backdrop-blur bg-white/80 border-b border-surfaceAlt relative z-10">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center gap-3">
+      <div class="flex items-center gap-2">
+        <div aria-hidden="true" class="w-8 h-8 rounded-xl bg-primary"></div>
+        <div class="text-sm md:text-base font-semibold">What Comes Next, LLC</div>
+      </div>
+      <nav aria-label="Primary" class="ml-auto hidden md:flex items-center gap-6 text-sm">
+        <a class="hover:underline" href="#spark">Spark</a>
+        <a class="hover:underline" href="#clipboard">Clipboard</a>
+        <!-- changed to external DITL page -->
+        <a class="hover:underline" href="/ditl.html">Day in the Life</a>
+        <a class="hover:underline" href="/about">About</a>
+        <a class="hover:underline" href="/donate">Donate</a>
+      </nav>
+      <div class="ml-2">
+        <a aria-label="Get The Spark" class="inline-flex items-center gap-2 rounded-2xl bg-primary text-white px-3 py-2 text-sm font-medium shadow-soft hover:shadow-card focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent1" href="/the-spark">
           Get The Spark
-          <svg aria-hidden="true" class="w-4 h-4" fill="none" viewbox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-</a>
-</div>
-</div>
-<div class="bg-surfaceAlt border-t border-accent2/60">
-<div class="max-w-7xl mx-auto px-4 md:px-6 py-2 text-xs md:text-sm text-inkMuted">
+          <svg aria-hidden="true" class="w-4 h-4" fill="none" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+        </a>
+      </div>
+    </div>
+    <div class="bg-surfaceAlt border-t border-accent2/60">
+      <div class="max-w-7xl mx-auto px-4 md:px-6 py-2 text-xs md:text-sm text-inkMuted">
         Coach-powered. Privacy-first. Built for real life.
       </div>
-</div>
-</header>
-<main class="relative z-10" id="main">
-<!-- HERO: The Spark -->
-<section class="relative bg-white" id="spark">
-<div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center px-4 md:px-6 py-16 md:py-24 min-h-[80vh]">
-<div class="order-2 md:order-1">
-<div class="inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-primary bg-surfaceAlt rounded-full px-3 py-1 mb-3">
-<span aria-hidden="true" class="w-1.5 h-1.5 rounded-full bg-accent1"></span> For humans
+    </div>
+  </header>
+
+  <main class="relative z-10" id="main">
+    <!-- HERO: The Spark -->
+    <section class="relative bg-white" id="spark">
+      <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center px-4 md:px-6 py-16 md:py-24 min-h-[80vh]">
+        <div class="order-2 md:order-1">
+          <div class="inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-primary bg-surfaceAlt rounded-full px-3 py-1 mb-3">
+            <span aria-hidden="true" class="w-1.5 h-1.5 rounded-full bg-accent1"></span> For humans
           </div>
-<h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-ink">Start where you are. Log a Spark.</h1>
-<p class="mt-3 text-inkMuted max-w-prose">Simple, offline-friendly habit logging that builds momentum—private by default and designed for real life.</p>
-<ul class="mt-6 space-y-2 text-ink">
-<li class="flex items-start gap-2"><span aria-hidden="true" class="mt-1 w-2 h-2 rounded-full bg-accent1"></span>Offline-friendly logging</li>
-<li class="flex items-start gap-2"><span aria-hidden="true" class="mt-1 w-2 h-2 rounded-full bg-accent1"></span>Streaks that drive momentum</li>
-<li class="flex items-start gap-2"><span aria-hidden="true" class="mt-1 w-2 h-2 rounded-full bg-accent1"></span>Private by default</li>
-</ul>
-<div class="mt-8 flex flex-wrap items-center gap-3">
-<a class="inline-flex items-center gap-2 rounded-2xl bg-primary text-white px-4 py-2.5 font-medium shadow-soft hover:shadow-card focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent1" href="/the-spark">Start logging
-              <svg aria-hidden="true" class="w-4 h-4" fill="none" viewbox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-</a>
-<a class="inline-flex items-center gap-2 rounded-2xl border border-accent2 text-primary px-4 py-2.5 font-medium hover:bg-surfaceAlt focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent2" href="/the-spark#how-it-works">Learn more</a>
-</div>
-</div>
-<div class="order-1 md:order-2">
-<!-- Device mock (decorative) -->
-<div aria-label="Phone showing Sparks counter increasing" class="relative mx-auto w-full max-w-sm aspect-[9/19] rounded-[2rem] bg-gradient-to-br from-accent2 to-accent1 p-2 shadow-card" role="img">
-<div aria-hidden="true" class="absolute inset-0 rounded-[2rem] border-2 border-white/40 pointer-events-none"></div>
-<div class="h-full rounded-[1.7rem] bg-white overflow-hidden flex flex-col">
-<div class="h-10 bg-surfaceAlt flex items-center justify-center text-xs text-inkMuted">The Spark</div>
-<div class="flex-1 grid place-items-center">
-<div class="text-center">
-<div class="text-sm text-inkMuted">Sparks</div>
-<div class="text-5xl font-extrabold text-primary">128</div>
-<div class="mt-2 text-xs text-inkMuted">+5 today</div>
-</div>
-</div>
-<div class="h-20 bg-white/80 border-t border-surfaceAlt grid grid-cols-3 place-items-center text-xs">
-<div class="px-2 py-1 rounded-md bg-surfaceAlt">Log</div>
-<div class="px-2 py-1 rounded-md">History</div>
-<div class="px-2 py-1 rounded-md">Profile</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- HERO: Coach's Clipboard -->
-<section class="relative bg-surface" id="clipboard">
-<div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center px-4 md:px-6 py-16 md:py-24 min-h-[80vh]">
-<div>
-<div class="inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-primary bg-surfaceAlt rounded-full px-3 py-1 mb-3">
-<span aria-hidden="true" class="w-1.5 h-1.5 rounded-full bg-accent1"></span> For coaches
+          <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-ink">Start where you are. Log a Spark.</h1>
+          <p class="mt-3 text-inkMuted max-w-prose">Simple, offline-friendly habit logging that builds momentum—private by default and designed for real life.</p>
+          <ul class="mt-6 space-y-2 text-ink">
+            <li class="flex items-start gap-2"><span aria-hidden="true" class="mt-1 w-2 h-2 rounded-full bg-accent1"></span>Offline-friendly logging</li>
+            <li class="flex items-start gap-2"><span aria-hidden="true" class="mt-1 w-2 h-2 rounded-full bg-accent1"></span>Streaks that drive momentum</li>
+            <li class="flex items-start gap-2"><span aria-hidden="true" class="mt-1 w-2 h-2 rounded-full bg-accent1"></span>Private by default</li>
+          </ul>
+          <div class="mt-8 flex flex-wrap items-center gap-3">
+            <a class="inline-flex items-center gap-2 rounded-2xl bg-primary text-white px-4 py-2.5 font-medium shadow-soft hover:shadow-card focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent1" href="/the-spark">Start logging
+              <svg aria-hidden="true" class="w-4 h-4" fill="none" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            </a>
+            <a class="inline-flex items-center gap-2 rounded-2xl border border-accent2 text-primary px-4 py-2.5 font-medium hover:bg-surfaceAlt focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent2" href="/the-spark#how-it-works">Learn more</a>
           </div>
-<h2 class="text-3xl md:text-5xl font-extrabold tracking-tight text-ink">See patterns. Coach the person.</h2>
-<p class="mt-3 text-inkMuted max-w-prose">A clear view of client routines so you can nudge what matters—without forcing a one-size-fits-all method.</p>
-<ul class="mt-6 space-y-2 text-ink">
-<li class="flex items-start gap-2"><span aria-hidden="true" class="mt-1 w-2 h-2 rounded-full bg-accent1"></span>Client overview at a glance</li>
-<li class="flex items-start gap-2"><span aria-hidden="true" class="mt-1 w-2 h-2 rounded-full bg-accent1"></span>Pin quick nudges and notes</li>
-<li class="flex items-start gap-2"><span aria-hidden="true" class="mt-1 w-2 h-2 rounded-full bg-accent1"></span>Flexible coaching styles</li>
-</ul>
-<div class="mt-8">
-<a class="inline-flex items-center gap-2 rounded-2xl bg-primary text-white px-4 py-2.5 font-medium shadow-soft hover:shadow-card focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent1" href="mailto:coach@whatcomesnextllc.ai?subject=Coach%27s%20Clipboard%20Interest">
+        </div>
+        <div class="order-1 md:order-2">
+          <!-- Device mock (decorative) -->
+          <div aria-label="Phone showing Sparks counter increasing" class="relative mx-auto w-full max-w-sm aspect-[9/19] rounded-[2rem] bg-gradient-to-br from-accent2 to-accent1 p-2 shadow-card" role="img">
+            <div aria-hidden="true" class="absolute inset-0 rounded-[2rem] border-2 border-white/40 pointer-events-none"></div>
+            <div class="h-full rounded-[1.7rem] bg-white overflow-hidden flex flex-col">
+              <div class="h-10 bg-surfaceAlt flex items-center justify-center text-xs text-inkMuted">The Spark</div>
+              <div class="flex-1 grid place-items-center">
+                <div class="text-center">
+                  <div class="text-sm text-inkMuted">Sparks</div>
+                  <div class="text-5xl font-extrabold text-primary">128</div>
+                  <div class="mt-2 text-xs text-inkMuted">+5 today</div>
+                </div>
+              </div>
+              <div class="h-20 bg-white/80 border-t border-surfaceAlt grid grid-cols-3 place-items-center text-xs">
+                <div class="px-2 py-1 rounded-md bg-surfaceAlt">Log</div>
+                <div class="px-2 py-1 rounded-md">History</div>
+                <div class="px-2 py-1 rounded-md">Profile</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HERO: Coach's Clipboard -->
+    <section class="relative bg-surface" id="clipboard">
+      <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center px-4 md:px-6 py-16 md:py-24 min-h-[80vh]">
+        <div>
+          <div class="inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-primary bg-surfaceAlt rounded-full px-3 py-1 mb-3">
+            <span aria-hidden="true" class="w-1.5 h-1.5 rounded-full bg-accent1"></span> For coaches
+          </div>
+          <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight text-ink">See patterns. Coach the person.</h2>
+          <p class="mt-3 text-inkMuted max-w-prose">A clear view of client routines so you can nudge what matters—without forcing a one-size-fits-all method.</p>
+          <ul class="mt-6 space-y-2 text-ink">
+            <li class="flex items-start gap-2"><span aria-hidden="true" class="mt-1 w-2 h-2 rounded-full bg-accent1"></span>Client overview at a glance</li>
+            <li class="flex items-start gap-2"><span aria-hidden="true" class="mt-1 w-2 h-2 rounded-full bg-accent1"></span>Pin quick nudges and notes</li>
+            <li class="flex items-start gap-2"><span aria-hidden="true" class="mt-1 w-2 h-2 rounded-full bg-accent1"></span>Flexible coaching styles</li>
+          </ul>
+          <div class="mt-8">
+            <a class="inline-flex items-center gap-2 rounded-2xl bg-primary text-white px-4 py-2.5 font-medium shadow-soft hover:shadow-card focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent1" href="mailto:coach@whatcomesnextllc.ai?subject=Coach%27s%20Clipboard%20Interest">
               Request invitation
-              <svg aria-hidden="true" class="w-4 h-4" fill="none" viewbox="0 0 24 24"><path d="M4 4l8 6 8-6M4 20h16V6l-8 6-8-6v14z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-</a>
-</div>
-</div>
-<div>
-<!-- Dashboard mock -->
-<div class="relative mx-auto w-full max-w-xl rounded-2xl bg-white shadow-card border border-surfaceAlt">
-<div class="px-4 py-3 border-b border-surfaceAlt flex items-center justify-between">
-<div class="font-semibold">Coach’s Clipboard</div>
-<div class="text-xs text-inkMuted">Client overview</div>
-</div>
-<div class="p-4 grid sm:grid-cols-2 gap-4">
-<div class="rounded-xl bg-surfaceAlt p-4">
-<div class="text-xs text-inkMuted">This week</div>
-<div class="mt-1 text-3xl font-extrabold text-primary">37</div>
-<div class="text-xs text-inkMuted">Sparks logged</div>
-</div>
-<div class="rounded-xl bg-surfaceAlt p-4">
-<div class="text-xs text-inkMuted">Streak</div>
-<div class="mt-1 text-3xl font-extrabold text-primary">12</div>
-<div class="text-xs text-inkMuted">days</div>
-</div>
-<div class="sm:col-span-2 rounded-xl border border-surfaceAlt p-4">
-<div class="flex items-center justify-between">
-<div class="font-medium">Coach’s notes</div>
-<span class="text-xs text-inkMuted">Pinned</span>
-</div>
-<ul class="mt-2 text-sm list-disc list-inside text-ink">
-<li>Evening walking cue after dinner.</li>
-<li>Protein target: +20g on training days.</li>
-<li>Sunday prep: pre-chop veg; batch rice.</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-</div>
-<img alt="Coach avatar" class="pointer-events-none select-none absolute bottom-6 right-6 w-16 md:w-20 drop-shadow-lg rounded-xl" data-avatar="clipboard" src="/avatar.png"/></section>
-<!-- HERO: Day in the Life -->
-<section class="relative" id="ditl">
-<div aria-hidden="true" class="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_10%,#ecf6f0,transparent)] pointer-events-none"></div>
-<div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center px-4 md:px-6 py-16 md:py-24 min-h-[80vh]">
-<div class="order-2 md:order-1">
-<div class="inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-primary bg-surfaceAlt rounded-full px-3 py-1 mb-3">
-<span aria-hidden="true" class="w-1.5 h-1.5 rounded-full bg-accent1"></span> Plans from your real life
+              <svg aria-hidden="true" class="w-4 h-4" fill="none" viewBox="0 0 24 24"><path d="M4 4l8 6 8-6M4 20h16V6l-8 6-8-6v14z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            </a>
           </div>
-<h2 class="text-3xl md:text-5xl font-extrabold tracking-tight text-ink">Plans built from your real life.</h2>
-<p class="mt-3 text-inkMuted max-w-prose">Day in the Life turns your Sparks into practical plans—workouts, meals, groceries, and small cues that fit how you actually live.</p>
-<ul class="mt-6 space-y-2 text-ink">
-<li class="flex items-start gap-2"><span aria-hidden="true" class="mt-1 w-2 h-2 rounded-full bg-accent1"></span>Powered by your Sparks over time</li>
-<li class="flex items-start gap-2"><span aria-hidden="true" class="mt-1 w-2 h-2 rounded-full bg-accent1"></span>Workouts, meals, grocery list, cues</li>
-<li class="flex items-start gap-2"><span aria-hidden="true" class="mt-1 w-2 h-2 rounded-full bg-accent1"></span>Use standalone or with your coach</li>
-</ul>
-<div class="mt-8 flex flex-wrap items-center gap-3">
-<a class="inline-flex items-center gap-2 rounded-2xl bg-primary text-white px-4 py-2.5 font-medium shadow-soft hover:shadow-card focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent1" href="#sample">See a sample
-              <svg aria-hidden="true" class="w-4 h-4" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-</a>
-<a class="inline-flex items-center gap-2 rounded-2xl border border-accent2 text-primary px-4 py-2.5 font-medium hover:bg-surfaceAlt focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent2" href="mailto:coach@whatcomesnextllc.ai?subject=Day%20in%20the%20Life%20Question">Ask your coach</a>
-</div>
-</div>
-<div class="order-1 md:order-2" id="sample">
-<div class="relative mx-auto w-full max-w-xl rounded-2xl bg-white shadow-card border border-surfaceAlt overflow-hidden">
-<div class="px-4 py-3 border-b border-surfaceAlt flex items-center justify-between">
-<div class="font-semibold">Day in the Life — Sample</div>
-<div class="text-xs text-inkMuted">Preview</div>
-</div>
-<div class="p-4 grid gap-4 sm:grid-cols-2">
-<div class="rounded-xl bg-surfaceAlt p-3">
-<div aria-hidden="true" class="aspect-[3/4] rounded-lg bg-gradient-to-br from-accent2 to-accent1 blur-[2px]"></div>
-<div class="mt-2 text-xs text-inkMuted">Blurred preview (placeholder)</div>
-</div>
-<div>
-<div class="font-medium">What’s inside</div>
-<ul class="mt-2 text-sm list-disc list-inside text-ink">
-<li>4-week workout outline</li>
-<li>Meals + grocery list</li>
-<li>Daily habit cues</li>
-<li>Coach notes &amp; adaptations</li>
-</ul>
-<a class="mt-4 inline-flex items-center gap-2 rounded-2xl border border-accent2 text-primary px-4 py-2.5 font-medium hover:bg-surfaceAlt focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent2" href="#">Open sample (coming soon)</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-</main>
-<!-- Footer -->
-<footer class="mt-24 bg-ink text-white relative z-10 overflow-hidden"><img alt="" aria-hidden="true" class="pointer-events-none select-none absolute -right-16 bottom-[-24px] w-[420px] opacity-[0.06] invert scale-x-[-1]" data-footer-watermark="wcn" src="/logo.svg"/>
-<div class="max-w-7xl mx-auto px-4 md:px-6 py-12 grid md:grid-cols-3 gap-8">
-<div class="md:col-span-2">
-<div class="text-2xl font-extrabold">Support the Build</div>
-<p class="mt-2 text-white/80 max-w-prose">We’re a privacy-first coaching system built by a coach, not a venture lab. If you believe in the mission, your support keeps us moving.</p>
-<div class="mt-4 flex flex-wrap gap-3">
-<a class="inline-flex items-center gap-2 rounded-2xl bg-white text-ink px-4 py-2.5 font-medium hover:bg-white/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white" href="/donate">
+        </div>
+        <div>
+          <!-- Dashboard mock -->
+          <div class="relative mx-auto w-full max-w-xl rounded-2xl bg-white shadow-card border border-surfaceAlt">
+            <div class="px-4 py-3 border-b border-surfaceAlt flex items-center justify-between">
+              <div class="font-semibold">Coach’s Clipboard</div>
+              <div class="text-xs text-inkMuted">Client overview</div>
+            </div>
+            <div class="p-4 grid sm:grid-cols-2 gap-4">
+              <div class="rounded-xl bg-surfaceAlt p-4">
+                <div class="text-xs text-inkMuted">This week</div>
+                <div class="mt-1 text-3xl font-extrabold text-primary">37</div>
+                <div class="text-xs text-inkMuted">Sparks logged</div>
+              </div>
+              <div class="rounded-xl bg-surfaceAlt p-4">
+                <div class="text-xs text-inkMuted">Streak</div>
+                <div class="mt-1 text-3xl font-extrabold text-primary">12</div>
+                <div class="text-xs text-inkMuted">days</div>
+              </div>
+              <div class="sm:col-span-2 rounded-xl border border-surfaceAlt p-4">
+                <div class="flex items-center justify-between">
+                  <div class="font-medium">Coach’s notes</div>
+                  <span class="text-xs text-inkMuted">Pinned</span>
+                </div>
+                <ul class="mt-2 text-sm list-disc list-inside text-ink">
+                  <li>Evening walking cue after dinner.</li>
+                  <li>Protein target: +20g on training days.</li>
+                  <li>Sunday prep: pre-chop veg; batch rice.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <img alt="Coach avatar" class="pointer-events-none select-none absolute bottom-6 right-6 w-16 md:w-20 drop-shadow-lg rounded-xl" data-avatar="clipboard" src="/avatar.png"/>
+    </section>
+
+    <!-- HERO: Day in the Life -->
+    <section class="relative" id="ditl">
+      <div aria-hidden="true" class="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_10%,#ecf6f0,transparent)] pointer-events-none"></div>
+      <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center px-4 md:px-6 py-16 md:py-24 min-h-[80vh]">
+        <div class="order-2 md:order-1">
+          <div class="inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-primary bg-surfaceAlt rounded-full px-3 py-1 mb-3">
+            <span aria-hidden="true" class="w-1.5 h-1.5 rounded-full bg-accent1"></span> Plans from your real life
+          </div>
+          <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight text-ink">Plans built from your real life.</h2>
+          <p class="mt-3 text-inkMuted max-w-prose">Day in the Life turns your Sparks into practical plans—workouts, meals, groceries, and small cues that fit how you actually live.</p>
+          <ul class="mt-6 space-y-2 text-ink">
+            <li class="flex items-start gap-2"><span aria-hidden="true" class="mt-1 w-2 h-2 rounded-full bg-accent1"></span>Powered by your Sparks over time</li>
+            <li class="flex items-start gap-2"><span aria-hidden="true" class="mt-1 w-2 h-2 rounded-full bg-accent1"></span>Workouts, meals, grocery list, cues</li>
+            <li class="flex items-start gap-2"><span aria-hidden="true" class="mt-1 w-2 h-2 rounded-full bg-accent1"></span>Use standalone or with your coach</li>
+          </ul>
+          <div class="mt-8 flex flex-wrap items-center gap-3">
+            <!-- changed CTA to external DITL page -->
+            <a class="inline-flex items-center gap-2 rounded-2xl bg-primary text-white px-4 py-2.5 font-medium shadow-soft hover:shadow-card focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent1" href="/ditl.html">
+              See a sample
+              <svg aria-hidden="true" class="w-4 h-4" fill="none" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            </a>
+            <a class="inline-flex items-center gap-2 rounded-2xl border border-accent2 text-primary px-4 py-2.5 font-medium hover:bg-surfaceAlt focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent2" href="mailto:coach@whatcomesnextllc.ai?subject=Day%20in%20the%20Life%20Question">Ask your coach</a>
+          </div>
+        </div>
+        <div class="order-1 md:order-2" id="sample">
+          <div class="relative mx-auto w-full max-w-xl rounded-2xl bg-white shadow-card border border-surfaceAlt overflow-hidden">
+            <div class="px-4 py-3 border-b border-surfaceAlt flex items-center justify-between">
+              <div class="font-semibold">Day in the Life — Sample</div>
+              <div class="text-xs text-inkMuted">Preview</div>
+            </div>
+            <div class="p-4 grid gap-4 sm:grid-cols-2">
+              <div class="rounded-xl bg-surfaceAlt p-3">
+                <div aria-hidden="true" class="aspect-[3/4] rounded-lg bg-gradient-to-br from-accent2 to-accent1 blur-[2px]"></div>
+                <div class="mt-2 text-xs text-inkMuted">Blurred preview (placeholder)</div>
+              </div>
+              <div>
+                <div class="font-medium">What’s inside</div>
+                <ul class="mt-2 text-sm list-disc list-inside text-ink">
+                  <li>4-week workout outline</li>
+                  <li>Meals + grocery list</li>
+                  <li>Daily habit cues</li>
+                  <li>Coach notes &amp; adaptations</li>
+                </ul>
+                <!-- changed to external DITL page -->
+                <a class="mt-4 inline-flex items-center gap-2 rounded-2xl border border-accent2 text-primary px-4 py-2.5 font-medium hover:bg-surfaceAlt focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent2" href="/ditl.html">See full sample →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-24 bg-ink text-white relative z-10 overflow-hidden">
+    <img alt="" aria-hidden="true" class="pointer-events-none select-none absolute -right-16 bottom-[-24px] w-[420px] opacity-[0.06] invert scale-x-[-1]" data-footer-watermark="wcn" src="/logo.svg"/>
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-12 grid md:grid-cols-3 gap-8">
+      <div class="md:col-span-2">
+        <div class="text-2xl font-extrabold">Support the Build</div>
+        <p class="mt-2 text-white/80 max-w-prose">We’re a privacy-first coaching system built by a coach, not a venture lab. If you believe in the mission, your support keeps us moving.</p>
+        <div class="mt-4 flex flex-wrap gap-3">
+          <a class="inline-flex items-center gap-2 rounded-2xl bg-white text-ink px-4 py-2.5 font-medium hover:bg-white/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white" href="/donate">
             Donate
-            <svg aria-hidden="true" class="w-4 h-4" fill="none" viewbox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-</a>
-<a class="inline-flex items-center gap-2 rounded-2xl border border-white/30 text-white px-4 py-2.5 font-medium hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/60" href="/about">Founder’s Letter</a>
-</div>
-</div>
-<div>
-<div class="text-sm text-white/80">Testimonial</div>
-<blockquote class="mt-2 text-lg leading-snug">“I didn't build this to make money; I built it to make me.”</blockquote>
-<div class="mt-1 text-sm text-white/60">— Coach, beta tester</div>
-</div>
-</div>
-<div class="border-t border-white/10">
-<div class="max-w-7xl mx-auto px-4 md:px-6 py-4 text-xs text-white/60 flex items-center justify-between">
-<div>© <span id="y"></span> What Comes Next, LLC</div>
-<div class="flex items-center gap-4">
-<a class="hover:underline" href="/about">About</a>
-<a class="hover:underline" href="/donate">Donate</a>
-</div>
-</div>
-</div>
-</footer>
-<script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+            <svg aria-hidden="true" class="w-4 h-4" fill="none" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+          </a>
+          <a class="inline-flex items-center gap-2 rounded-2xl border border-white/30 text-white px-4 py-2.5 font-medium hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/60" href="/about">Founder’s Letter</a>
+        </div>
+      </div>
+      <div>
+        <div class="text-sm text-white/80">Testimonial</div>
+        <blockquote class="mt-2 text-lg leading-snug">“I didn't build this to make money; I built it to make me.”</blockquote>
+        <div class="mt-1 text-sm text-white/60">— Coach, beta tester</div>
+      </div>
+    </div>
+    <div class="border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-4 md:px-6 py-4 text-xs text-white/60 flex items-center justify-between">
+        <div>© <span id="y"></span> What Comes Next, LLC</div>
+        <div class="flex items-center gap-4">
+          <a class="hover:underline" href="/about">About</a>
+          <a class="hover:underline" href="/donate">Donate</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
 </body>
 </html>

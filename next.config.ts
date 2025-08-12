@@ -6,8 +6,12 @@ const nextConfig: NextConfig = {
     return [
       { source: "/", destination: "/showcase.html" },
     ];
-  },
 
+    return [
+      { source: "/ditl", destination: "/ditl.html" },
+    ];
+
+  },
   eslint: {
     ignoreDuringBuilds: true, // rely on IDE/local linting
   },
