@@ -121,12 +121,11 @@ export default function DonatePage() {
                 Choose Your Impact
               </h2>
               <div className="grid grid-cols-1 gap-4">
-                <DonationButton amount="1" link="https://www.whatcomesnextllc.us/product/a-dollar/" label="Quick Support" />
-                <DonationButton amount="10" link="https://www.whatcomesnextllc.us/product/pot-of-coffee/" label="Pot of Coffee" />
-                <DonationButton amount="50" link="https://www.whatcomesnextllc.us/product/stack-the-set/" label="Stack the Set" />
-                <DonationButton amount="100" link="https://www.whatcomesnextllc.us/product/lift-off/" label="Lift Off" />
-                <DonationButton amount="250" link="https://www.whatcomesnextllc.us/product/rep-for-the-record/" label="Rep for Record" />
-                <DonationButton amount="500" link="https://www.whatcomesnextllc.us/product/founder-fuel/" label="Founder Fuel" />
+                <DonationButton amount="10" link="https://donate.stripe.com/dRm7sN8MS3c75JL6Y5cwg01" label="First Step" />
+                <DonationButton amount="50" link="https://donate.stripe.com/dRmcN73sy7snc8996dcwg02" label="Building Momentum" />
+                <DonationButton amount="100" link="https://donate.stripe.com/7sY28t4wCcMHgopfuBcwg03" label="Breakthrough" />
+                <DonationButton amount="250" link="https://donate.stripe.com/aFadRb0gmcMH4FH3LTcwg04" label="Catalyst Fuel" />
+                <DonationButton amount="Custom" link="https://donate.stripe.com/14A7sN3sy7sndcd3LTcwg00" label="Name Your Price" />
               </div>
             </div>
 
@@ -145,7 +144,7 @@ export default function DonatePage() {
                   height={20}
                   className="opacity-70"
                 />
-                <span className="text-sm text-amber-200/60">Secure checkout via WooCommerce</span>
+                <span className="text-sm text-amber-200/60">Secure checkout via Stripe</span>
               </div>
               <p className="text-center lg:text-left text-sm text-amber-200/60">
                 Founder: Jason Rashaad | Detroit, MI

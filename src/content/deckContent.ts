@@ -242,7 +242,7 @@ export const deckContent = {
         "Like what you see? Help bring The Catalyst to life. We're asking for a dollar to prove it works.",
       buttonText: "Can I Get A Dollar?",
       videoUrl: "https://whatcomesnextllc.ai/promo.mp4",
-      buttonUrl: "https://www.whatcomesnextllc.us/product/a-dollar/",
+      buttonUrl: "https://donate.stripe.com/14A7sN3sy7sndcd3LTcwg00",
       image: null,
     },
     combinedCta: {
@@ -253,39 +253,34 @@ export const deckContent = {
         "Like what you see? Help bring The Catalyst to life. Choose your contribution level below."
       ],
       buttonText: "View All Options",
-      buttonUrl: "https://www.whatcomesnextllc.us/product/a-dollar/",
+      buttonUrl: "https://donate.stripe.com/14A7sN3sy7sndcd3LTcwg00",
       socialProof: "Join others who have already supported The Catalyst",
       finalEncouragement: "Every dollar counts. Let's build the future of fitness together.",
       products: [
         {
-          name: "Pot of Coffee",
+          name: "First Step",
           price: "$10",
-          url: "https://whatcomesnextllc.us/product/pot-of-coffee/"
+          url: "https://donate.stripe.com/dRm7sN8MS3c75JL6Y5cwg01"
         },
         {
-          name: "Stack the Set",
+          name: "Building Momentum",
           price: "$50",
-          url: "https://whatcomesnextllc.us/product/stack-the-set/"
+          url: "https://donate.stripe.com/dRmcN73sy7snc8996dcwg02"
         },
         {
-          name: "Lift Off",
+          name: "Breakthrough",
           price: "$100",
-          url: "https://whatcomesnextllc.us/product/lift-off/"
+          url: "https://donate.stripe.com/7sY28t4wCcMHgopfuBcwg03"
         },
         {
-          name: "Rep for the Record",
+          name: "Catalyst Fuel",
           price: "$250",
-          url: "https://whatcomesnextllc.us/product/rep-for-the-record/"
+          url: "https://donate.stripe.com/aFadRb0gmcMH4FH3LTcwg04"
         },
         {
-          name: "Founder Fuel",
-          price: "$500",
-          url: "https://whatcomesnextllc.us/product/founder-fuel/"
-        },
-        {
-          name: "Custom Amount",
+          name: "Name Your Price",
           price: "Variable",
-          url: "https://www.whatcomesnextllc.us/product/a-dollar/"
+          url: "https://donate.stripe.com/14A7sN3sy7sndcd3LTcwg00"
         }
       ],
       socialMedia: [
