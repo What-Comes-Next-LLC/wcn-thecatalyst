@@ -13,10 +13,10 @@ const DonationButton = ({ amount, link, label }: { amount: string; link: string;
   >
     <Link href={link}>
       <button className="w-full relative group">
-        <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-rose-500 rounded-xl opacity-75 blur-xl group-hover:opacity-100 transition-opacity duration-300" />
-        <div className="relative bg-black/40 backdrop-blur-lg border-2 border-amber-500/20 hover:border-amber-500/40 px-6 py-4 rounded-xl transition-all duration-300">
-          <span className="text-2xl font-bold bg-gradient-to-r from-amber-300 to-rose-300 bg-clip-text text-transparent">${amount}</span>
-          {label && <p className="text-sm mt-1 text-amber-100/80">{label}</p>}
+        <div className="absolute inset-0 bg-gradient-to-r from-wcn-accent1 to-wcn-accent2 rounded-xl opacity-75 blur-xl group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="relative bg-black/40 backdrop-blur-lg border-2 border-wcn-accent1/20 hover:border-wcn-accent1/40 px-6 py-4 rounded-xl transition-all duration-300">
+          <span className="text-2xl font-bold bg-gradient-to-r from-wcn-accent2 to-wcn-text bg-clip-text text-transparent">${amount}</span>
+          {label && <p className="text-sm mt-1 text-wcn-text/80">{label}</p>}
         </div>
       </button>
     </Link>
@@ -25,7 +25,7 @@ const DonationButton = ({ amount, link, label }: { amount: string; link: string;
 
 export default function DonatePage() {
   return (
-    <SectionWrapper bgColor="bg-gradient-to-b from-amber-950 via-rose-950 to-black" textColor="text-amber-50">
+    <SectionWrapper bgColor="bg-gradient-to-b from-wcn-primary via-wcn-accent1 to-wcn-dark" textColor="text-wcn-text">
       {/* Watermark Logo */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 bg-black/20 backdrop-blur-sm"></div>
@@ -68,12 +68,12 @@ export default function DonatePage() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
               >
-                <span className="bg-gradient-to-r from-amber-300 via-rose-300 to-amber-300 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-wcn-accent2 via-wcn-text to-wcn-accent2 bg-clip-text text-transparent">
                   Help Build The Catalyst
                 </span>
               </motion.h1>
               <motion.p 
-                className="text-xl text-amber-200/90"
+                className="text-xl text-wcn-text/90"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
@@ -81,7 +81,7 @@ export default function DonatePage() {
                 An AI platform that empowers real trainers—not replaces them.
               </motion.p>
               <motion.p 
-                className="text-amber-400/80"
+                className="text-wcn-accent2/80"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
@@ -92,7 +92,7 @@ export default function DonatePage() {
 
             {/* Video Section */}
             <motion.div 
-              className="relative aspect-video rounded-2xl overflow-hidden border-2 border-amber-500/20"
+              className="relative aspect-video rounded-2xl overflow-hidden border-2 border-wcn-accent1/20"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.8 }}
@@ -116,8 +116,8 @@ export default function DonatePage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
           >
-            <div className="bg-black/30 backdrop-blur-lg rounded-2xl p-8 border-2 border-amber-500/20">
-              <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-amber-300 to-rose-300 bg-clip-text text-transparent">
+            <div className="bg-black/30 backdrop-blur-lg rounded-2xl p-8 border-2 border-wcn-accent1/20">
+              <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-wcn-accent2 to-wcn-text bg-clip-text text-transparent">
                 Choose Your Impact
               </h2>
               <div className="grid grid-cols-1 gap-4">
@@ -136,7 +136,7 @@ export default function DonatePage() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8, duration: 0.8 }}
             >
-              <div className="flex items-center justify-center lg:justify-start space-x-3 bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-amber-500/10">
+              <div className="flex items-center justify-center lg:justify-start space-x-3 bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-wcn-accent1/10">
                 <Image
                   src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg"
                   alt="Secure payment via Stripe"
@@ -144,9 +144,9 @@ export default function DonatePage() {
                   height={20}
                   className="opacity-70"
                 />
-                <span className="text-sm text-amber-200/60">Secure checkout via Stripe</span>
+                <span className="text-sm text-wcn-text/60">Secure checkout via Stripe</span>
               </div>
-              <p className="text-center lg:text-left text-sm text-amber-200/60">
+              <p className="text-center lg:text-left text-sm text-wcn-text/60">
                 Founder: Jason Rashaad | Detroit, MI
               </p>
             </motion.div>
