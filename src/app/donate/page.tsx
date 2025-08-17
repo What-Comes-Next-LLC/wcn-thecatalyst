@@ -41,102 +41,132 @@ export default function DonatePage() {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 py-12 z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
-          {/* Content Section - Takes up 3 columns */}
-          <motion.div
-            className="lg:col-span-3 space-y-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+        {/* Header Section */}
+        <motion.div
+          className="text-center space-y-6 mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          {/* Logo */}
+          <div className="relative w-32 h-32 mx-auto">
+            <Image
+              src="/images/logo.png"
+              alt="Company Logo"
+              fill
+              style={{ objectFit: 'contain' }}
+              priority
+            />
+          </div>
+
+          {/* Main Heading */}
+          <motion.h1 
+            className="text-4xl lg:text-6xl font-bold"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
           >
-            {/* Logo */}
-            <div className="relative w-32 h-32 mx-auto lg:mx-0">
-              <Image
-                src="/images/logo.png"
-                alt="Company Logo"
-                fill
-                style={{ objectFit: 'contain' }}
-                priority
-              />
-            </div>
+            <Link href="/">
+              <span className="bg-gradient-to-r from-wcn-accent2 via-wcn-text to-wcn-accent2 bg-clip-text text-transparent cursor-pointer hover:opacity-80 transition-opacity">
+                Invest in The Future of Fitness
+              </span>
+            </Link>
+          </motion.h1>
+          
+          <motion.p 
+            className="text-xl text-wcn-text/90 max-w-3xl mx-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
+            Join our pre-seed funding round to build an AI platform that empowers real trainers, preserves human connection, and transforms how people build lasting fitness habits.
+          </motion.p>
+        </motion.div>
 
-            {/* Heading and Description */}
+        {/* Three-Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          {/* Left Column: Product & Company Info */}
+          <motion.div
+            className="space-y-8"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+          >
             <div className="space-y-6">
-              <motion.h1 
-                className="text-4xl lg:text-6xl font-bold"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-              >
-                <span className="bg-gradient-to-r from-wcn-accent2 via-wcn-text to-wcn-accent2 bg-clip-text text-transparent">
-                  Help Build The Catalyst
-                </span>
-              </motion.h1>
-              <motion.p 
-                className="text-xl text-wcn-text/90"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-              >
-                An AI platform that empowers real trainers—not replaces them.
-              </motion.p>
-              <motion.p 
-                className="text-wcn-accent2/80"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-              >
-                What Comes Next? is a Detroit-based, minority-owned startup built in recovery and powered by tech for good.
-              </motion.p>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-wcn-accent2 to-wcn-text bg-clip-text text-transparent">
+                The Catalyst Platform
+              </h2>
+              <p className="text-wcn-text/90">
+                We're building an AI-enhanced coaching platform that solves the fitness industry's biggest challenge: sustainable behavior change. Our behavior-first approach helps trainers create personalized "Day in the Life" plans that drive long-term client success.
+              </p>
+              
+              <div className="grid grid-cols-1 gap-4">
+                <div className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-wcn-accent1/10">
+                  <div className="text-2xl font-bold text-wcn-accent2">3x</div>
+                  <div className="text-sm text-wcn-text/80">Better client retention</div>
+                </div>
+                <div className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-wcn-accent1/10">
+                  <div className="text-2xl font-bold text-wcn-accent2">100%</div>
+                  <div className="text-sm text-wcn-text/80">Privacy-first design</div>
+                </div>
+              </div>
+              
+              <p className="text-wcn-accent2/80">
+                Detroit-based, minority-owned startup built by someone who lived the transformation journey. We're not just building software—we're rebuilding an industry.
+              </p>
             </div>
-
-            {/* Video Section */}
-            <motion.div 
-              className="relative aspect-video rounded-2xl overflow-hidden border-2 border-wcn-accent1/20"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
-              <video 
-                src="/videos/promo.mp4" 
-                autoPlay 
-                loop 
-                muted 
-                playsInline
-                className="object-cover w-full h-full"
-              />
-            </motion.div>
           </motion.div>
 
-          {/* Donation Grid - Takes up 2 columns */}
+          {/* Center Column: Featured Video */}
+          <motion.div 
+            className="flex justify-center"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          >
+            <Link href="/">
+              <div className="relative w-[406px] h-[720px] max-w-full mx-auto rounded-2xl overflow-hidden border-2 border-wcn-accent1/20 cursor-pointer hover:border-wcn-accent1/40 transition-all">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
+                <video 
+                  src="/videos/newpromo.mp4" 
+                  autoPlay 
+                  loop 
+                  muted 
+                  playsInline
+                  className="object-cover w-full h-full"
+                />
+              </div>
+            </Link>
+          </motion.div>
+
+          {/* Right Column: Investment Levels */}
           <motion.div
-            className="lg:col-span-2 space-y-8"
+            className="space-y-8"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
           >
             <div className="bg-black/30 backdrop-blur-lg rounded-2xl p-8 border-2 border-wcn-accent1/20">
               <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-wcn-accent2 to-wcn-text bg-clip-text text-transparent">
-                Choose Your Impact
+                Investment Levels
               </h2>
               <div className="grid grid-cols-1 gap-4">
                 <DonationButton amount="10" link="https://donate.stripe.com/dRm7sN8MS3c75JL6Y5cwg01" label="First Step" />
                 <DonationButton amount="50" link="https://donate.stripe.com/dRmcN73sy7snc8996dcwg02" label="Building Momentum" />
                 <DonationButton amount="100" link="https://donate.stripe.com/7sY28t4wCcMHgopfuBcwg03" label="Breakthrough" />
                 <DonationButton amount="250" link="https://donate.stripe.com/aFadRb0gmcMH4FH3LTcwg04" label="Catalyst Fuel" />
-                <DonationButton amount="Custom" link="https://donate.stripe.com/14A7sN3sy7sndcd3LTcwg00" label="Name Your Price" />
+                <DonationButton amount="Custom" link="https://donate.stripe.com/14A7sN3sy7sndcd3LTcwg00" label="Name Your Amount" />
               </div>
             </div>
 
-            {/* Trust Indicators */}
+            {/* Trust & Founder Info */}
             <motion.div 
               className="space-y-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
+              transition={{ delay: 1.0, duration: 0.8 }}
             >
-              <div className="flex items-center justify-center lg:justify-start space-x-3 bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-wcn-accent1/10">
+              <div className="flex items-center justify-center space-x-3 bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-wcn-accent1/10">
                 <Image
                   src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg"
                   alt="Secure payment via Stripe"
@@ -144,11 +174,17 @@ export default function DonatePage() {
                   height={20}
                   className="opacity-70"
                 />
-                <span className="text-sm text-wcn-text/60">Secure checkout via Stripe</span>
+                <span className="text-sm text-wcn-text/60">Secure investment via Stripe</span>
               </div>
-              <p className="text-center lg:text-left text-sm text-wcn-text/60">
-                Founder: Jason Rashaad | Detroit, MI
-              </p>
+              
+              <div className="text-center bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-wcn-accent1/10">
+                <p className="text-sm text-wcn-text/80 mb-1">
+                  <strong>Founder:</strong> Jason Rashaad
+                </p>
+                <p className="text-xs text-wcn-text/60">
+                  NASM-CPT | Detroit, MI | Built in Recovery
+                </p>
+              </div>
             </motion.div>
           </motion.div>
         </div>
