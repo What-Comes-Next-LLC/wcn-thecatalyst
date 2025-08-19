@@ -75,22 +75,72 @@
             gap: 2rem;
             align-items: center;
         }
-        .video-hero {
-            position: relative;
-            overflow: hidden;
+        .hero-layout {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 2rem;
+            align-items: center;
+            min-height: 100vh;
         }
-        .video-hero video {
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+        .hero-video-container {
+            width: 300px;
+            height: 533px; /* 9:16 aspect ratio */
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 4px solid rgba(255, 255, 255, 0.2);
+        }
+        .hero-video-container video {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+        .hero-watermark {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #49A078 0%, #216869 100%);
+            overflow: hidden;
+        }
+        .hero-watermark::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: rgba(33, 104, 105, 0.05);
+        }
+        .hero-watermark img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+            opacity: 0.15;
+            mix-blend-mode: overlay;
+        }
+        @media (max-width: 1024px) {
+            .hero-layout {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+            .hero-video-container {
+                width: 250px;
+                height: 444px;
+                margin: 0 auto;
+            }
         }
         @media (max-width: 768px) {
             .transformation-container {
                 grid-template-columns: 1fr;
                 gap: 1rem;
             }
-            .video-hero {
-                min-height: 70vh;
+            .hero-video-container {
+                width: 200px;
+                height: 356px;
             }
         }
     </style>
@@ -124,60 +174,65 @@
         </div>
     </header>
 
-    <!-- Hero Section with Video Background -->
-    <section class="relative min-h-screen flex items-center overflow-hidden">
-        <!-- Video Background -->
-        <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover">
-            <source src="/images/founder/transformation-hero.mp4" type="video/mp4">
-            <!-- Fallback for browsers that don't support video -->
-            <div class="absolute inset-0 hero-gradient"></div>
-        </video>
+    <!-- Hero Section with Multi-Layout -->
+    <section class="relative overflow-hidden">
+        <!-- Watermark Background -->
+        <div class="hero-watermark">
+            <img src="/images/logo-official.png" alt="What Comes Next LLC Watermark" aria-hidden="true">
+        </div>
         
-        <!-- Video Overlay -->
-        <div class="absolute inset-0 bg-black/40"></div>
-        
-        <!-- Content Overlay -->
-        <div class="relative z-10 w-full">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
-                <!-- Profile Section -->
-                <div class="flex flex-col md:flex-row items-center gap-8 mb-12">
-                    <div class="flex-shrink-0">
-                        <img src="/images/founder/founder.png" alt="Jason Rashaad" class="w-48 h-48 rounded-full border-4 border-white/20 shadow-2xl">
-                    </div>
-                    <div class="text-center md:text-left">
-                        <div class="flex items-center justify-center md:justify-start gap-4 mb-4">
-                            <img src="/images/logo-official.png" alt="What Comes Next LLC" class="h-12 w-auto">
-                            <span class="text-lg opacity-80">Founder</span>
+        <!-- Hero Content -->
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+            <div class="hero-layout">
+                <!-- Content Section -->
+                <div class="hero-content text-white">
+                    <!-- Profile Section -->
+                    <div class="flex flex-col lg:flex-row items-center lg:items-start gap-6 mb-8">
+                        <div class="flex-shrink-0">
+                            <img src="/images/founder/founder.png" alt="Jason Rashaad" class="w-32 h-32 lg:w-40 lg:h-40 rounded-full border-4 border-white/20 shadow-2xl">
                         </div>
-                        <h1 class="text-4xl md:text-6xl font-bold mb-4">Jason Rashaad</h1>
-                        <p class="text-xl md:text-2xl opacity-90 font-light">Founder | Builder | Rebuilder</p>
+                        <div class="text-center lg:text-left">
+                            <div class="flex items-center justify-center lg:justify-start gap-4 mb-3">
+                                <img src="/images/logo-official.png" alt="What Comes Next LLC" class="h-8 w-auto">
+                                <span class="text-sm opacity-80">Founder</span>
+                            </div>
+                            <h1 class="text-3xl lg:text-5xl font-bold mb-3">Jason Rashaad</h1>
+                            <p class="text-lg lg:text-xl opacity-90 font-light">Founder | Builder | Rebuilder</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Main Message -->
+                    <div class="max-w-2xl">
+                        <h2 class="text-3xl lg:text-4xl font-bold mb-4">
+                            The Only Way Out Is Through
+                        </h2>
+                        <p class="text-lg lg:text-xl mb-6 opacity-90">
+                            Here's the methodology I built that now helps others
+                        </p>
+                        <div class="flex flex-wrap gap-3 text-xs lg:text-sm mb-6">
+                            <span class="bg-drexel-blue px-3 py-2 rounded-full">Drexel Executive DBA Candidate</span>
+                            <span class="bg-drexel-yellow text-black px-3 py-2 rounded-full">Patent Pending (Feb 2025)</span>
+                            <span class="bg-white/20 px-3 py-2 rounded-full">25+ Years Fortune 500</span>
+                            <span class="bg-white/20 px-3 py-2 rounded-full">NASM Certified</span>
+                        </div>
+                        
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <a href="#booking" class="bg-drexel-yellow text-black px-6 py-3 rounded-lg font-bold hover:bg-drexel-yellow/90 transition-colors text-center">
+                                Book a Conversation
+                            </a>
+                            <a href="#methodology" class="border-2 border-white/50 text-white px-6 py-3 rounded-lg font-bold hover:bg-white/10 transition-colors text-center">
+                                Learn the Methodology
+                            </a>
+                        </div>
                     </div>
                 </div>
                 
-                <!-- Main Message -->
-                <div class="text-center max-w-4xl mx-auto">
-                    <h2 class="text-4xl md:text-5xl font-bold mb-6">
-                        I systematized my way back from death
-                    </h2>
-                    <p class="text-xl md:text-2xl mb-8 opacity-90">
-                        Here's the methodology I built that now helps others
-                    </p>
-                    <div class="flex flex-wrap justify-center gap-4 text-sm mb-8">
-                        <span class="bg-drexel-blue px-4 py-2 rounded-full">Drexel Executive DBA Candidate</span>
-                        <span class="bg-drexel-yellow text-black px-4 py-2 rounded-full">Patent Pending (Feb 2025)</span>
-                        <span class="bg-white/20 px-4 py-2 rounded-full">25+ Years Fortune 500 Experience</span>
-                        <span class="bg-white/20 px-4 py-2 rounded-full">NASM Certified Trainer & Nutrition Coach</span>
-                    </div>
-                    
-                    <!-- CTA Buttons -->
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a href="#booking" class="bg-drexel-yellow text-black px-8 py-4 rounded-lg font-bold hover:bg-drexel-yellow/90 transition-colors">
-                            Book a Conversation
-                        </a>
-                        <a href="#methodology" class="border-2 border-white/50 text-white px-8 py-4 rounded-lg font-bold hover:bg-white/10 transition-colors">
-                            Learn the Methodology
-                        </a>
-                    </div>
+                <!-- Video Section -->
+                <div class="hero-video-container">
+                    <video autoplay muted loop>
+                        <source src="/images/founder/transformation-hero.mp4" type="video/mp4">
+                    </video>
                 </div>
             </div>
         </div>
@@ -228,7 +283,7 @@
             
             <h2 class="text-4xl font-bold text-center mb-16 text-ink">What I Bring</h2>
             
-            <div class="grid md:grid-cols-3 gap-8">
+            <div class="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
                 <!-- The Methodology -->
                 <div class="glass-card p-8 rounded-xl">
                     <div class="w-16 h-16 bg-primary rounded-lg flex items-center justify-center mb-6">
@@ -254,37 +309,75 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4 text-drexel-blue">The Credentials</h3>
-                    <div class="text-inkMuted space-y-4">
-                        <p>Professional certifications anchor decades of execution: <strong>Project Management Professional (PMP)</strong> for fifteen years, demonstrating consistent delivery across regulated industries and complex stakeholder environments. <strong>NASM Certified Personal Trainer and Certified Nutrition Coach</strong> credentials provide community credibility and systematic understanding of behavioral change implementation.</p>
-                        
-                        <p>Educational foundation spans strategic thinking and applied research. <strong>Michigan State Broad College MBA</strong> developed analytical frameworks for organizational transformation. Currently pursuing <strong>Drexel LeBow College Executive DBA</strong>, expected 2027, with research focus on behavioral compliance and trust dynamics in human-AI collaboration.</p>
-                        
-                        <p>Execution track record includes <strong>$2M+ government infrastructure modernization</strong> delivered 14% under budget, <strong>500+ application cloud migration</strong> achieving $1.5M annual savings, and patent-pending innovation that transforms personal crisis methodology into scalable infrastructure for coaching excellence.</p>
-                        
-                        <!-- Logo placeholder area -->
-                        <div class="mt-6 pt-4 border-t border-surfaceAlt">
-                            <p class="text-sm text-inkMuted text-center">Professional certification and institutional logos display area</p>
+                    <h3 class="text-2xl font-bold mb-6 text-drexel-blue">The Credentials</h3>
+                    
+                    <!-- Education Section -->
+                    <div class="mb-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="/images/drexel/rgb_lcb_blueblack.png" alt="Drexel LeBow College" class="h-12 w-auto">
+                            <div>
+                                <h4 class="font-bold text-drexel-blue">Academic Foundation</h4>
+                                <p class="text-sm text-drexel-blue/80">Research & Strategic Thinking</p>
+                            </div>
+                        </div>
+                        <div class="text-inkMuted space-y-3 bg-drexel-blue/5 p-4 rounded-lg">
+                            <p>Currently pursuing <strong>Drexel LeBow College Executive DBA</strong>, expected 2027, with research focus on <strong>behavioral compliance and trust dynamics in human-AI collaboration</strong>. This isn't theoretical work—it's field study validation of the system I built to engineer my way back from death.</p>
+                            <p><strong>Michigan State Broad College MBA</strong> developed the analytical frameworks for organizational transformation that I now apply to systematic resilience methodology.</p>
+                        </div>
+                    </div>
+
+                    <!-- Professional Certifications -->
+                    <div class="mb-8">
+                        <h4 class="font-bold text-ink mb-3">Professional Certifications</h4>
+                        <div class="text-inkMuted space-y-3">
+                            <p><strong>Project Management Professional (PMP)</strong> for fifteen years—demonstrating consistent delivery across regulated industries and complex stakeholder environments, including <strong>$2M+ government infrastructure modernization</strong> delivered 14% under budget.</p>
+                            <p><strong>NASM Certified Personal Trainer and Certified Nutrition Coach</strong> credentials provide community credibility and systematic understanding of behavioral change implementation that grounds my methodology in real-world application.</p>
+                        </div>
+                    </div>
+
+                    <!-- Execution Track Record -->
+                    <div>
+                        <h4 class="font-bold text-ink mb-3">Execution Track Record</h4>
+                        <div class="text-inkMuted space-y-3">
+                            <p>My execution spans both crisis recovery and enterprise transformation: <strong>500+ application cloud migration</strong> achieving $1.5M annual savings, and patent-pending innovation that transforms personal crisis methodology into scalable infrastructure for coaching excellence.</p>
+                            <p>This combination of personal survival experience, academic rigor, and enterprise execution creates a unique foundation for systematic resilience methodology.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- The Applications -->
-                <div class="glass-card p-8 rounded-xl">
-                    <div class="w-16 h-16 bg-drexel-yellow rounded-lg flex items-center justify-center mb-6">
-                        <svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
-                        </svg>
+            </div>
+            
+            <!-- Professional Affiliations -->
+            <div class="mt-16 pt-12 border-t border-surfaceAlt">
+                <h3 class="text-2xl font-bold text-center mb-8 text-ink">Professional Affiliations</h3>
+                <div class="flex justify-center items-center gap-8 flex-wrap opacity-70 hover:opacity-100 transition-opacity">
+                    <!-- Placeholder for PMP Logo -->
+                    <div class="bg-surface border border-surfaceAlt rounded-lg px-6 py-4 text-center">
+                        <div class="font-bold text-primary text-sm mb-1">PMP</div>
+                        <div class="text-xs text-inkMuted">Project Management Professional</div>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4 text-black">The Applications</h3>
-                    <div class="text-inkMuted space-y-4">
-                        <p><strong>Systematic resilience</strong> translates crisis management methodology into organizational transformation strategy. This isn't motivational speaking—it's engineering methodology applied to human systems, demonstrating how systematic documentation and iterative improvement create sustainable change rather than temporary inspiration.</p>
-                        
-                        <p><strong>AI amplification frameworks</strong> address the critical distinction between replacing human expertise and scaling it. Through privacy-first architecture and trust-based implementation, organizations learn to deploy artificial intelligence as infrastructure that strengthens rather than threatens professional relationships and institutional knowledge.</p>
-                        
-                        <p><strong>Academic-practitioner integration</strong> bridges the gap between research methodology and real-world application. Combining doctoral-level behavioral research with Fortune 500 execution experience, I translate theoretical frameworks into actionable organizational strategies that work in regulated environments and complex stakeholder ecosystems.</p>
+                    
+                    <!-- Placeholder for NASM Logo -->
+                    <div class="bg-surface border border-surfaceAlt rounded-lg px-6 py-4 text-center">
+                        <div class="font-bold text-primary text-sm mb-1">NASM</div>
+                        <div class="text-xs text-inkMuted">Certified Personal Trainer</div>
+                    </div>
+                    
+                    <!-- Placeholder for Michigan State -->
+                    <div class="bg-surface border border-surfaceAlt rounded-lg px-6 py-4 text-center">
+                        <div class="font-bold text-primary text-sm mb-1">MSU</div>
+                        <div class="text-xs text-inkMuted">Broad College MBA</div>
+                    </div>
+                    
+                    <!-- Patent Status -->
+                    <div class="bg-drexel-yellow/10 border border-drexel-yellow/30 rounded-lg px-6 py-4 text-center">
+                        <div class="font-bold text-drexel-yellow text-sm mb-1">USPTO</div>
+                        <div class="text-xs text-inkMuted">Patent Pending 2025</div>
                     </div>
                 </div>
+                <p class="text-center text-xs text-inkMuted mt-6 max-w-2xl mx-auto">
+                    Professional certifications and institutional affiliations supporting systematic resilience methodology development and implementation.
+                </p>
             </div>
         </div>
     </section>
