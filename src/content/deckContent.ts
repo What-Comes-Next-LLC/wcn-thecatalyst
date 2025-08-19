@@ -291,7 +291,7 @@ export const deckContent = {
         },
         {
           name: "Threads",
-          url: "https://www.threads.net/@whatcomesnextllc",
+          url: "https://www.threads.net/@jasonrashaad",
           icon: "threads"
         },
         {

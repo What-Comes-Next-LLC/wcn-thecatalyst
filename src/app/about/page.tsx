@@ -187,7 +187,7 @@ export default function AboutPage() {
             <h2 className="text-3xl font-bold text-wcn-text mb-6">
               {contactCta.heading}
             </h2>
-            <p className="text-wcn-text/90 text-lg mb-8">
+            <p className="text-wcn-text/90 text-lg mb-6">
               {contactCta.content.split('coach@whatcomesnextllc.ai').map((part, i, arr) => (
                 i === arr.length - 1 
                   ? part 
@@ -199,6 +199,17 @@ export default function AboutPage() {
                     </React.Fragment>
               ))}
             </p>
+            
+            {/* Founder Profile Link */}
+            <div className="mb-8 text-center">
+              <a href="/founderspage" className="inline-flex items-center gap-2 bg-wcn-accent1/20 hover:bg-wcn-accent1/30 border border-wcn-accent1/50 text-wcn-text px-4 py-2 rounded-lg transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                Meet the Founder
+              </a>
+            </div>
             
             {/* Social Media Icons */}
             <div className="flex justify-center space-x-6">
