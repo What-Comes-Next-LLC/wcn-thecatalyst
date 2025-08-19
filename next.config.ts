@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/", destination: "/showcase.html" },
       { source: "/ditl", destination: "/ditl.html" },
+      { source: "/founderspage", destination: "/founderspage.html" },
     ];
   },
   eslint: { ignoreDuringBuilds: true },

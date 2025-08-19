@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jason Rashaad | Founder, Builder, Rebuilder</title>
+    <meta name="description" content="I systematized my way back from death, and here's the methodology I built that now helps others. Executive DBA candidate, patent holder, and systematic resilience expert.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'wcn-primary': '#216869',
+                        'wcn-accent1': '#49a078', 
+                        'wcn-accent2': '#9cc5a1',
+                        'wcn-text': '#dce1de',
+                        'drexel-blue': '#07294D',
+                        'drexel-yellow': '#FFC600'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            line-height: 1.6;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #216869 0%, #49a078 50%, #9cc5a1 100%);
+        }
+        .transformation-container {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+        .video-hero {
+            position: relative;
+            overflow: hidden;
+        }
+        .video-hero video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        @media (max-width: 768px) {
+            .transformation-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .video-hero {
+                min-height: 70vh;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-900">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-4">
+                    <img src="/logo.svg" alt="What Comes Next LLC" class="h-8 w-auto">
+                    <span class="text-sm text-gray-600">Founder Profile</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="/" class="text-gray-600 hover:text-wcn-primary transition-colors">Home</a>
+                    <a href="/about" class="text-gray-600 hover:text-wcn-primary transition-colors">About WCN</a>
+                    <a href="/donate" class="text-gray-600 hover:text-wcn-primary transition-colors">Angel Funding</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Video Background -->
+    <section class="relative min-h-screen flex items-center overflow-hidden">
+        <!-- Video Background -->
+        <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover">
+            <source src="/images/founder/transformation-hero.mp4" type="video/mp4">
+            <!-- Fallback for browsers that don't support video -->
+            <div class="absolute inset-0 hero-gradient"></div>
+        </video>
+        
+        <!-- Video Overlay -->
+        <div class="absolute inset-0 bg-black/40"></div>
+        
+        <!-- Content Overlay -->
+        <div class="relative z-10 w-full">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
+                <!-- Profile Section -->
+                <div class="flex flex-col md:flex-row items-center gap-8 mb-12">
+                    <div class="flex-shrink-0">
+                        <img src="/images/founder/founder.png" alt="Jason Rashaad" class="w-48 h-48 rounded-full border-4 border-white/20 shadow-2xl">
+                    </div>
+                    <div class="text-center md:text-left">
+                        <div class="flex items-center justify-center md:justify-start gap-4 mb-4">
+                            <img src="/images/logo-official.png" alt="What Comes Next LLC" class="h-12 w-auto">
+                            <span class="text-lg opacity-80">Founder</span>
+                        </div>
+                        <h1 class="text-4xl md:text-6xl font-bold mb-4">Jason Rashaad</h1>
+                        <p class="text-xl md:text-2xl opacity-90 font-light">Founder | Builder | Rebuilder</p>
+                    </div>
+                </div>
+                
+                <!-- Main Message -->
+                <div class="text-center max-w-4xl mx-auto">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                        I systematized my way back from death
+                    </h2>
+                    <p class="text-xl md:text-2xl mb-8 opacity-90">
+                        Here's the methodology I built that now helps others
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-4 text-sm mb-8">
+                        <span class="bg-drexel-blue px-4 py-2 rounded-full">Drexel Executive DBA Candidate</span>
+                        <span class="bg-drexel-yellow text-black px-4 py-2 rounded-full">Patent Pending (Feb 2025)</span>
+                        <span class="bg-white/20 px-4 py-2 rounded-full">25+ Years Fortune 500 Experience</span>
+                        <span class="bg-white/20 px-4 py-2 rounded-full">NASM Certified Trainer & Nutrition Coach</span>
+                    </div>
+                    
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="#booking" class="bg-drexel-yellow text-black px-8 py-4 rounded-lg font-bold hover:bg-drexel-yellow/90 transition-colors">
+                            Book a Conversation
+                        </a>
+                        <a href="#methodology" class="border-2 border-white/50 text-white px-8 py-4 rounded-lg font-bold hover:bg-white/10 transition-colors">
+                            Learn the Methodology
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/60 animate-bounce">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Bridge Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-xl text-gray-700 leading-relaxed">
+                What started as a personal survival methodology became patent-pending technology, academic research, and a systematic approach to behavioral change that I now teach, speak about, and build products around. <strong>This isn't about willpower—it's about engineering resilience.</strong>
+            </p>
+        </div>
+    </section>
+
+    <!-- The Three Pillars -->
+    <section id="methodology" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Transformation Story -->
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-8 text-gray-900">The Transformation</h2>
+                <div class="transformation-container max-w-4xl mx-auto mb-12">
+                    <!-- Before Photo -->
+                    <div class="text-center">
+                        <img src="/images/founder/before.jpg" alt="Before: Hospital/crisis" class="w-32 h-32 md:w-48 md:h-48 object-cover rounded-lg shadow-xl mx-auto mb-4">
+                        <p class="text-sm text-gray-600">2022: Liver cirrhosis, kidney dialysis</p>
+                    </div>
+                    
+                    <!-- Arrow/Evolution Symbol -->
+                    <div class="text-center">
+                        <div class="text-4xl md:text-6xl font-thin text-wcn-primary">→</div>
+                        <p class="text-sm mt-2 text-gray-600">Systematic Evolution</p>
+                    </div>
+                    
+                    <!-- After Photo -->
+                    <div class="text-center">
+                        <img src="/images/founder/after.jpg" alt="After: Current strength/health" class="w-32 h-32 md:w-48 md:h-48 object-cover rounded-lg shadow-xl mx-auto mb-4">
+                        <p class="text-sm text-gray-600">2025: Patent pending, teaching, building</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 class="text-4xl font-bold text-center mb-16 text-gray-900">What I Bring</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- The Methodology -->
+                <div class="glass-card p-8 rounded-xl">
+                    <div class="w-16 h-16 bg-wcn-primary rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-wcn-primary">The Methodology</h3>
+                    <div class="text-gray-700 space-y-4">
+                        <p>What started as personal survival became systematic innovation. The <strong>Evolutions framework</strong> transforms behavioral change from wishful thinking into engineering methodology—iterative two-week sprints that build resilience through documented process rather than raw willpower.</p>
+                        
+                        <p>My Drexel doctoral research focuses on <strong>longitudinal adherence through trust dynamics</strong>, exploring why some people stick with goals beyond arbitrary deadlines while others abandon them. This isn't theoretical work—it's field study validation of the system I built to engineer my way back from death.</p>
+                        
+                        <p>The patent-pending AI coaching platform represents the technical embodiment of this methodology: <strong>systematic behavioral intelligence that amplifies human expertise rather than replacing it.</strong> Filed February 2025, it's infrastructure for scaling transformation, not automating relationships.</p>
+                    </div>
+                </div>
+
+                <!-- The Credentials -->
+                <div class="glass-card p-8 rounded-xl">
+                    <div class="w-16 h-16 bg-drexel-blue rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-drexel-blue">The Credentials</h3>
+                    <div class="text-gray-700 space-y-4">
+                        <p>Professional certifications anchor decades of execution: <strong>Project Management Professional (PMP)</strong> for fifteen years, demonstrating consistent delivery across regulated industries and complex stakeholder environments. <strong>NASM Certified Personal Trainer and Certified Nutrition Coach</strong> credentials provide community credibility and systematic understanding of behavioral change implementation.</p>
+                        
+                        <p>Educational foundation spans strategic thinking and applied research. <strong>Michigan State Broad College MBA</strong> developed analytical frameworks for organizational transformation. Currently pursuing <strong>Drexel LeBow College Executive DBA</strong>, expected 2027, with research focus on behavioral compliance and trust dynamics in human-AI collaboration.</p>
+                        
+                        <p>Execution track record includes <strong>$2M+ government infrastructure modernization</strong> delivered 14% under budget, <strong>500+ application cloud migration</strong> achieving $1.5M annual savings, and patent-pending innovation that transforms personal crisis methodology into scalable infrastructure for coaching excellence.</p>
+                        
+                        <!-- Logo placeholder area -->
+                        <div class="mt-6 pt-4 border-t border-gray-200">
+                            <p class="text-sm text-gray-500 text-center">Professional certification and institutional logos display area</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- The Applications -->
+                <div class="glass-card p-8 rounded-xl">
+                    <div class="w-16 h-16 bg-drexel-yellow rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-black">The Applications</h3>
+                    <div class="text-gray-700 space-y-4">
+                        <p><strong>Systematic resilience</strong> translates crisis management methodology into organizational transformation strategy. This isn't motivational speaking—it's engineering methodology applied to human systems, demonstrating how systematic documentation and iterative improvement create sustainable change rather than temporary inspiration.</p>
+                        
+                        <p><strong>AI amplification frameworks</strong> address the critical distinction between replacing human expertise and scaling it. Through privacy-first architecture and trust-based implementation, organizations learn to deploy artificial intelligence as infrastructure that strengthens rather than threatens professional relationships and institutional knowledge.</p>
+                        
+                        <p><strong>Academic-practitioner integration</strong> bridges the gap between research methodology and real-world application. Combining doctoral-level behavioral research with Fortune 500 execution experience, I translate theoretical frameworks into actionable organizational strategies that work in regulated environments and complex stakeholder ecosystems.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Speaking Topics -->
+    <section class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-16 text-gray-900">Book Me For</h2>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
+                    <h3 class="font-bold text-wcn-primary mb-3">Corporate Keynotes & Technical Conferences</h3>
+                    <p class="text-sm text-gray-600">Transformation leadership, systematic resilience, AI amplification strategies, crisis management methodology, privacy-first architecture, infrastructure building</p>
+                </div>
+                
+                <div class="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
+                    <h3 class="font-bold text-drexel-blue mb-3">Academic & Breakout Sessions</h3>
+                    <p class="text-sm text-gray-600">Behavioral research presentations, longitudinal adherence studies, trust dynamics exploration, academic-practitioner integration, workshop facilitation</p>
+                </div>
+                
+                <div class="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
+                    <h3 class="font-bold text-wcn-accent1 mb-3">Recovery Communities</h3>
+                    <p class="text-sm text-gray-600">Systematic rebuilding methodologies, engineering resilience through crisis, documentation-based recovery, methodology over willpower approaches</p>
+                </div>
+            </div>
+            
+            <!-- Quote Section -->
+            <div class="mt-16 text-center">
+                <blockquote class="text-2xl italic text-gray-700 max-w-3xl mx-auto">
+                    "I didn't build this because I thought it would scale. I built it because I needed it. Then I found out other people needed it too."
+                </blockquote>
+                <p class="text-gray-500 mt-4">— From investor update, May 2025</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Current Context -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card p-8 rounded-xl text-center">
+                <h2 class="text-3xl font-bold mb-6 text-gray-900">Current Context</h2>
+                <div class="grid md:grid-cols-3 gap-6 text-center">
+                    <div>
+                        <h3 class="font-bold text-drexel-blue mb-2">Teaching</h3>
+                        <p class="text-sm text-gray-600">MS Techpreneurship students at Harrisburg University</p>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-wcn-primary mb-2">Researching</h3>
+                        <p class="text-sm text-gray-600">Drexel dissertation on behavioral adherence and trust dynamics</p>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-drexel-yellow mb-2">Building</h3>
+                        <p class="text-sm text-gray-600">WCN coach enablement platform with patent-pending AI</p>
+                    </div>
+                </div>
+                
+                <div class="mt-8 text-gray-700">
+                    <p class="mb-4">
+                        <strong>Available for speaking engagements nationwide.</strong> I bring both the raw honesty of someone who's been through crisis and the technical expertise to systematize recovery and resilience.
+                    </p>
+                    <p>
+                        Whether you need someone to talk about transformation, AI implementation, crisis management, or academic-industry collaboration, I speak from lived experience backed by systematic methodology.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-bold mb-8 text-gray-900">Let's Talk</h2>
+            <p class="text-xl text-gray-700 mb-12">
+                30-minute conversation about speaking opportunities, academic collaboration, or business consulting.
+            </p>
+            
+            <!-- Calendly Embed Container -->
+            <div class="bg-gray-50 rounded-xl p-8">
+                <div id="calendly-container" class="min-h-[700px]">
+                    <!-- Calendly inline widget begin -->
+                    <div class="calendly-inline-widget" data-url="https://calendly.com/jr3757-drexel/speaking-collaboration-inquiry" style="min-width:320px;height:700px;"></div>
+                    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+                    <!-- Calendly inline widget end -->
+                </div>
+            </div>
+            
+            <!-- Alternative Contact -->
+            <div class="mt-8 text-center">
+                <p class="text-gray-600 mb-4">Prefer email?</p>
+                <a href="mailto:jrashaad@whatcomesnextllc.ai" class="text-wcn-primary hover:text-wcn-accent1 font-medium">
+                    jrashaad@whatcomesnextllc.ai
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-wcn-primary text-white py-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="flex items-center space-x-4">
+                    <img src="/images/logo-official.png" alt="What Comes Next LLC" class="h-16 w-auto">
+                    <div>
+                        <h3 class="font-bold text-xl">Jason Rashaad</h3>
+                        <p class="text-wcn-text text-sm">
+                            Founder, Builder, Rebuilder<br>
+                            Systematic resilience through engineering methodology
+                        </p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="font-bold mb-4 text-wcn-accent2">Connect</h3>
+                    <div class="space-y-2 text-sm">
+                        <a href="https://linkedin.com/in/jasonrashaad" class="text-wcn-text hover:text-white block transition-colors">LinkedIn</a>
+                        <a href="mailto:jrashaad@whatcomesnextllc.ai" class="text-wcn-text hover:text-white block transition-colors">Email</a>
+                        <a href="tel:313.312.5297" class="text-wcn-text hover:text-white block transition-colors">313.312.5297</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="font-bold mb-4 text-wcn-accent2">What Comes Next?</h3>
+                    <div class="space-y-2 text-sm">
+                        <a href="/" class="text-wcn-text hover:text-white block transition-colors">Platform Home</a>
+                        <a href="/about" class="text-wcn-text hover:text-white block transition-colors">About WCN</a>
+                        <a href="/donate" class="text-wcn-text hover:text-white block transition-colors">Angel Funding</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-wcn-accent1 mt-8 pt-8 text-center text-sm text-wcn-text">
+                <p>&copy; 2025 What Comes Next, LLC. Built local-first, privacy-forward.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
