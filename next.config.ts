@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     // Serve showcase at root, and pretty URL for DITL
     return [
       { source: "/", destination: "/showcase.html" },
+      { source: "/about", destination: "/me" },
       { source: "/me", destination: "/founderspage.html" },
       { source: "/home", destination: "/showcase.html" },
       { source: "/ditl", destination: "/ditl.html" },
