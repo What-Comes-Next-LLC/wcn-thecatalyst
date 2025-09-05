@@ -237,7 +237,7 @@ export default async function HomePage() {
               <p className="text-white/70 text-sm">{siteContent.footer.company}</p>
             </div>
             <div className="flex space-x-6">
-              <Link href="/about" className="text-white/80 hover:text-wcn-accent2 transition-colors duration-200">
+              <Link href="/about-us" className="text-white/80 hover:text-wcn-accent2 transition-colors duration-200">
                 {siteContent.navigation.about}
               </Link>
               <Link href="/foundersletter" className="text-white/80 hover:text-wcn-accent2 transition-colors duration-200">
