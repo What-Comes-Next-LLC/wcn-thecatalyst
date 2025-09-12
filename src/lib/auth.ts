@@ -202,7 +202,7 @@ export function isCoachEmail(email: string): boolean {
   // Simple heuristic: check for known coach email patterns
   // This can be enhanced with a database lookup or more sophisticated logic
   const coachDomains = ['whatcomesnextllc.ai', 'yourcompany.com']; // Add your coach domains
-  const coachKeywords = ['coach', 'admin', 'trainer'];
+  const coachKeywords = ['coach', 'admin', 'trainer', 'demo'];
   
   const domain = email.split('@')[1]?.toLowerCase();
   const localPart = email.split('@')[0]?.toLowerCase();
